@@ -9,7 +9,6 @@ showMeta: false
 clearReading: false
 ---
 
-
 ## <i class="fa fa-compass fa-lg"></i>  Personal Story
 
 For me, the greatest thing about data is it's universal language. Rows upon rows, columns besides columns. Meaningless on it's own. Yet an absolute goldmine when combined with context and proper exploration. Where many people prefer being an expert in one field of work, I absolutely love the fact that data analysis is a thing in any field or sector. Getting to know one's business in order to extract the true value of the data analysis is in my opinion the most exciting part about data analysis. 
@@ -25,21 +24,23 @@ If you ever see a guy surfing, hiking or climbing with a laptop and headphones..
 
 Besides the projects that you can find on this blog, I occasionally need to work for a living (strange right?). Below you can find a couple of example projects open to the public.  
 <br/>
-  
-<ul style="list-style-type:none">
-<li><i class="fa fa-dashboard  fa-lg"></i>  **FlexDashboard: Economische Verkenning Rotterdam 2018 (EVR)**</li>
+<details>
+<summary> <i class="fa fa-dashboard  fa-lg"></i> **FlexDashboard: Economische Verkenning Rotterdam 2018 (EVR)** </summary>
+
 *`Visualising` & `Dashboarding`*
   
   
 Creating a handmade,shareable and reproducible dashboard for internal and external use in the corporate identity of the Rotterdam municipality. Written in R and R Markdown, using the JavaScript library `Highcharts`. The dashboard can be found [**here**](https://evr010.nl/highcharts). Seperate graphs made by me can be found all over the [EVR Website](https://evr010.nl)
-  
-  
-Click [**here**](http://res.cloudinary.com/stefanmusch/image/upload/v1519027846/EVR.png) for a preview.  
 <br/>
   
-<li><i class="fa fa-dashboard  fa-lg"></i> **Shiny App: Real Estate Navigator** </li>
-*`Visualising` & `Dashboarding` & `Application Building`*
+Click [**here**](http://res.cloudinary.com/stefanmusch/image/upload/v1519027846/EVR.png) for a preview. 
+<br/>
   
+</details>
+
+<details>
+<summary> <i class="fa fa-dashboard  fa-lg"></i> **Shiny App: Real Estate Navigator** </summary>
+*`Visualising` & `Dashboarding` & `Application Building`*
   
 Interactive leaflet map for the visualisation of real estate data and accompanying workforce related function within the municipality of Rotterdam. A selection on the map can be drawn, after which the entire dashboard will change it's data accordingly. Multiple statistical analysis and visualisations are then given based on the selected region.  
 <br/>
@@ -47,26 +48,29 @@ Interactive leaflet map for the visualisation of real estate data and accompanyi
 Click [**here**](http://res.cloudinary.com/stefanmusch/image/upload/v1517397713/Preview_Vastgoed_Navigator.png) for a preview image. Full release coming soon!
 </ul>
 
+</details>
 
 ## <i class="fa fa-graduation-cap fa-lg"></i>  Educational Progress
 
 <ul style="list-style-type:none">
-<li><i class="fa fa-spinner  fa-lg"></i>  **Data Science & Business Analytics** *(VU | 2017 - Present)*</li>
-<li><i class="fa fa-graduation-cap  fa-lg"></i>  **MSc Master Marketing & Management** *(Tilburg University | 2016 - 2017)*</li>
-</ul>
+<i class="fa fa-graduation-cap  fa-lg"></i>  **Data Science & Business Analytics** *(VU | 2017 - 2018)*
+
+<details>
+<summary><i class="fa fa-graduation-cap  fa-lg"></i>  **MSc Master Marketing & Management** *(Tilburg University | 2016 - 2017)*</summary>
 
 <blockquote>
 <p style= font-size:16px;> 
 <i class="fa fa-quote-left  fa-lg"></i> 
 *Stefan is a hard-working, innovative and pragmatic young professional. I'm amazed by his eagerness (and ability) to master SQL and R quickly. Stefan really embraces challenges rather than shy away from them. Mentoring Stefan was a great experience, and I am sure he will be a valuable asset to any data-driven company.*
 <i class="fa fa-quote-right  fa-lg"></i> 
-<br>
+<br/>
 <b>dr. Hannes Datta MSc </b> | Professor at Tilburg University
 </p>
 </blockquote>
-<br>
-<ul style="list-style-type:none">
-<li><i class="fa fa-graduation-cap  fa-lg"></i>  **MSc Pre-Master Marketing & Management** *(Tilburg University | 2015)*</li>
+<br/>
+</details>
+
+<i class="fa fa-graduation-cap  fa-lg"></i>  **MSc Pre-Master Marketing & Management** *(Tilburg University | 2015)*  
 <i class="fa fa-graduation-cap  fa-lg"></i>  **BSc Bachelor Sports & Economy - Marketing & Management** *(Fontys | 2012 - 2015)*  
 <i class="fa fa-remove fa-lg"></i>  **BSc Innovation Sciences** *(TU/E | 2011-2012)*  
 <i class ="fa fa-globe fa-lg"></i>  **BSc in Backpacking & Traveling** *(Australia | 2010-2011)*  
@@ -75,7 +79,12 @@ Click [**here**](http://res.cloudinary.com/stefanmusch/image/upload/v1517397713/
 ## <i class="fa fa-briefcase fa-lg"></i>  Work Experience
 
 <ul style="list-style-type:none">
-<li><i class="fa fa-spinner  fa-lg"></i>   **Rotterdam Municipality** | *Data Science Trainee (2017 - Present)* </li>
+<details>
+<summary><i class="fa fa-spinner  fa-lg"></i>   **Gradient Metrics** | *Marketing Data Scientist (2018 - Present)* </summary>
+Employed full-time as a remote `Marketing Data Scientist`
+<br/>
+</details>
+<li><i class="fa fa-briefcase  fa-lg"></i>   **Rotterdam Municipality** | *Data Science Trainee (2017 - 2018)* </li>
 <li><i class="fa fa-briefcase  fa-lg"></i>  **Appic** | *Data Analyst (2016-2017)* </li>
 <li><i class="fa fa-briefcase  fa-lg"></i>  **Jos America** | *Marketing Communications Assistent(2012-2014)* </li>
 <li><i class="fa fa-briefcase  fa-lg"></i>  **Various Hospitality Establishments** | *Bartender & Waiter (2008-2017)* </li>
@@ -111,7 +120,7 @@ df_CS <- data_frame(
 
 df_MS <- data_frame(
   name = c("Clustering", "Dimensionality Reduction", "Regression", "Classification","Reinforcement learning"),
-  value = c(7, 4, 8, 7, 1 ),
+  value = c(7, 7, 8, 7, 1 ),
   color = "#eae4e6"
 )
 
