@@ -1,0 +1,48 @@
+---
+title: My R Blog Introduction!
+author: Stefan Musch
+date: '2017-06-01'
+slug: an-r-blog-introduction
+output:
+  blogdown::html_page:
+    toc: false
+    highlight: "tango"
+categories:
+  - Hobby Projects
+tags:
+  - R Markdown
+  - Blogdown
+  - Hugo
+  - Data Visualisation
+description: "I’ve found that most of my acquired skills have been obtained by reading and learning from blogs of other Data Scientists. This inspired me to manage my own blog and document my progress through the field of Data Science, hoping to eventually educate or entertain fellow R enthousiasts."
+thumbnailImage: "http://res.cloudinary.com/stefanmusch/image/upload/c_scale,w_120/v1513250703/thumbnail/Blogdown.png"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(collapse = TRUE)
+```
+
+```{r echo=FALSE}
+blogdown::shortcode('tweet', '928447584712253440')
+```
+
+
+# My Story
+
+I started learning R for real in the summer of 2017, after graduation for my MSc in Marketing Management. My graduation thesis was all about Recommendation Systems and their impact. I wrote my thesis for a festival application called *Appic*. Considering I was workig with huge amounts of data, my professor recommended me to learn R rather than the outdated SPSS for data manipulation and data wrangling.  
+  
+  The language suited me, and since I've always had quite a technical background, data science in general sparked my interests. I decided to persue this still relatively young and quickly developing field rather than the traditional marketing route that was expected of me. Although the learning curve is quite steep, it is incredibly rewarding. 
+  
+After discovering RStudio, and subsequently, RMarkdown I quickly started writing documents to educate myself as well as show my progress to others around me. 
+
+# Blog Creation
+
+I’ve found that most of my acquired skills have been obtained by reading and learning from blogs of other Data Scientists. This inspired me to manage my own blog and document my progress through the field of Data Science, hoping to eventually educate or entertain fellow R enthousiasts. 
+   
+**Resources used:**
+
+* [Rstudio](https://www.rstudio.com/)
+  + *And all of it's packages and resources*
+* [Blogdown](https://bookdown.org/yihui/blogdown/)
+* [Hugo](https://gohugo.io/)
+* [TranquilPeak Theme](https://github.com/kakawait/hugo-tranquilpeak-theme)

@@ -11,29 +11,29 @@
     
     
     <item>
-      <title>Features</title>
-      <link>/categories/features/</link>
-      <pubDate>Wed, 02 Oct 2013 00:00:00 +0000</pubDate>
+      <title>Hobby Projects</title>
+      <link>/categories/hobby-projects/</link>
+      <pubDate>Wed, 28 Mar 2018 00:00:00 +0000</pubDate>
       
-      <guid>/categories/features/</guid>
+      <guid>/categories/hobby-projects/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Professional Projects</title>
+      <link>/categories/professional-projects/</link>
+      <pubDate>Wed, 14 Feb 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/categories/professional-projects/</guid>
       <description></description>
     </item>
     
     <item>
       <title>R</title>
       <link>/categories/r/</link>
-      <pubDate>Thu, 23 Jul 2015 21:13:14 -0500</pubDate>
+      <pubDate>Wed, 28 Mar 2018 00:00:00 +0000</pubDate>
       
       <guid>/categories/r/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Tranquilpeak</title>
-      <link>/categories/tranquilpeak/</link>
-      <pubDate>Wed, 02 Oct 2013 00:00:00 +0000</pubDate>
-      
-      <guid>/categories/tranquilpeak/</guid>
       <description></description>
     </item>
     

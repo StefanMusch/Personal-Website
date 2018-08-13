@@ -1,0 +1,348 @@
+---
+title: Reading Excel & SPSS Files in R |  Tips & Tricks
+author: Stefan Musch
+date: '2017-12-14'
+slug: reading-excel-files-tips-tricks
+output:
+  blogdown::html_page:
+    toc: false
+    highlight: "tango"
+categories:
+  - Professional Projects
+  - R
+tags:
+  - Data Reading
+  - Excel
+  - Data.Table
+thumbnailImage: "http://res.cloudinary.com/stefanmusch/image/upload/v1513248425/thumbnail/Excel.png"
+description: "Working for the research department at the municipality of Rotterdam (OBI), I discovered their love for excel spread sheets and SPSS documents. In this post, you'll find some tips and tricks that helped me speed things up."
+---
+
+<script src="/rmarkdown-libs/kePrint/kePrint.js"></script>
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; position: absolute; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; }
+pre.numberSource a.sourceLine:empty
+  { position: absolute; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: absolute; left: -5em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  { background-color: #f8f8f8; }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ef2929; } /* Alert */
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #c4a000; } /* Attribute */
+code span.bn { color: #0000cf; } /* BaseN */
+code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4e9a06; } /* Char */
+code span.cn { color: #000000; } /* Constant */
+code span.co { color: #8f5902; font-style: italic; } /* Comment */
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code span.dt { color: #204a87; } /* DataType */
+code span.dv { color: #0000cf; } /* DecVal */
+code span.er { color: #a40000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #0000cf; } /* Float */
+code span.fu { color: #000000; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code span.ot { color: #8f5902; } /* Other */
+code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code span.sc { color: #000000; } /* SpecialChar */
+code span.ss { color: #4e9a06; } /* SpecialString */
+code span.st { color: #4e9a06; } /* String */
+code span.va { color: #000000; } /* Variable */
+code span.vs { color: #4e9a06; } /* VerbatimString */
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<div id="a-researchers-love-for-excel-and-spss" class="section level1">
+<h1>A Researcher’s Love for Excel and SPSS</h1>
+<p>Working for the research department at the municipality of Rotterdam (OBI), I discovered their love for excel spread sheets and SPSS documents. Hundreds, no, thousands of them. Each file additionally has another 100 sheets. Sometimes, I needed to join sheets, or bind columns and rows, which is tedious in excel itself. I started scouring packages and functions to find what I needed. In this post, you’ll find some tips and tricks that helped me speed things up.</p>
+</div>
+<div id="excel" class="section level1">
+<h1>Excel</h1>
+<p>Let’s first get an overview of useful availabale packages:</p>
+<div id="readxl" class="section level2">
+<h2>ReadXL</h2>
+<p><a href="https://cran.r-project.org/web/packages/readxl/index.html"><code>Readxl</code></a>, the <code>tidyverse</code> excel readig package, has some incredibly useful features and loads all the data immediatly into the succint <code>tbl</code> format. You can list sheet names with <code>excel_sheets()</code>, specify ranges to choose how many rows or columns to load in with <code>excel_sheets(data, range = cell_rows(1:10))</code>.</p>
+<p>I’ve found this feature extremely useful in order to load all sheets of a file into my global environment with the names intact. See the function below.</p>
+<p><strong>All Excel sheets into Global Environment with original names</strong></p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="co"># Read all excel sheets at once###</span></a>
+<a class="sourceLine" id="cb1-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb1-3" data-line-number="3">read_excel_allsheets &lt;-<span class="st"> </span><span class="cf">function</span>(filename) {</a>
+<a class="sourceLine" id="cb1-4" data-line-number="4">    sheets &lt;-<span class="st"> </span>readxl<span class="op">::</span><span class="kw">excel_sheets</span>(filename)</a>
+<a class="sourceLine" id="cb1-5" data-line-number="5">    x &lt;-<span class="st">    </span><span class="kw">lapply</span>(sheets, <span class="cf">function</span>(X) readxl<span class="op">::</span><span class="kw">read_excel</span>(filename, <span class="dt">sheet =</span> X))</a>
+<a class="sourceLine" id="cb1-6" data-line-number="6">    <span class="kw">names</span>(x) &lt;-<span class="st"> </span><span class="kw">paste0</span>(sheets) <span class="co">#Use paste0 function to add to your</span></a>
+<a class="sourceLine" id="cb1-7" data-line-number="7">    x</a>
+<a class="sourceLine" id="cb1-8" data-line-number="8">}</a>
+<a class="sourceLine" id="cb1-9" data-line-number="9"></a>
+<a class="sourceLine" id="cb1-10" data-line-number="10"><span class="co"># Create list of tibbles</span></a>
+<a class="sourceLine" id="cb1-11" data-line-number="11">MyData &lt;-<span class="st"> </span><span class="kw">read_excel_allsheets</span>(<span class="st">&quot;~/Your/File/Location/dataset.xls&quot;</span>)</a>
+<a class="sourceLine" id="cb1-12" data-line-number="12"></a>
+<a class="sourceLine" id="cb1-13" data-line-number="13"><span class="co"># Unlist all tibbles into environment</span></a>
+<a class="sourceLine" id="cb1-14" data-line-number="14"><span class="kw">list2env</span>(MyData ,.GlobalEnv)</a></code></pre></div>
+</div>
+<div id="data-table" class="section level2">
+<h2>Data Table</h2>
+<p><a href="https://cran.r-project.org/web/packages/data.table/index.html"><code>data.table's</code></a> <code>fread()</code> and <code>fwrite()</code> functions are <strong>fast</strong>. Really fast. Which is incredibly useful if you have large files. Recently I came across a file that was incredibly large. Too large for my laptop’s RAM to handle. There are many ways to increase your computer’s computing power like Hadoop or more recently Spark. <code>Sparklyr</code> by Rstudio is a good and useful alternative.</p>
+<p>However, I did not have that luxury, considering I was working on a Remote Access server. I turned my attention towards data.table. I did not need the entire file. I only needed a subset of the file, filtered by the contents of another file. This was my approach:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw">library</span>(data.table)</a>
+<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="kw">library</span>(dplyr)</a>
+<a class="sourceLine" id="cb2-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb2-4" data-line-number="4"><span class="co">#-------------------------------------------</span></a>
+<a class="sourceLine" id="cb2-5" data-line-number="5"><span class="co"># Loop to filter the large dataset in parts</span></a>
+<a class="sourceLine" id="cb2-6" data-line-number="6"><span class="co">#-----------------------------------------</span></a>
+<a class="sourceLine" id="cb2-7" data-line-number="7"><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="dv">10</span>){</a>
+<a class="sourceLine" id="cb2-8" data-line-number="8">  FilterData &lt;-<span class="st"> </span><span class="kw">fread</span>(<span class="st">&quot;Path/To/FilterData.csv&quot;</span>)</a>
+<a class="sourceLine" id="cb2-9" data-line-number="9">  </a>
+<a class="sourceLine" id="cb2-10" data-line-number="10">  <span class="co">#Create sequence to split the dataset. In this case 10 folds. </span></a>
+<a class="sourceLine" id="cb2-11" data-line-number="11">  <span class="co">#specify the by if you want to split it more ways.</span></a>
+<a class="sourceLine" id="cb2-12" data-line-number="12">  Div &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="dt">from =</span> <span class="fl">0.1</span>, <span class="dt">to =</span> <span class="dv">1</span>, <span class="dt">by =</span> <span class="fl">0.1</span>) </a>
+<a class="sourceLine" id="cb2-13" data-line-number="13">  </a>
+<a class="sourceLine" id="cb2-14" data-line-number="14">  <span class="co">#Since we are splitting the .csv file, the first row will no longer be the header. </span></a>
+<a class="sourceLine" id="cb2-15" data-line-number="15">  <span class="co">#Specify your own colnames (most of the time this is better anyway)</span></a>
+<a class="sourceLine" id="cb2-16" data-line-number="16">  ColNames &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;colname1&quot;</span>, <span class="st">&quot;colname2&quot;</span>, <span class="st">&quot;etc.&quot;</span>)</a>
+<a class="sourceLine" id="cb2-17" data-line-number="17">  </a>
+<a class="sourceLine" id="cb2-18" data-line-number="18">  <span class="co">#Find out the total number of rows in your file</span></a>
+<a class="sourceLine" id="cb2-19" data-line-number="19">  No_Rows &lt;-<span class="st"> &quot;total number of rows&quot;</span></a>
+<a class="sourceLine" id="cb2-20" data-line-number="20">  </a>
+<a class="sourceLine" id="cb2-21" data-line-number="21">  <span class="co">#Specify x and y</span></a>
+<a class="sourceLine" id="cb2-22" data-line-number="22">  x &lt;-<span class="st"> </span><span class="kw">round</span>(No_Rows <span class="op">*</span><span class="st"> </span><span class="fl">0.1</span>, <span class="dv">0</span>)</a>
+<a class="sourceLine" id="cb2-23" data-line-number="23">  </a>
+<a class="sourceLine" id="cb2-24" data-line-number="24">  <span class="cf">if</span>(Div[i] <span class="op">==</span><span class="st"> </span><span class="fl">0.1</span>){</a>
+<a class="sourceLine" id="cb2-25" data-line-number="25">    y &lt;-<span class="st"> </span><span class="dv">0</span>}</a>
+<a class="sourceLine" id="cb2-26" data-line-number="26">  <span class="cf">else</span>{</a>
+<a class="sourceLine" id="cb2-27" data-line-number="27">    y &lt;-<span class="st"> </span><span class="kw">round</span>(No_Rows <span class="op">-</span><span class="st"> </span>(Div[i]<span class="op">-</span><span class="fl">0.1</span>),<span class="dv">0</span>)</a>
+<a class="sourceLine" id="cb2-28" data-line-number="28">  }</a>
+<a class="sourceLine" id="cb2-29" data-line-number="29">  </a>
+<a class="sourceLine" id="cb2-30" data-line-number="30">  df &lt;-<span class="st"> </span><span class="kw">fread</span>(<span class="st">&quot;Path/To/LargeDataFile.csv&quot;</span>, </a>
+<a class="sourceLine" id="cb2-31" data-line-number="31">              <span class="dt">nrow =</span> x, <span class="dt">skip =</span> y, <span class="dt">col.names =</span> ColNames)</a>
+<a class="sourceLine" id="cb2-32" data-line-number="32">  <span class="co"># Filter dataset</span></a>
+<a class="sourceLine" id="cb2-33" data-line-number="33">  df <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb2-34" data-line-number="34"><span class="st">  </span><span class="kw">inner_join</span>(<span class="dt">y =</span> FilterData, <span class="dt">by =</span> <span class="st">&quot;FilterColumnName&quot;</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb2-35" data-line-number="35"><span class="st">  </span><span class="co"># Write part of the dataset</span></a>
+<a class="sourceLine" id="cb2-36" data-line-number="36"><span class="st">  </span><span class="kw">fwrite</span>(<span class="dt">file =</span> <span class="kw">Paste0</span>(<span class="st">&quot;Path/To/Output/Location/&quot;</span>, <span class="st">&quot;Part_&quot;</span>, i, <span class="st">&quot;.csv&quot;</span>)) </a>
+<a class="sourceLine" id="cb2-37" data-line-number="37">  </a>
+<a class="sourceLine" id="cb2-38" data-line-number="38">  <span class="co"># Clear Environment to make space for next file</span></a>
+<a class="sourceLine" id="cb2-39" data-line-number="39">  <span class="kw">rm</span>(<span class="dt">list=</span><span class="kw">ls</span>())</a>
+<a class="sourceLine" id="cb2-40" data-line-number="40">}</a>
+<a class="sourceLine" id="cb2-41" data-line-number="41"><span class="co">#--------------------------------------------------------------</span></a>
+<a class="sourceLine" id="cb2-42" data-line-number="42"><span class="co"># Binding the dataset back together and writing the final file</span></a>
+<a class="sourceLine" id="cb2-43" data-line-number="43"><span class="co">#--------------------------------------------------------------</span></a>
+<a class="sourceLine" id="cb2-44" data-line-number="44">FileNames =<span class="st"> </span><span class="kw">list.files</span>(<span class="dt">path =</span> <span class="st">&quot;Path/To/Output/Location&quot;</span>, <span class="dt">pattern =</span> <span class="st">&quot;.csv&quot;</span>, <span class="dt">full.names =</span> T)</a>
+<a class="sourceLine" id="cb2-45" data-line-number="45"></a>
+<a class="sourceLine" id="cb2-46" data-line-number="46">## Create List of Files in the Folder</a>
+<a class="sourceLine" id="cb2-47" data-line-number="47">Parts &lt;-<span class="st"> </span><span class="kw">lapply</span>(FileNames, fread)</a>
+<a class="sourceLine" id="cb2-48" data-line-number="48">## Bind dataframes together</a>
+<a class="sourceLine" id="cb2-49" data-line-number="49">Complete &lt;-<span class="st"> </span><span class="kw">do.call</span>(rbind, Parts)</a>
+<a class="sourceLine" id="cb2-50" data-line-number="50">## Write the output</a>
+<a class="sourceLine" id="cb2-51" data-line-number="51"><span class="kw">fwrite</span>(Complete, <span class="dt">file =</span> <span class="st">&quot;Path/To/Output/FinalDataset.csv&quot;</span>)</a></code></pre></div>
+</div>
+</div>
+<div id="spss" class="section level1">
+<h1>SPSS</h1>
+<div id="haven" class="section level2">
+<h2>Haven</h2>
+<p><a href="https://cran.r-project.org/web/packages/haven/index.html"><code>Haven</code></a> is another package by Hadley Wickham &amp; co, which is also party of the <code>tidyverse</code>. Just like <code>readxl</code>, this package converts the loaded files into the <code>tibble</code> format. Unlike many other SPSS reading packages, <code>haven</code> can also write files back into an SPSS format with <code>write_sav()</code>. This might come in handy if your researchers have only ever heard of R as a letter in the alphabet. Besides <em>.sav</em>, <code>haven</code> also reads <em>.sas7bdat</em> (SAS) and <em>.dta</em> (Stata) files.</p>
+<p>Although Haven is great, I had a similar issue when I came across a file of 20 GB, with approximetly 170 million rows. This led me to the package:</p>
+</div>
+<div id="memisc" class="section level2">
+<h2>Memisc</h2>
+<p><a href="https://cran.r-project.org/web/packages/memisc/index.html"><code>memisc</code></a> is a package created for the <em>Management of Survey Data and Presentation of Analysis Results</em>. Memisc can find information about the SPSS file without having to load the complete file. Which could be very useful.
+For instance, <code>SPSSFile &lt;- spss.system.file(&quot;Path/To/File.sav&quot;)</code> creats an importer object. Calling a print(), or just typing the object name gives us this:</p>
+<pre><code>## 
+## SPSS system file &#39;../../data/Excel_SPSS/testdata.sav&#39; 
+##  with 17 variables and 5 observations</code></pre>
+<p>While the function <code>description()</code> gives us this:</p>
+<table class="table table-striped table-condensed table-responsive" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:left;">
+Label
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+numeric
+</td>
+<td style="text-align:left;">
+numeric variable
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+numeric_long_label
+</td>
+<td style="text-align:left;">
+numeric variable with long label: this variable hat five observations (one is missing). All values between 1 and 2 are also declared as missing. We use two decimal places and the measurement level is “Scale”.
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+factor_numeric
+</td>
+<td style="text-align:left;">
+numeric factor with missing range
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+factor_n_long_value_label
+</td>
+<td style="text-align:left;">
+numeric factor with long value labels
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+factor_n_coded_miss
+</td>
+<td style="text-align:left;">
+numeric factor with coded missing values
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+factor_n_duplicated
+</td>
+<td style="text-align:left;">
+numeric factor with duplicated factor labels
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+factor_n_undeclared
+</td>
+<td style="text-align:left;">
+numeric factor with undeclared values
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+factor_n_undeclared2
+</td>
+<td style="text-align:left;">
+numeric factor with undeclared values
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+string
+</td>
+<td style="text-align:left;">
+string variable
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+string_500
+</td>
+<td style="text-align:left;">
+long string variable
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+strin0
+</td>
+<td style="text-align:left;">
+long string variable
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+string_miss
+</td>
+<td style="text-align:left;">
+string factor with missings
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+factor_s_coded_miss
+</td>
+<td style="text-align:left;">
+string factor with coded missing
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+factor_s_duplicated
+</td>
+<td style="text-align:left;">
+string factor with duplicated factor labels
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+factor_s_undeclared
+</td>
+<td style="text-align:left;">
+string factor with undeclared values
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+factor_s_undeclared2
+</td>
+<td style="text-align:left;">
+string factor with undeclared values
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+date
+</td>
+<td style="text-align:left;">
+date format tt.mm.yyyy
+</td>
+</tr>
+</tbody>
+</table>
+<p>If we know which columns we need from the SPSS file, we can specify this with the <code>subset()</code> function, eg:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">df &lt;-<span class="st"> </span><span class="kw">as.data.table</span>(<span class="kw">subset</span>(SPSSFile, </a>
+<a class="sourceLine" id="cb4-2" data-line-number="2">                     <span class="dt">select =</span> <span class="kw">C</span>(<span class="st">&quot;colname1&quot;</span>,</a>
+<a class="sourceLine" id="cb4-3" data-line-number="3">                                <span class="st">&quot;colname2&quot;</span>,</a>
+<a class="sourceLine" id="cb4-4" data-line-number="4">                                <span class="st">&quot;colname7&quot;</span>,</a>
+<a class="sourceLine" id="cb4-5" data-line-number="5">                                <span class="st">&quot;etc&quot;</span>)))</a></code></pre></div>
+<p><code>memisc</code> has a lot more functionalities, so be sure to check out the documentation.</p>
+</div>
+</div>
+<div id="roundup" class="section level1">
+<h1>Roundup</h1>
+<p>So, before you start reading and writing data immediatly with the same package every time, think about the structure, size and what it is that you actually need. Then choose the most suitable package, and start reading away!</p>
+</div>

@@ -1,0 +1,420 @@
+---
+title: Predictive Modeling - Regression Summary
+author: Stefan Musch
+date: '2018-02-14'
+slug: predictive-modeling-regression-summary
+output:
+  blogdown::html_page:
+    toc: true
+    highlight: "tango"
+    number_sections: true
+categories:
+  - Professional Projects
+tags:
+  - Data Analysis
+  - Machine Learning
+  - Regression
+  - Predictive Modeling
+  - Neural Network
+  - SVM
+  - KNN
+thumbnailImage: "http://res.cloudinary.com/stefanmusch/image/upload/v1518948709/thumbnail/regression.png"
+description: "A comprehensive summary of predictive modeling with regression techniques. Inspired by a lecture given by Sandjai Bhulai, who is a Professor at the Free University of Amsterdam and co-founder of the postgraduate programme Business Analytics / Data Science"
+---
+
+# Introduction
+
+This blog post is a comprehensive summary of predictive modeling with regression techniques. It is Inspired by a lecture given by Sandjai Bhulai, Professor at the Free University of Amsterdam and co-founder of the postgraduate programme Business Analytics / Data Science. The main purpose is to have a quick look at the techniques and develop a proper workflow. The blog post also serves as my personal summary of the lecture. 
+
+# Packages and initialisations
+
+```{r setup, warning = F, message = F}
+knitr::opts_chunk$set(echo = T, eval = T, warning = F, message = F, cache = T,
+                      fig.align = "center", fig.width = 7, fig.height = 7)
+
+## Load packages & Install if necessary
+ipak <- function(pkg) {
+  new.pkg <- pkg[!(pkg %in% installed.packages()[, "Package"])]
+  if (length(new.pkg))
+  install.packages(new.pkg, dependencies = TRUE)
+  sapply(pkg, require, character.only = TRUE)
+}
+
+
+packages <- c("data.table", "ggthemes", "tidyverse", "DataExplorer", "kableExtra", "knitr", "data.table"
+              ,"readr", "RColorBrewer", "htmlwidgets", "htmltools", "widgetframe", "highcharter", "elasticnet")
+
+ipak(packages)
+
+
+theme_set(theme_few()) # add few theme to plots
+
+```
+
+# Exploratory Data Analysis (EDA) 
+
+Quick look at the data.
+
+```{r}
+FuelEff <- fread("../../data/Regressions/FuelEfficiency.csv")
+
+FuelEff$ET <- as.factor(FuelEff$ET)
+FuelEff$NC <- as.factor(FuelEff$NC)
+
+glimpse(FuelEff)
+
+```
+
+Below you will find a few descriptive plots of the data, which is important to have before you start with the actual predictions
+
+## Missing Values
+
+There are no missing values
+
+```{r}
+plot_missing(FuelEff)
+```
+
+## Discrete Variables
+
+```{r}
+plot_bar(FuelEff, title = "Bar charts of all discrete variables")
+```
+
+## Continuous Variables
+
+```{r}
+plot_histogram(FuelEff, title = "Histograms of all continues variables")
+```
+
+## Correlations
+
+```{r}
+plot_correlation(FuelEff, use = "pairwise.complete.obs", title = "Correlation Matrix")
+
+```
+
+## Boxplots
+
+```{r}
+plot_boxplot(FuelEff, "MPG", title = "Boxplot of all variables with target variable MPG")
+```
+
+# Data Description
+
+Especially the correlation plots and box plots give a good indication of which variables might be important for your predictions. In this particular case, we see that `WT`, `HP` and `DIS` will likely be strong predictors, while `ACC` will not have a lot of impact. In larger datasets, there are many more steps to take before we select the eventual features.  
+
+# Data Preparation
+
+The current example dataset is small and easy to understand. However, it is good practice to perform a multitude of data preparation steps. The following steps are all useful and should always be considered before you start with machine learning.
+  
+  
+1. Centering & Scaling
+2. Check for skewness
+    + Rule of Thumb : (Largest / Smallest) > 20 = significant skewness
+    + Use BoxCox tests to transform predictors and remove the skewness
+3. Check for outliers
+    + Do not just throw away anything you think is an outlier. Think about the implications!
+    + Be careful with sampling your dataset - outliers might not be outliers at all.
+    + Check with experts about the collected data, they might know the reason for outliers.
+4. Data reduction & feature extraction
+    + Not a big issue in small datasets. But for large datasets, it will massively increase performance, and often have better results too.
+    + PCA is a great technique to use.
+5. Dealing with missing values
+    + Check for structurally missign values (might be mistakes in data collection, or surveys)
+    + Missing data might be informative!
+    + Data might be censored
+    + Imputate missing values. Choose appropriate methods.
+        + Using the data (mean, median) 
+        + Random Draw
+        + Remove the samples
+        + Remove predictor (if large % missing)
+        + PCA to detect correlations
+        + KNN to fill in according to neighbouring values
+6. Removing predictors
+    + Remove predictors with near-zero variance
+    + Remove multicollinearity 
+7. Adding predictors
+    + Higher-order predictors might increase performance
+    + Dummy variables for categorical data
+8. Binning variables
+    + Do not do this manually!
+
+# Model Choices
+
+Choosing a model is not straightforward. There is a large variety of models, where each model excels at different things. 
+  
+  
+* Generally speaking, the best practice is to start with several models that are the *least* interpretable and most *flexible*, such as [`Boosted Trees`](https://en.wikipedia.org/wiki/Gradient_boosting#Gradient_tree_boosting) or [`Support Vector Machines (SVM)`](https://en.wikipedia.org/wiki/Support_vector_machine). These models generally produce the most optimum results among a wide variety of predictions. 
+
+* It is then adviced to investigate simpler, less opaque, models, such as [`Patial Least Squares (PLS)`](https://en.wikipedia.org/wiki/Partial_least_squares_regression), [`Generalized Additive Models (GAM)`](https://en.wikipedia.org/wiki/Generalized_additive_model) or [`Multivariate Addeptive Regression Splines (MARS)`](https://en.wikipedia.org/wiki/Multivariate_adaptive_regression_splines). 
+
+* Use the simplest model that reasonably approximates the performance of the more complex methods - unless the complexity is not an issue (which is rarely the case).
+
+See the image below for a quick summary of regression techniques. 
+
+<center>
+![Regression Techniques Summary](http://res.cloudinary.com/stefanmusch/image/upload/v1518948409/Regression_Summary.png)
+</center>
+
+# Model Preparations
+
+Each model requires different parameters. Tuning these parameters is extremely important for your model performances. The image above shows the complexity of tuning the parameters (e.g. 0 is easy, 2 is hard) for each model. Wrong parameters can easily lead to `bias`, `variance` or `overfitting` of your model. 
+  
+To reduce these issues, a variety of techniques for training your data can be used. The most common ones are [`Cross-Validation (CV)`](https://en.wikipedia.org/wiki/Cross-validation_(statistics)) and [`Leave One Out Cross Validation (LOOCV)`](https://en.wikipedia.org/wiki/Cross-validation_(statistics)#Leave-one-out_cross-validation). 
+  
+In R, the easiest way to train models, and set control parameters is with the package [`Caret`](http://topepo.github.io/caret/index.html). Which is what I will be using as well.
+
+```{r}
+library(caret)
+FuelEff <- fread("../../data/Regressions/FuelEfficiency.csv")
+FuelEff <- FuelEff[, -1] %>%
+  as.data.frame()
+
+#ctrl <- trainControl(method = "LOOCV")
+ctrl <- trainControl(method = "cv", number = 10)
+
+traindata <- FuelEff[, 2:7]
+response <- FuelEff[, 1]
+```
+
+
+# Applying the Models {.tabset .tabset-fade}
+
+It is important to set the same seed for each model, so we can 1) compare the models on the same data, and 2) reproduce the same results. 
+
+## Linear Regression
+
+```{r}
+set.seed(123) 
+lmFit <- train(x = traindata, 
+               y = response,
+               method = "lm", 
+               preProc = c("center", "scale"), 
+               trControl = ctrl)
+lmFit
+```
+
+## Partial Least Squares
+
+```{r}
+set.seed(123)
+plsFit <-
+  train(x = traindata,
+        y = response,
+        method = "pls",
+        preProc = c("center", "scale"),
+        trControl = ctrl)
+plsFit
+plot(plsFit)
+```
+
+## Principal Component Regression
+
+```{r}
+set.seed(123)
+pcrFit <-
+  train(x = traindata,
+        y = response,
+        method = "pcr",
+        preProc = c("center", "scale"),
+        trControl = ctrl)
+pcrFit
+plot(pcrFit)
+```
+
+## Ridge Regression
+
+```{r}
+set.seed(123)
+ridgeGrid <-
+  data.frame(.lambda = seq(0, .1, length = 15)) #Lambda definitie
+
+ridgeFit <-
+  train(
+    x = traindata,
+    y = response,
+    method = "ridge",
+    preProc = c("center", "scale"),
+    tuneGrid = ridgeGrid,
+    trControl = ctrl
+  )
+ridgeFit
+plot(ridgeFit)
+```
+
+## Lasso Regression
+
+```{r}
+set.seed(123)
+lassoGrid <- data.frame(.fraction = seq(0.05, 1, length = 20))
+lassoFit <-
+  train(
+    x = traindata,
+    y = response,
+    method = "lars",
+    preProc = c("center", "scale"),
+    tuneGrid = lassoGrid,
+    trControl = ctrl
+  )
+lassoFit
+plot(lassoFit)
+```
+
+## Elestic Net
+
+```{r}
+set.seed(123)
+enetGrid <-
+  expand.grid(.lambda = c(0, 0.01, .1),
+              .fraction = seq(.05, 1, length = 20))
+enetFit <-
+  train(
+    x = traindata,
+    y = response,
+    method = "enet",
+    preProc = c("center", "scale"),
+    tuneGrid = enetGrid,
+    trControl = ctrl
+  )
+enetFit
+plot(enetFit)
+```
+
+## Neural Networks
+
+**Parameters**  
+
+* Decay - sensitivity of the parameters. Used to balance overfitting / bias.
+* Size - How many units the hidden layer has
+* Bagging - Trying multiple neural networks and averaging these
+* Linout - Linear output. Should be FALSE if doing classification instead of regression
+* Trace - Shows everything that the model is doing - increases time
+* maxNWts - Makes sure that you have enough memory to calculate the networks. If not - it won't run.
+* maxit - Maximum number of iterations before it stops, even if the network is not optimal yet.
+
+```{r}
+set.seed(123)
+nnetGrid <-
+  expand.grid(.decay = c(0, 0.01, .1),
+              .size = c(1:10),
+              .bag = FALSE)
+nnetFit <-
+  train(
+    traindata,
+    response,
+    method = "avNNet",
+    tuneGrid = nnetGrid,
+    trControl = ctrl,
+    linout = TRUE,
+    trace = FALSE,
+    MaxNWts = 10 * (ncol(traindata) + 1) + 10 + 1,
+    maxit = 500,
+    preProc = c("center", "scale")
+  )
+nnetFit
+```
+
+## MARS
+
+**Parameters**
+
+* Pruning - Complexity degree of your model
+
+```{r}
+set.seed(123)
+marsGrid <- expand.grid(.degree = 1:2, .nprune = 2:38)
+marsFit <-
+  train(
+    traindata,
+    response,
+    method = "earth",
+    tuneGrid = marsGrid,
+    trControl = ctrl
+  )
+marsFit
+plot(marsFit)
+```
+
+## SVM
+
+**Parameters**  
+
+* Can be either Radial / Polynomial / Linear
+* Tunelength - Complexity
+
+```{r}
+set.seed(123)
+svmFit <-
+  train(
+    traindata,
+    response,
+    method = "svmRadial",
+    tuneLength = 14,
+    preProc = c("center", "scale"),
+    trControl = ctrl
+  )
+svmFit
+plot(svmFit)
+```
+
+## KNN
+
+```{r}
+set.seed(123)
+knnFit <-
+  train(
+    traindata,
+    response,
+    method = "knn",
+    preProc = c("center", "scale"),
+    tuneGrid = data.frame(.k = 1:20),
+    trControl = ctrl
+  )
+knnFit
+plot(knnFit)
+```
+
+
+# Model Performances
+
+Evaluating performances of your model can be done by calculating a few statistical properties of the model and its predictions.
+
+1. Mean Absolute Error (MEA)
+    + Absolute difference between observed values and the model predictions
+2. Root Mean Squared Error (RMSE)
+    + Average distance between the observed values and the model predictions
+3. R²
+    + Proportion of information in the data that is explained by the model
+    + Is a *correlation* measure, not accuracy.
+
+# Model Comparison
+
+```{r, fig.width = 9, fig.height = 9}
+
+allResamples <- resamples(
+  list(
+    "Linear Reg" = lmFit,
+    "PLS" = plsFit,
+    "PCR" = pcrFit,
+    "Ridge" = ridgeFit,
+    "LASSO" = lassoFit,
+    "Elastic Net" = enetFit,
+    "Neural Net" = nnetFit,
+    "MARS" = marsFit,
+    "SVM" = svmFit,
+    "KNN" = knnFit
+  )
+)
+
+gridExtra::grid.arrange(
+parallelplot(allResamples, metric = "RMSE", main = "RMSE of each fold for each model"),
+parallelplot(allResamples, metric = "Rsquared", main = "R² of each fold for each model"),
+ncol = 2)
+```
+
+# Final Notes
+
+In the end, the final model that you choose to work with depends on a few factors. According to the summary, we should always choose a `neural network` in this particular example dataset. It is consistant throughout each fold, and gives very accurate predictions. However - it is harder to interpret and it takes up a lot more time than the other models. 
+
+For this reason, we might also select the next best things, i.e.  `Ridge Regression`, `Lasso`, `Elastic Net` or even `Linear Regression`. These models are less consistent, yet still perform well, require a lot less time and are far easier to understand, explain and comprehend for every party (think clients, managers etc.) involved. 

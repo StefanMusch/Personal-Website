@@ -1,0 +1,338 @@
+---
+title: How Jolly are Christmas Songs Actually?
+author: Stefan Musch
+date: '2017-12-22'
+slug: how-jolly-are-christmas-songs-actually
+output:
+  blogdown::html_page:
+    toc: true
+    highlight: "tango"
+categories:
+  - Hobby Projects
+  - R
+tags:
+  - Data Analysis
+  - Data Visualisation
+  - Web Mining
+  - Text Mining
+  - Web Scraping
+  - Christmas
+description: "Christmas is almost here, and we've been hearing a ton of christmas carols and chrismas songs. Now my question is, how jolly are these songs actually? This is a nice opportunity to test my Web Scraping & Text Mining skills."
+thumbnailImage: "http://res.cloudinary.com/stefanmusch/image/upload/v1513786269/thumbnail/ChristmasThumbnail.png"
+coverImage: "http://res.cloudinary.com/stefanmusch/image/upload/a_hflip/v1513786205/cover/Christmas.jpg"
+coverSize: partial
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = T,include = TRUE, warning = FALSE, message = FALSE, cache = TRUE, fig.align = "center")
+```
+
+Christmas is almost here, and we've been hearing a ton of christmas carols and chrismas songs. Now my question is, how jolly are these songs actually? This is a nice opportunity to train my *Web Scraping* & *Text Mining* skills. Special thanks to [Colin Fay](http://colinfay.me/) for some great tutorials on working with `purrr` and `rvest`. 
+
+# Web Scraping
+My first goal is to obtain lyrics of a high number of christmas carols. After scouring the internet for a little bit I came across the following website: [LyricsFreak](http://www.lyricsfreak.com/c/christmas+songs/). This website has links for approximetely 200 christmas songs with the lyrics in a nice format. Seems like the perfect opportunity for web scraping.
+
+## Required libraries
+`rvest`, `stringr`, the `tidyverse` and `tidytext` work really well together to keep the code as well as the outputs consice, clear and in the same **tibble** format. The `ggthemes`, `magick` and `gris` packages are mainly used to make things pretty. Additionally, I used the chrome extension [SelectorGadget](http://selectorgadget.com/) to select the relevant CSS elements for the `html_nodes()` function from `rvest`. If you are curious as to how this works, there are many tutorials on `rvest` which could explain this far better than I could. 
+
+```{r echo = T, warning = FALSE, message = FALSE}
+## Load packages & Install if necessary
+ipak <- function(pkg) {
+  new.pkg <- pkg[!(pkg %in% installed.packages()[, "Package"])]
+  if (length(new.pkg))
+  install.packages(new.pkg, dependencies = TRUE)
+  sapply(pkg, require, character.only = TRUE)
+}
+
+
+packages <- c("rvest", "tidyverse", "tidytext", "stringr", "ggthemes", "magick", "grid"
+              ,"gridExtra", "knitr", "kableExtra", "ggplot2")
+
+ipak(packages)
+
+
+
+url <- "http://www.lyricsfreak.com/c/christmas+songs/"
+
+```
+## List of Songs
+
+The first goal is to obtain a list of the song names on the page as well as the link to the page with the actual lyrics. If we manage to get these two in a nice tibble we can then map over the tibble to read the lycrics data for each song.
+
+```{r Song List Function}
+#-------------------------
+# Get Song List Function
+#-------------------------
+get_song_list <- function(url){
+    
+  SongURL <- read_html(url)  %>% 
+    html_nodes(".floatfix td a") %>%
+    html_attr("href") %>%
+    discard(~ .x == "javascript:void(0)") 
+  
+  SongURL <- paste0("http://www.lyricsfreak.com", SongURL)
+    
+  SongName <- read_html(url)  %>% 
+      html_nodes(".floatfix td a") %>%
+      html_text() %>%
+      str_replace_all(" Lyrics", "") %>%
+    ##Remove first 6 characters which include a bullet point and whitespace
+      gsub(pattern = "^.{6}(.*$)", replacement = "\\1") %>%
+      discard(~ .x == "mas Songs lyrics" | .x == "Stars" | .x == "Time") 
+    
+    tibble(song = SongName,
+           url = SongURL)
+}
+
+SongTable<- map_df(url, get_song_list)
+
+head(SongTable, n =10) %>%
+  kable("html") %>%
+  kable_styling(bootstrap_options = "striped", full_width = F, position = "left")
+```
+
+Alright, looks good! Now to create a function to obtain the lyrics from a song page. 
+
+## Lyrics of the Songs
+
+```{r Get Lyrics}
+#-------------------------
+# Get Lyrics function
+#-------------------------
+get_lyrics <- function(url, song){
+  page <- read_html(url)
+  
+  lyrics <- page  %>%
+    html_nodes("#content_h") %>%
+    gsub(pattern = '<.*?>', replacement = " ") %>%
+    str_trim(side = "both") %>%
+    # Remove everything between brackets (artist/song names where here)
+    gsub(pattern = "\\s*\\([^\\)]+\\)", replacement = "") %>%
+    # Remove punctuation
+    gsub(pattern = "[[:punct:]]", replacement = "")
+  
+  tibble(Song = song,
+         Lyrics = lyrics)
+}
+```
+
+Now that we have the function to extract the lyrics from the webpage, we can map over the previously created dataframe which contained the songname and the URL's. 
+
+```{r Lyrics Dataframe}
+safe_lyr <- safely(get_lyrics) ## Makes sure the function works, even if there are dead pages (404)
+
+#-------------------------
+# Create Lyrics Dataframe 
+#-------------------------
+lyrics_df <- map2(SongTable$url, 
+                  SongTable$song, 
+                  ~ safe_lyr(.x,.y)) %>%
+  map("result") %>%
+  compact() %>%
+  reduce(bind_rows)
+
+head(lyrics_df, n = 3) %>%
+  kable("html") %>%
+  kable_styling(bootstrap_options = "striped", full_width = F, position = "left")
+```
+
+Alright there we go. A nice data frame with `r nrow(lyrics_df)` songs with the accompanying lyrics. Now it's time to find out how jolly these songs actually are!
+
+# Text Analysis
+
+The first step is to create a tidy data frame of the text. This is made extremely easy with the `unnest_tokens()` function from the `tidytext` package. Additionally, anti-joining the dataframe with the **stop_words** data frame that comes with the package removes all of the unnecesary words. 
+
+```{r TidyDF}
+
+tidy_lyrics <- lyrics_df %>% 
+  group_by(Song) %>%
+  unnest_tokens(word, Lyrics) %>%
+  anti_join(stop_words) %>%
+  ungroup()
+
+```
+
+## Top 15 words
+
+```{r}
+#Pretty background image
+ChristmasImage <- image_read('https://images.pond5.com/falling-snowflakes-and-stars-green-footage-012608589_prevstill.jpeg')
+
+#Top 15 words plot
+tidy_lyrics %>% 
+  count(word, sort = TRUE) %>%
+  mutate(proportion = n / sum(n)) %>%
+  arrange(desc(proportion)) %>% 
+  head(n=15) %>%
+  mutate(word = str_to_title(word)) %>%
+  ggplot()+
+  #Add background image
+  annotation_custom(rasterGrob(ChristmasImage, height= unit(1, "npc")), 
+                    -Inf, Inf, -Inf, Inf) +
+  geom_col(aes(x = reorder(word, n), y = n), fill = "red", color = "black") +
+  ylab("Word Count") +
+  xlab("") +
+  coord_flip() +
+  ggtitle("Top 15 words in Christmas Carols") +
+  scale_y_continuous(expand = c(0, 0))+
+  scale_x_discrete(expand = c(0, 0))+
+  theme_few() +  
+  theme(plot.title = element_text(hjust = 0.5))
+```
+
+Alright, our first check whether the data is actually correct. What do you think, it does seem intuitive that *christmas* is the most used word, right?
+
+## Christmas Carol Sentiments
+
+The `tidytext` package comes with three sets of sentiment lexicons. Each set has a list of words with a score or classifaction attached, depending on the lexicon. 
+
+* `AFINN` from Finn Årup Nielsen,
+* `bing` from Bing Liu and collaborators, and
+* `nrc` from Saif Mohammad and Peter Turney.
+
+In this blog I'll be using the `nrc` lexicon, which also classifies words as *joy*. 
+
+So. Let's have a look at how well represented each sentiment from the `nrc` lexicon is.
+
+```{r}
+#Pretty background image
+ChristmasImage <- image_read('https://images.pond5.com/falling-snowflakes-and-stars-green-footage-012608589_prevstill.jpeg')
+
+nrc <- get_sentiments("nrc") %>%
+  filter(sentiment != "negative" & sentiment !="positive")
+
+tidy_lyrics %>%
+  inner_join(nrc, by = "word") %>%
+  group_by(sentiment) %>%
+  summarize(count = n()) %>%
+  mutate(sentiment = str_to_title(sentiment)) %>%
+  ggplot()+
+  #Add background image
+  annotation_custom(rasterGrob(ChristmasImage, height= unit(1, "npc")), 
+                    -Inf, Inf, -Inf, Inf) +
+  geom_col(aes(x = reorder(sentiment, count), y = count), fill = "red", color = "black") +
+  coord_flip() +
+  labs(x="Sentiment", 
+       y="Count",
+       title="Sentiment of christmas carols (200 songs)",
+       subtitle="Sentiments based on NRC Word-Emotion Association Lexicon")+
+  theme_few() + 
+  scale_y_continuous(expand = c(0, 0))+
+  scale_x_discrete(expand = c(0, 0))+
+  theme(plot.title = element_text(hjust = 0.5),
+        plot.subtitle = element_text(hjust =0.5))
+
+```
+
+If that isn't *Joyful*, I don't know what is! I also really like how anticipation scores so high. We are after all, always excited for Christmas to come!
+
+## Positive vs Negative 
+
+Now that we have total scores, I'm still quite interested in individual song scores. Are there actually any negatively loaded christmas songs, or do the positive words always outweigh the negative? Let's find out.
+
+```{r fig.height = 7, fig.width =10}
+ChristmasImage <- image_read('http://www.falmouth-bookseller.co.uk/wp-content/uploads/dark-green-christmas-background.jpg')
+
+## Filter the NRC dataset by Negative and Positive only
+nrc_pos_neg <- get_sentiments("nrc") %>%
+  filter(sentiment %in% c("positive", "negative"))
+
+# Absolute positive - negative score
+pos_neg_absolute <- tidy_lyrics %>%
+inner_join(nrc_pos_neg, by = "word") %>%
+  group_by(Song, sentiment) %>%
+  summarize(count = n()) %>%
+  spread(sentiment, count, fill = 0) %>%
+  # Create new sentiment variable
+  mutate(sentiment = positive - negative) %>%
+  ggplot() +
+    annotation_custom(rasterGrob(ChristmasImage, width=unit(1,"npc")), 
+                    -Inf, Inf, -Inf, Inf) +
+  geom_col(aes(Song, sentiment), fill = "red", color = "black") +
+  labs(x="Individual songs", 
+       y="Sentiment score",
+       title="Sentiment of each Christmas Carol | Positive vs Negative",
+       subtitle="Sentiments based on NRC Word-Emotion Association Lexicon")+
+  theme_few() + 
+  theme(axis.text.x = element_blank(),
+        axis.ticks = element_blank(),
+        plot.title = element_text(hjust = 0.5),
+        plot.subtitle = element_text(hjust =0.5))
+
+# Relative positive - (negative score) / (positive + negative)
+pos_neg_relative <- tidy_lyrics %>%
+  inner_join(nrc_pos_neg, by = "word") %>%
+  group_by(Song, sentiment) %>%
+  summarize(count = n()) %>%
+  spread(sentiment, count, fill = 0) %>%
+  mutate(sentiment = ((positive - negative) / (positive+negative)) * 100) %>%
+  ggplot() +
+  annotation_custom(rasterGrob(ChristmasImage, width=unit(1,"npc")), 
+                    -Inf, Inf, -Inf, Inf) +
+  geom_col(aes(Song, sentiment), fill = "red", color = "black") +
+  labs(x="Individual songs", 
+       y="Ratio (%)",
+       title="Sentiment of each Christmas Carol | Positive vs Negative Ratio",
+       subtitle="Sentiments based on NRC Word-Emotion Association Lexicon")+
+  theme_few() + 
+  theme(axis.text.x = element_blank(),
+        axis.ticks = element_blank(),
+        plot.title = element_text(hjust = 0.5),
+        plot.subtitle = element_text(hjust =0.5))
+
+grid.arrange(pos_neg_absolute, pos_neg_relative, nrow =2 )
+```
+
+I guess there are still quite a few negative christmas songs in there! 
+
+## Most Positive & Most Negative Christmas Carol
+
+```{r}
+#Dataframe 
+
+nrc <- get_sentiments("nrc")
+
+pos_neg <- tidy_lyrics %>%
+  inner_join(nrc, by = "word") %>%
+  group_by(Song, sentiment) %>%
+  summarize(count = n()) %>%
+  spread(sentiment, count, fill = 0) %>%
+  mutate(sentiment = (positive - negative),
+         prop = round(sentiment / (positive + negative),2))
+
+
+
+#Most positive and most negative songs relative
+pos_abs <- pos_neg  %>%
+  arrange(desc(sentiment, prop)) %>%
+  head(n=1) %>% 
+  select(Song, sentiment, prop) %>%
+  ungroup()
+
+neg_abs <- pos_neg  %>%
+  arrange(sentiment, prop) %>%
+  head(n=1) %>% 
+  select(Song, sentiment, prop) %>%
+  ungroup()
+```
+
+Now for what we've all been waiting for. The most positive and most negative christmas carol based on the NRC sentiment analysis! Could you guess which ones they where? 
+
+```{r}
+finaltable <- rbind(pos_abs, neg_abs) %>% 
+  inner_join(lyrics_df, by = "Song") %>%
+  mutate(Score = c("Most Positve Song", "Most Negative Song")) %>%
+  select(Score, Song, Lyrics)
+
+
+finaltable %>%
+  kable("html") %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed", "bordered"), 
+                full_width = F, position = "left")
+  
+```
+
+Ah. That does make sense. **Beautiful Star of Bethlehem** is probably skewed due to the title being sang a lot. **Hard Candy Christmas** is indeed quite negatively loaded. 
+
+I hope you enjoyed reading about the sentiments of these christmas carols as much as I had performing the analysis!

@@ -1,0 +1,897 @@
+---
+title: Predictive Modeling - Regression Summary
+author: Stefan Musch
+date: '2018-02-14'
+slug: predictive-modeling-regression-summary
+output:
+  blogdown::html_page:
+    toc: true
+    highlight: "tango"
+    number_sections: true
+categories:
+  - Professional Projects
+tags:
+  - Data Analysis
+  - Machine Learning
+  - Regression
+  - Predictive Modeling
+  - Neural Network
+  - SVM
+  - KNN
+thumbnailImage: "http://res.cloudinary.com/stefanmusch/image/upload/v1518948709/thumbnail/regression.png"
+description: "A comprehensive summary of predictive modeling with regression techniques. Inspired by a lecture given by Sandjai Bhulai, who is a Professor at the Free University of Amsterdam and co-founder of the postgraduate programme Business Analytics / Data Science"
+---
+
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; position: absolute; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; }
+pre.numberSource a.sourceLine:empty
+  { position: absolute; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: absolute; left: -5em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  { background-color: #f8f8f8; }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ef2929; } /* Alert */
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #c4a000; } /* Attribute */
+code span.bn { color: #0000cf; } /* BaseN */
+code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4e9a06; } /* Char */
+code span.cn { color: #000000; } /* Constant */
+code span.co { color: #8f5902; font-style: italic; } /* Comment */
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code span.dt { color: #204a87; } /* DataType */
+code span.dv { color: #0000cf; } /* DecVal */
+code span.er { color: #a40000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #0000cf; } /* Float */
+code span.fu { color: #000000; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code span.ot { color: #8f5902; } /* Other */
+code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code span.sc { color: #000000; } /* SpecialChar */
+code span.ss { color: #4e9a06; } /* SpecialString */
+code span.st { color: #4e9a06; } /* String */
+code span.va { color: #000000; } /* Variable */
+code span.vs { color: #4e9a06; } /* VerbatimString */
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<div id="TOC">
+<ul>
+<li><a href="#introduction"><span class="toc-section-number">1</span> Introduction</a></li>
+<li><a href="#packages-and-initialisations"><span class="toc-section-number">2</span> Packages and initialisations</a></li>
+<li><a href="#exploratory-data-analysis-eda"><span class="toc-section-number">3</span> Exploratory Data Analysis (EDA)</a><ul>
+<li><a href="#missing-values"><span class="toc-section-number">3.1</span> Missing Values</a></li>
+<li><a href="#discrete-variables"><span class="toc-section-number">3.2</span> Discrete Variables</a></li>
+<li><a href="#continuous-variables"><span class="toc-section-number">3.3</span> Continuous Variables</a></li>
+<li><a href="#correlations"><span class="toc-section-number">3.4</span> Correlations</a></li>
+<li><a href="#boxplots"><span class="toc-section-number">3.5</span> Boxplots</a></li>
+</ul></li>
+<li><a href="#data-description"><span class="toc-section-number">4</span> Data Description</a></li>
+<li><a href="#data-preparation"><span class="toc-section-number">5</span> Data Preparation</a></li>
+<li><a href="#model-choices"><span class="toc-section-number">6</span> Model Choices</a></li>
+<li><a href="#model-preparations"><span class="toc-section-number">7</span> Model Preparations</a></li>
+<li><a href="#applying-the-models"><span class="toc-section-number">8</span> Applying the Models</a><ul>
+<li><a href="#linear-regression"><span class="toc-section-number">8.1</span> Linear Regression</a></li>
+<li><a href="#partial-least-squares"><span class="toc-section-number">8.2</span> Partial Least Squares</a></li>
+<li><a href="#principal-component-regression"><span class="toc-section-number">8.3</span> Principal Component Regression</a></li>
+<li><a href="#ridge-regression"><span class="toc-section-number">8.4</span> Ridge Regression</a></li>
+<li><a href="#lasso-regression"><span class="toc-section-number">8.5</span> Lasso Regression</a></li>
+<li><a href="#elestic-net"><span class="toc-section-number">8.6</span> Elestic Net</a></li>
+<li><a href="#neural-networks"><span class="toc-section-number">8.7</span> Neural Networks</a></li>
+<li><a href="#mars"><span class="toc-section-number">8.8</span> MARS</a></li>
+<li><a href="#svm"><span class="toc-section-number">8.9</span> SVM</a></li>
+<li><a href="#knn"><span class="toc-section-number">8.10</span> KNN</a></li>
+</ul></li>
+<li><a href="#model-performances"><span class="toc-section-number">9</span> Model Performances</a></li>
+<li><a href="#model-comparison"><span class="toc-section-number">10</span> Model Comparison</a></li>
+<li><a href="#final-notes"><span class="toc-section-number">11</span> Final Notes</a></li>
+</ul>
+</div>
+
+<div id="introduction" class="section level1">
+<h1><span class="header-section-number">1</span> Introduction</h1>
+<p>This blog post is a comprehensive summary of predictive modeling with regression techniques. It is Inspired by a lecture given by Sandjai Bhulai, Professor at the Free University of Amsterdam and co-founder of the postgraduate programme Business Analytics / Data Science. The main purpose is to have a quick look at the techniques and develop a proper workflow. The blog post also serves as my personal summary of the lecture.</p>
+</div>
+<div id="packages-and-initialisations" class="section level1">
+<h1><span class="header-section-number">2</span> Packages and initialisations</h1>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1">knitr<span class="op">::</span>opts_chunk<span class="op">$</span><span class="kw">set</span>(<span class="dt">echo =</span> T, <span class="dt">eval =</span> T, <span class="dt">warning =</span> F, <span class="dt">message =</span> F, <span class="dt">cache =</span> T,</a>
+<a class="sourceLine" id="cb1-2" data-line-number="2">                      <span class="dt">fig.align =</span> <span class="st">&quot;center&quot;</span>, <span class="dt">fig.width =</span> <span class="dv">7</span>, <span class="dt">fig.height =</span> <span class="dv">7</span>)</a>
+<a class="sourceLine" id="cb1-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb1-4" data-line-number="4">## Load packages &amp; Install if necessary</a>
+<a class="sourceLine" id="cb1-5" data-line-number="5">ipak &lt;-<span class="st"> </span><span class="cf">function</span>(pkg) {</a>
+<a class="sourceLine" id="cb1-6" data-line-number="6">  new.pkg &lt;-<span class="st"> </span>pkg[<span class="op">!</span>(pkg <span class="op">%in%</span><span class="st"> </span><span class="kw">installed.packages</span>()[, <span class="st">&quot;Package&quot;</span>])]</a>
+<a class="sourceLine" id="cb1-7" data-line-number="7">  <span class="cf">if</span> (<span class="kw">length</span>(new.pkg))</a>
+<a class="sourceLine" id="cb1-8" data-line-number="8">  <span class="kw">install.packages</span>(new.pkg, <span class="dt">dependencies =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb1-9" data-line-number="9">  <span class="kw">sapply</span>(pkg, require, <span class="dt">character.only =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb1-10" data-line-number="10">}</a>
+<a class="sourceLine" id="cb1-11" data-line-number="11"></a>
+<a class="sourceLine" id="cb1-12" data-line-number="12"></a>
+<a class="sourceLine" id="cb1-13" data-line-number="13">packages &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;data.table&quot;</span>, <span class="st">&quot;ggthemes&quot;</span>, <span class="st">&quot;tidyverse&quot;</span>, <span class="st">&quot;DataExplorer&quot;</span>, <span class="st">&quot;kableExtra&quot;</span>, <span class="st">&quot;knitr&quot;</span>, <span class="st">&quot;data.table&quot;</span></a>
+<a class="sourceLine" id="cb1-14" data-line-number="14">              ,<span class="st">&quot;readr&quot;</span>, <span class="st">&quot;RColorBrewer&quot;</span>, <span class="st">&quot;htmlwidgets&quot;</span>, <span class="st">&quot;htmltools&quot;</span>, <span class="st">&quot;widgetframe&quot;</span>, <span class="st">&quot;highcharter&quot;</span>, <span class="st">&quot;elasticnet&quot;</span>)</a>
+<a class="sourceLine" id="cb1-15" data-line-number="15"></a>
+<a class="sourceLine" id="cb1-16" data-line-number="16"><span class="kw">ipak</span>(packages)</a></code></pre></div>
+<pre><code>##   data.table     ggthemes    tidyverse DataExplorer   kableExtra 
+##         TRUE         TRUE         TRUE         TRUE         TRUE 
+##        knitr   data.table        readr RColorBrewer  htmlwidgets 
+##         TRUE         TRUE         TRUE         TRUE         TRUE 
+##    htmltools  widgetframe  highcharter   elasticnet 
+##         TRUE         TRUE         TRUE         TRUE</code></pre>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw">theme_set</span>(<span class="kw">theme_few</span>()) <span class="co"># add few theme to plots</span></a></code></pre></div>
+</div>
+<div id="exploratory-data-analysis-eda" class="section level1">
+<h1><span class="header-section-number">3</span> Exploratory Data Analysis (EDA)</h1>
+<p>Quick look at the data.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">FuelEff &lt;-<span class="st"> </span><span class="kw">fread</span>(<span class="st">&quot;../../data/Regressions/FuelEfficiency.csv&quot;</span>)</a>
+<a class="sourceLine" id="cb4-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb4-3" data-line-number="3">FuelEff<span class="op">$</span>ET &lt;-<span class="st"> </span><span class="kw">as.factor</span>(FuelEff<span class="op">$</span>ET)</a>
+<a class="sourceLine" id="cb4-4" data-line-number="4">FuelEff<span class="op">$</span>NC &lt;-<span class="st"> </span><span class="kw">as.factor</span>(FuelEff<span class="op">$</span>NC)</a>
+<a class="sourceLine" id="cb4-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb4-6" data-line-number="6"><span class="kw">glimpse</span>(FuelEff)</a></code></pre></div>
+<pre><code>## Observations: 38
+## Variables: 8
+## $ MPG &lt;dbl&gt; 16.9, 15.5, 19.2, 18.5, 30.0, 27.5, 27.2, 30.9, 20.3, 17.0...
+## $ GPM &lt;dbl&gt; 5.917, 6.452, 5.208, 5.405, 3.333, 3.636, 3.676, 3.236, 4....
+## $ WT  &lt;dbl&gt; 4.360, 4.054, 3.605, 3.940, 2.155, 2.560, 2.300, 2.230, 2....
+## $ DIS &lt;int&gt; 350, 351, 267, 360, 98, 134, 119, 105, 131, 163, 121, 163,...
+## $ NC  &lt;fct&gt; 8, 8, 8, 8, 4, 4, 4, 4, 5, 6, 4, 6, 6, 6, 6, 6, 8, 8, 8, 8...
+## $ HP  &lt;int&gt; 155, 142, 125, 150, 68, 95, 97, 75, 103, 125, 115, 133, 10...
+## $ ACC &lt;dbl&gt; 14.9, 14.3, 15.0, 13.0, 16.5, 14.2, 14.7, 14.5, 15.9, 13.6...
+## $ ET  &lt;fct&gt; 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1...</code></pre>
+<p>Below you will find a few descriptive plots of the data, which is important to have before you start with the actual predictions</p>
+<div id="missing-values" class="section level2">
+<h2><span class="header-section-number">3.1</span> Missing Values</h2>
+<p>There are no missing values</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="kw">plot_missing</span>(FuelEff)</a></code></pre></div>
+<p><img src="/post/2018-02-14-predictive-modeling-regression-summary_files/figure-html/unnamed-chunk-2-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="discrete-variables" class="section level2">
+<h2><span class="header-section-number">3.2</span> Discrete Variables</h2>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="kw">plot_bar</span>(FuelEff, <span class="dt">title =</span> <span class="st">&quot;Bar charts of all discrete variables&quot;</span>)</a></code></pre></div>
+<p><img src="/post/2018-02-14-predictive-modeling-regression-summary_files/figure-html/unnamed-chunk-3-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="continuous-variables" class="section level2">
+<h2><span class="header-section-number">3.3</span> Continuous Variables</h2>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="kw">plot_histogram</span>(FuelEff, <span class="dt">title =</span> <span class="st">&quot;Histograms of all continues variables&quot;</span>)</a></code></pre></div>
+<p><img src="/post/2018-02-14-predictive-modeling-regression-summary_files/figure-html/unnamed-chunk-4-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="correlations" class="section level2">
+<h2><span class="header-section-number">3.4</span> Correlations</h2>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="kw">plot_correlation</span>(FuelEff, <span class="dt">use =</span> <span class="st">&quot;pairwise.complete.obs&quot;</span>, <span class="dt">title =</span> <span class="st">&quot;Correlation Matrix&quot;</span>)</a></code></pre></div>
+<p><img src="/post/2018-02-14-predictive-modeling-regression-summary_files/figure-html/unnamed-chunk-5-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="boxplots" class="section level2">
+<h2><span class="header-section-number">3.5</span> Boxplots</h2>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="kw">plot_boxplot</span>(FuelEff, <span class="st">&quot;MPG&quot;</span>, <span class="dt">title =</span> <span class="st">&quot;Boxplot of all variables with target variable MPG&quot;</span>)</a></code></pre></div>
+<p><img src="/post/2018-02-14-predictive-modeling-regression-summary_files/figure-html/unnamed-chunk-6-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+</div>
+<div id="data-description" class="section level1">
+<h1><span class="header-section-number">4</span> Data Description</h1>
+<p>Especially the correlation plots and box plots give a good indication of which variables might be important for your predictions. In this particular case, we see that <code>WT</code>, <code>HP</code> and <code>DIS</code> will likely be strong predictors, while <code>ACC</code> will not have a lot of impact. In larger datasets, there are many more steps to take before we select the eventual features.</p>
+</div>
+<div id="data-preparation" class="section level1">
+<h1><span class="header-section-number">5</span> Data Preparation</h1>
+<p>The current example dataset is small and easy to understand. However, it is good practice to perform a multitude of data preparation steps. The following steps are all useful and should always be considered before you start with machine learning.</p>
+<ol style="list-style-type: decimal">
+<li>Centering &amp; Scaling</li>
+<li>Check for skewness
+<ul>
+<li>Rule of Thumb : (Largest / Smallest) &gt; 20 = significant skewness</li>
+<li>Use BoxCox tests to transform predictors and remove the skewness</li>
+</ul></li>
+<li>Check for outliers
+<ul>
+<li>Do not just throw away anything you think is an outlier. Think about the implications!</li>
+<li>Be careful with sampling your dataset - outliers might not be outliers at all.</li>
+<li>Check with experts about the collected data, they might know the reason for outliers.</li>
+</ul></li>
+<li>Data reduction &amp; feature extraction
+<ul>
+<li>Not a big issue in small datasets. But for large datasets, it will massively increase performance, and often have better results too.</li>
+<li>PCA is a great technique to use.</li>
+</ul></li>
+<li>Dealing with missing values
+<ul>
+<li>Check for structurally missign values (might be mistakes in data collection, or surveys)</li>
+<li>Missing data might be informative!</li>
+<li>Data might be censored</li>
+<li>Imputate missing values. Choose appropriate methods.
+<ul>
+<li>Using the data (mean, median)</li>
+<li>Random Draw</li>
+<li>Remove the samples</li>
+<li>Remove predictor (if large % missing)</li>
+<li>PCA to detect correlations</li>
+<li>KNN to fill in according to neighbouring values</li>
+</ul></li>
+</ul></li>
+<li>Removing predictors
+<ul>
+<li>Remove predictors with near-zero variance</li>
+<li>Remove multicollinearity</li>
+</ul></li>
+<li>Adding predictors
+<ul>
+<li>Higher-order predictors might increase performance</li>
+<li>Dummy variables for categorical data</li>
+</ul></li>
+<li>Binning variables
+<ul>
+<li>Do not do this manually!</li>
+</ul></li>
+</ol>
+</div>
+<div id="model-choices" class="section level1">
+<h1><span class="header-section-number">6</span> Model Choices</h1>
+<p>Choosing a model is not straightforward. There is a large variety of models, where each model excels at different things.</p>
+<ul>
+<li><p>Generally speaking, the best practice is to start with several models that are the <em>least</em> interpretable and most <em>flexible</em>, such as <a href="https://en.wikipedia.org/wiki/Gradient_boosting#Gradient_tree_boosting"><code>Boosted Trees</code></a> or <a href="https://en.wikipedia.org/wiki/Support_vector_machine"><code>Support Vector Machines (SVM)</code></a>. These models generally produce the most optimum results among a wide variety of predictions.</p></li>
+<li><p>It is then adviced to investigate simpler, less opaque, models, such as <a href="https://en.wikipedia.org/wiki/Partial_least_squares_regression"><code>Patial Least Squares (PLS)</code></a>, <a href="https://en.wikipedia.org/wiki/Generalized_additive_model"><code>Generalized Additive Models (GAM)</code></a> or <a href="https://en.wikipedia.org/wiki/Multivariate_adaptive_regression_splines"><code>Multivariate Addeptive Regression Splines (MARS)</code></a>.</p></li>
+<li><p>Use the simplest model that reasonably approximates the performance of the more complex methods - unless the complexity is not an issue (which is rarely the case).</p></li>
+</ul>
+<p>See the image below for a quick summary of regression techniques.</p>
+<center>
+<img src="http://res.cloudinary.com/stefanmusch/image/upload/v1518948409/Regression_Summary.png" alt="Regression Techniques Summary" />
+</center>
+</div>
+<div id="model-preparations" class="section level1">
+<h1><span class="header-section-number">7</span> Model Preparations</h1>
+<p>Each model requires different parameters. Tuning these parameters is extremely important for your model performances. The image above shows the complexity of tuning the parameters (e.g. 0 is easy, 2 is hard) for each model. Wrong parameters can easily lead to <code>bias</code>, <code>variance</code> or <code>overfitting</code> of your model.</p>
+<p>To reduce these issues, a variety of techniques for training your data can be used. The most common ones are <a href="https://en.wikipedia.org/wiki/Cross-validation_(statistics)"><code>Cross-Validation (CV)</code></a> and <a href="https://en.wikipedia.org/wiki/Cross-validation_(statistics)#Leave-one-out_cross-validation"><code>Leave One Out Cross Validation (LOOCV)</code></a>.</p>
+<p>In R, the easiest way to train models, and set control parameters is with the package <a href="http://topepo.github.io/caret/index.html"><code>Caret</code></a>. Which is what I will be using as well.</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="kw">library</span>(caret)</a>
+<a class="sourceLine" id="cb11-2" data-line-number="2">FuelEff &lt;-<span class="st"> </span><span class="kw">fread</span>(<span class="st">&quot;../../data/Regressions/FuelEfficiency.csv&quot;</span>)</a>
+<a class="sourceLine" id="cb11-3" data-line-number="3">FuelEff &lt;-<span class="st"> </span>FuelEff[, <span class="dv">-1</span>] <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb11-4" data-line-number="4"><span class="st">  </span><span class="kw">as.data.frame</span>()</a>
+<a class="sourceLine" id="cb11-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb11-6" data-line-number="6"><span class="co">#ctrl &lt;- trainControl(method = &quot;LOOCV&quot;)</span></a>
+<a class="sourceLine" id="cb11-7" data-line-number="7">ctrl &lt;-<span class="st"> </span><span class="kw">trainControl</span>(<span class="dt">method =</span> <span class="st">&quot;cv&quot;</span>, <span class="dt">number =</span> <span class="dv">10</span>)</a>
+<a class="sourceLine" id="cb11-8" data-line-number="8"></a>
+<a class="sourceLine" id="cb11-9" data-line-number="9">traindata &lt;-<span class="st"> </span>FuelEff[, <span class="dv">2</span><span class="op">:</span><span class="dv">7</span>]</a>
+<a class="sourceLine" id="cb11-10" data-line-number="10">response &lt;-<span class="st"> </span>FuelEff[, <span class="dv">1</span>]</a></code></pre></div>
+</div>
+<div id="applying-the-models" class="section level1 tabset tabset-fade">
+<h1><span class="header-section-number">8</span> Applying the Models</h1>
+<p>It is important to set the same seed for each model, so we can 1) compare the models on the same data, and 2) reproduce the same results.</p>
+<div id="linear-regression" class="section level2">
+<h2><span class="header-section-number">8.1</span> Linear Regression</h2>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="kw">set.seed</span>(<span class="dv">123</span>) </a>
+<a class="sourceLine" id="cb12-2" data-line-number="2">lmFit &lt;-<span class="st"> </span><span class="kw">train</span>(<span class="dt">x =</span> traindata, </a>
+<a class="sourceLine" id="cb12-3" data-line-number="3">               <span class="dt">y =</span> response,</a>
+<a class="sourceLine" id="cb12-4" data-line-number="4">               <span class="dt">method =</span> <span class="st">&quot;lm&quot;</span>, </a>
+<a class="sourceLine" id="cb12-5" data-line-number="5">               <span class="dt">preProc =</span> <span class="kw">c</span>(<span class="st">&quot;center&quot;</span>, <span class="st">&quot;scale&quot;</span>), </a>
+<a class="sourceLine" id="cb12-6" data-line-number="6">               <span class="dt">trControl =</span> ctrl)</a>
+<a class="sourceLine" id="cb12-7" data-line-number="7">lmFit</a></code></pre></div>
+<pre><code>## Linear Regression 
+## 
+## 38 samples
+##  6 predictor
+## 
+## Pre-processing: centered (6), scaled (6) 
+## Resampling: Cross-Validated (10 fold) 
+## Summary of sample sizes: 34, 35, 35, 34, 34, 34, ... 
+## Resampling results:
+## 
+##   RMSE       Rsquared   MAE      
+##   0.3491038  0.9187413  0.2965739
+## 
+## Tuning parameter &#39;intercept&#39; was held constant at a value of TRUE</code></pre>
+</div>
+<div id="partial-least-squares" class="section level2">
+<h2><span class="header-section-number">8.2</span> Partial Least Squares</h2>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1"><span class="kw">set.seed</span>(<span class="dv">123</span>)</a>
+<a class="sourceLine" id="cb14-2" data-line-number="2">plsFit &lt;-</a>
+<a class="sourceLine" id="cb14-3" data-line-number="3"><span class="st">  </span><span class="kw">train</span>(<span class="dt">x =</span> traindata,</a>
+<a class="sourceLine" id="cb14-4" data-line-number="4">        <span class="dt">y =</span> response,</a>
+<a class="sourceLine" id="cb14-5" data-line-number="5">        <span class="dt">method =</span> <span class="st">&quot;pls&quot;</span>,</a>
+<a class="sourceLine" id="cb14-6" data-line-number="6">        <span class="dt">preProc =</span> <span class="kw">c</span>(<span class="st">&quot;center&quot;</span>, <span class="st">&quot;scale&quot;</span>),</a>
+<a class="sourceLine" id="cb14-7" data-line-number="7">        <span class="dt">trControl =</span> ctrl)</a>
+<a class="sourceLine" id="cb14-8" data-line-number="8">plsFit</a></code></pre></div>
+<pre><code>## Partial Least Squares 
+## 
+## 38 samples
+##  6 predictor
+## 
+## Pre-processing: centered (6), scaled (6) 
+## Resampling: Cross-Validated (10 fold) 
+## Summary of sample sizes: 34, 35, 35, 34, 34, 34, ... 
+## Resampling results across tuning parameters:
+## 
+##   ncomp  RMSE       Rsquared   MAE      
+##   1      0.5342822  0.8222915  0.4320590
+##   2      0.4340009  0.8679883  0.3488201
+##   3      0.3860258  0.9311885  0.3216491
+## 
+## RMSE was used to select the optimal model using the smallest value.
+## The final value used for the model was ncomp = 3.</code></pre>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1"><span class="kw">plot</span>(plsFit)</a></code></pre></div>
+<p><img src="/post/2018-02-14-predictive-modeling-regression-summary_files/figure-html/unnamed-chunk-9-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="principal-component-regression" class="section level2">
+<h2><span class="header-section-number">8.3</span> Principal Component Regression</h2>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" data-line-number="1"><span class="kw">set.seed</span>(<span class="dv">123</span>)</a>
+<a class="sourceLine" id="cb17-2" data-line-number="2">pcrFit &lt;-</a>
+<a class="sourceLine" id="cb17-3" data-line-number="3"><span class="st">  </span><span class="kw">train</span>(<span class="dt">x =</span> traindata,</a>
+<a class="sourceLine" id="cb17-4" data-line-number="4">        <span class="dt">y =</span> response,</a>
+<a class="sourceLine" id="cb17-5" data-line-number="5">        <span class="dt">method =</span> <span class="st">&quot;pcr&quot;</span>,</a>
+<a class="sourceLine" id="cb17-6" data-line-number="6">        <span class="dt">preProc =</span> <span class="kw">c</span>(<span class="st">&quot;center&quot;</span>, <span class="st">&quot;scale&quot;</span>),</a>
+<a class="sourceLine" id="cb17-7" data-line-number="7">        <span class="dt">trControl =</span> ctrl)</a>
+<a class="sourceLine" id="cb17-8" data-line-number="8">pcrFit</a></code></pre></div>
+<pre><code>## Principal Component Analysis 
+## 
+## 38 samples
+##  6 predictor
+## 
+## Pre-processing: centered (6), scaled (6) 
+## Resampling: Cross-Validated (10 fold) 
+## Summary of sample sizes: 34, 35, 35, 34, 34, 34, ... 
+## Resampling results across tuning parameters:
+## 
+##   ncomp  RMSE       Rsquared   MAE      
+##   1      0.5901381  0.8066295  0.4767139
+##   2      0.5190486  0.8306519  0.4254869
+##   3      0.4124337  0.9203584  0.3402541
+## 
+## RMSE was used to select the optimal model using the smallest value.
+## The final value used for the model was ncomp = 3.</code></pre>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" data-line-number="1"><span class="kw">plot</span>(pcrFit)</a></code></pre></div>
+<p><img src="/post/2018-02-14-predictive-modeling-regression-summary_files/figure-html/unnamed-chunk-10-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="ridge-regression" class="section level2">
+<h2><span class="header-section-number">8.4</span> Ridge Regression</h2>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" data-line-number="1"><span class="kw">set.seed</span>(<span class="dv">123</span>)</a>
+<a class="sourceLine" id="cb20-2" data-line-number="2">ridgeGrid &lt;-</a>
+<a class="sourceLine" id="cb20-3" data-line-number="3"><span class="st">  </span><span class="kw">data.frame</span>(<span class="dt">.lambda =</span> <span class="kw">seq</span>(<span class="dv">0</span>, <span class="fl">.1</span>, <span class="dt">length =</span> <span class="dv">15</span>)) <span class="co">#Lambda definitie</span></a>
+<a class="sourceLine" id="cb20-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb20-5" data-line-number="5">ridgeFit &lt;-</a>
+<a class="sourceLine" id="cb20-6" data-line-number="6"><span class="st">  </span><span class="kw">train</span>(</a>
+<a class="sourceLine" id="cb20-7" data-line-number="7">    <span class="dt">x =</span> traindata,</a>
+<a class="sourceLine" id="cb20-8" data-line-number="8">    <span class="dt">y =</span> response,</a>
+<a class="sourceLine" id="cb20-9" data-line-number="9">    <span class="dt">method =</span> <span class="st">&quot;ridge&quot;</span>,</a>
+<a class="sourceLine" id="cb20-10" data-line-number="10">    <span class="dt">preProc =</span> <span class="kw">c</span>(<span class="st">&quot;center&quot;</span>, <span class="st">&quot;scale&quot;</span>),</a>
+<a class="sourceLine" id="cb20-11" data-line-number="11">    <span class="dt">tuneGrid =</span> ridgeGrid,</a>
+<a class="sourceLine" id="cb20-12" data-line-number="12">    <span class="dt">trControl =</span> ctrl</a>
+<a class="sourceLine" id="cb20-13" data-line-number="13">  )</a>
+<a class="sourceLine" id="cb20-14" data-line-number="14">ridgeFit</a></code></pre></div>
+<pre><code>## Ridge Regression 
+## 
+## 38 samples
+##  6 predictor
+## 
+## Pre-processing: centered (6), scaled (6) 
+## Resampling: Cross-Validated (10 fold) 
+## Summary of sample sizes: 34, 35, 35, 34, 34, 34, ... 
+## Resampling results across tuning parameters:
+## 
+##   lambda       RMSE       Rsquared   MAE      
+##   0.000000000  0.3491038  0.9187413  0.2965739
+##   0.007142857  0.3491084  0.9202143  0.3001565
+##   0.014285714  0.3507518  0.9207730  0.3028851
+##   0.021428571  0.3529498  0.9206881  0.3051401
+##   0.028571429  0.3552928  0.9201613  0.3070819
+##   0.035714286  0.3576155  0.9193276  0.3088000
+##   0.042857143  0.3598528  0.9182768  0.3103513
+##   0.050000000  0.3619842  0.9170698  0.3117746
+##   0.057142857  0.3640082  0.9157489  0.3130972
+##   0.064285714  0.3659322  0.9143445  0.3143393
+##   0.071428571  0.3677669  0.9128791  0.3155160
+##   0.078571429  0.3695238  0.9113699  0.3166387
+##   0.085714286  0.3712140  0.9098305  0.3179670
+##   0.092857143  0.3728477  0.9082714  0.3196433
+##   0.100000000  0.3744343  0.9067017  0.3212299
+## 
+## RMSE was used to select the optimal model using the smallest value.
+## The final value used for the model was lambda = 0.</code></pre>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" data-line-number="1"><span class="kw">plot</span>(ridgeFit)</a></code></pre></div>
+<p><img src="/post/2018-02-14-predictive-modeling-regression-summary_files/figure-html/unnamed-chunk-11-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="lasso-regression" class="section level2">
+<h2><span class="header-section-number">8.5</span> Lasso Regression</h2>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" data-line-number="1"><span class="kw">set.seed</span>(<span class="dv">123</span>)</a>
+<a class="sourceLine" id="cb23-2" data-line-number="2">lassoGrid &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">.fraction =</span> <span class="kw">seq</span>(<span class="fl">0.05</span>, <span class="dv">1</span>, <span class="dt">length =</span> <span class="dv">20</span>))</a>
+<a class="sourceLine" id="cb23-3" data-line-number="3">lassoFit &lt;-</a>
+<a class="sourceLine" id="cb23-4" data-line-number="4"><span class="st">  </span><span class="kw">train</span>(</a>
+<a class="sourceLine" id="cb23-5" data-line-number="5">    <span class="dt">x =</span> traindata,</a>
+<a class="sourceLine" id="cb23-6" data-line-number="6">    <span class="dt">y =</span> response,</a>
+<a class="sourceLine" id="cb23-7" data-line-number="7">    <span class="dt">method =</span> <span class="st">&quot;lars&quot;</span>,</a>
+<a class="sourceLine" id="cb23-8" data-line-number="8">    <span class="dt">preProc =</span> <span class="kw">c</span>(<span class="st">&quot;center&quot;</span>, <span class="st">&quot;scale&quot;</span>),</a>
+<a class="sourceLine" id="cb23-9" data-line-number="9">    <span class="dt">tuneGrid =</span> lassoGrid,</a>
+<a class="sourceLine" id="cb23-10" data-line-number="10">    <span class="dt">trControl =</span> ctrl</a>
+<a class="sourceLine" id="cb23-11" data-line-number="11">  )</a>
+<a class="sourceLine" id="cb23-12" data-line-number="12">lassoFit</a></code></pre></div>
+<pre><code>## Least Angle Regression 
+## 
+## 38 samples
+##  6 predictor
+## 
+## Pre-processing: centered (6), scaled (6) 
+## Resampling: Cross-Validated (10 fold) 
+## Summary of sample sizes: 34, 35, 35, 34, 34, 34, ... 
+## Resampling results across tuning parameters:
+## 
+##   fraction  RMSE       Rsquared   MAE      
+##   0.05      0.9914435  0.8821032  0.9225322
+##   0.10      0.8691388  0.8810176  0.8078626
+##   0.15      0.7524983  0.8757677  0.6955019
+##   0.20      0.6419761  0.8694007  0.5849300
+##   0.25      0.5404261  0.8626244  0.4768875
+##   0.30      0.4534510  0.8572930  0.3876725
+##   0.35      0.4148866  0.8568022  0.3519432
+##   0.40      0.4124938  0.8648776  0.3544209
+##   0.45      0.4083596  0.8716531  0.3480199
+##   0.50      0.3990464  0.8835669  0.3377982
+##   0.55      0.3878828  0.8953990  0.3266916
+##   0.60      0.3787880  0.9038286  0.3201525
+##   0.65      0.3723993  0.9092132  0.3172129
+##   0.70      0.3697524  0.9126979  0.3165587
+##   0.75      0.3688900  0.9130463  0.3163729
+##   0.80      0.3658178  0.9142300  0.3145681
+##   0.85      0.3603385  0.9158821  0.3102977
+##   0.90      0.3554954  0.9171826  0.3057231
+##   0.95      0.3517300  0.9181306  0.3011485
+##   1.00      0.3491038  0.9187413  0.2965739
+## 
+## RMSE was used to select the optimal model using the smallest value.
+## The final value used for the model was fraction = 1.</code></pre>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb25-1" data-line-number="1"><span class="kw">plot</span>(lassoFit)</a></code></pre></div>
+<p><img src="/post/2018-02-14-predictive-modeling-regression-summary_files/figure-html/unnamed-chunk-12-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="elestic-net" class="section level2">
+<h2><span class="header-section-number">8.6</span> Elestic Net</h2>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb26-1" data-line-number="1"><span class="kw">set.seed</span>(<span class="dv">123</span>)</a>
+<a class="sourceLine" id="cb26-2" data-line-number="2">enetGrid &lt;-</a>
+<a class="sourceLine" id="cb26-3" data-line-number="3"><span class="st">  </span><span class="kw">expand.grid</span>(<span class="dt">.lambda =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="fl">0.01</span>, <span class="fl">.1</span>),</a>
+<a class="sourceLine" id="cb26-4" data-line-number="4">              <span class="dt">.fraction =</span> <span class="kw">seq</span>(.<span class="dv">05</span>, <span class="dv">1</span>, <span class="dt">length =</span> <span class="dv">20</span>))</a>
+<a class="sourceLine" id="cb26-5" data-line-number="5">enetFit &lt;-</a>
+<a class="sourceLine" id="cb26-6" data-line-number="6"><span class="st">  </span><span class="kw">train</span>(</a>
+<a class="sourceLine" id="cb26-7" data-line-number="7">    <span class="dt">x =</span> traindata,</a>
+<a class="sourceLine" id="cb26-8" data-line-number="8">    <span class="dt">y =</span> response,</a>
+<a class="sourceLine" id="cb26-9" data-line-number="9">    <span class="dt">method =</span> <span class="st">&quot;enet&quot;</span>,</a>
+<a class="sourceLine" id="cb26-10" data-line-number="10">    <span class="dt">preProc =</span> <span class="kw">c</span>(<span class="st">&quot;center&quot;</span>, <span class="st">&quot;scale&quot;</span>),</a>
+<a class="sourceLine" id="cb26-11" data-line-number="11">    <span class="dt">tuneGrid =</span> enetGrid,</a>
+<a class="sourceLine" id="cb26-12" data-line-number="12">    <span class="dt">trControl =</span> ctrl</a>
+<a class="sourceLine" id="cb26-13" data-line-number="13">  )</a>
+<a class="sourceLine" id="cb26-14" data-line-number="14">enetFit</a></code></pre></div>
+<pre><code>## Elasticnet 
+## 
+## 38 samples
+##  6 predictor
+## 
+## Pre-processing: centered (6), scaled (6) 
+## Resampling: Cross-Validated (10 fold) 
+## Summary of sample sizes: 34, 35, 35, 34, 34, 34, ... 
+## Resampling results across tuning parameters:
+## 
+##   lambda  fraction  RMSE       Rsquared   MAE      
+##   0.00    0.05      0.9914435  0.8821032  0.9225322
+##   0.00    0.10      0.8691388  0.8810176  0.8078626
+##   0.00    0.15      0.7524983  0.8757677  0.6955019
+##   0.00    0.20      0.6419761  0.8694007  0.5849300
+##   0.00    0.25      0.5404261  0.8626244  0.4768875
+##   0.00    0.30      0.4534510  0.8572930  0.3876725
+##   0.00    0.35      0.4148866  0.8568022  0.3519432
+##   0.00    0.40      0.4124938  0.8648776  0.3544209
+##   0.00    0.45      0.4083596  0.8716531  0.3480199
+##   0.00    0.50      0.3990464  0.8835669  0.3377982
+##   0.00    0.55      0.3878828  0.8953990  0.3266916
+##   0.00    0.60      0.3787880  0.9038286  0.3201525
+##   0.00    0.65      0.3723993  0.9092132  0.3172129
+##   0.00    0.70      0.3697524  0.9126979  0.3165587
+##   0.00    0.75      0.3688900  0.9130463  0.3163729
+##   0.00    0.80      0.3658178  0.9142300  0.3145681
+##   0.00    0.85      0.3603385  0.9158821  0.3102977
+##   0.00    0.90      0.3554954  0.9171826  0.3057231
+##   0.00    0.95      0.3517300  0.9181306  0.3011485
+##   0.00    1.00      0.3491038  0.9187413  0.2965739
+##   0.01    0.05      1.0021737  0.8821032  0.9324097
+##   0.01    0.10      0.8901040  0.8809871  0.8275808
+##   0.01    0.15      0.7826987  0.8755224  0.7249137
+##   0.01    0.20      0.6800796  0.8690532  0.6238765
+##   0.01    0.25      0.5838516  0.8619770  0.5250596
+##   0.01    0.30      0.4958268  0.8564919  0.4316494
+##   0.01    0.35      0.4352548  0.8531532  0.3672571
+##   0.01    0.40      0.4194547  0.8543208  0.3586732
+##   0.01    0.45      0.4155285  0.8571756  0.3554100
+##   0.01    0.50      0.4102322  0.8658767  0.3483506
+##   0.01    0.55      0.3993022  0.8799371  0.3382498
+##   0.01    0.60      0.3885199  0.8924834  0.3283067
+##   0.01    0.65      0.3796402  0.9021405  0.3202953
+##   0.01    0.70      0.3733477  0.9089035  0.3171051
+##   0.01    0.75      0.3690766  0.9142236  0.3137839
+##   0.01    0.80      0.3674409  0.9153729  0.3138569
+##   0.01    0.85      0.3629853  0.9170631  0.3116112
+##   0.01    0.90      0.3577906  0.9185066  0.3081810
+##   0.01    0.95      0.3533306  0.9196578  0.3047508
+##   0.01    1.00      0.3496541  0.9205312  0.3013206
+##   0.10    0.05      1.0332806  0.8821032  0.9609821
+##   0.10    0.10      0.9518415  0.8783502  0.8851119
+##   0.10    0.15      0.8730545  0.8683000  0.8111682
+##   0.10    0.20      0.7970407  0.8584787  0.7389782
+##   0.10    0.25      0.7212938  0.8522060  0.6655895
+##   0.10    0.30      0.6481007  0.8480263  0.5928386
+##   0.10    0.35      0.5794113  0.8406220  0.5233410
+##   0.10    0.40      0.5197609  0.8340106  0.4600211
+##   0.10    0.45      0.4755120  0.8299935  0.4080893
+##   0.10    0.50      0.4467121  0.8286540  0.3800511
+##   0.10    0.55      0.4357717  0.8289656  0.3667490
+##   0.10    0.60      0.4249146  0.8361190  0.3558767
+##   0.10    0.65      0.4160983  0.8441368  0.3477751
+##   0.10    0.70      0.4096045  0.8512172  0.3433161
+##   0.10    0.75      0.3997441  0.8615736  0.3378336
+##   0.10    0.80      0.3912180  0.8721311  0.3327923
+##   0.10    0.85      0.3843666  0.8822711  0.3287078
+##   0.10    0.90      0.3789450  0.8916914  0.3249573
+##   0.10    0.95      0.3756573  0.8998559  0.3229113
+##   0.10    1.00      0.3744343  0.9067017  0.3212299
+## 
+## RMSE was used to select the optimal model using the smallest value.
+## The final values used for the model were fraction = 1 and lambda = 0.</code></pre>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb28-1" data-line-number="1"><span class="kw">plot</span>(enetFit)</a></code></pre></div>
+<p><img src="/post/2018-02-14-predictive-modeling-regression-summary_files/figure-html/unnamed-chunk-13-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="neural-networks" class="section level2">
+<h2><span class="header-section-number">8.7</span> Neural Networks</h2>
+<p><strong>Parameters</strong></p>
+<ul>
+<li>Decay - sensitivity of the parameters. Used to balance overfitting / bias.</li>
+<li>Size - How many units the hidden layer has</li>
+<li>Bagging - Trying multiple neural networks and averaging these</li>
+<li>Linout - Linear output. Should be FALSE if doing classification instead of regression</li>
+<li>Trace - Shows everything that the model is doing - increases time</li>
+<li>maxNWts - Makes sure that you have enough memory to calculate the networks. If not - it won’t run.</li>
+<li>maxit - Maximum number of iterations before it stops, even if the network is not optimal yet.</li>
+</ul>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb29-1" data-line-number="1"><span class="kw">set.seed</span>(<span class="dv">123</span>)</a>
+<a class="sourceLine" id="cb29-2" data-line-number="2">nnetGrid &lt;-</a>
+<a class="sourceLine" id="cb29-3" data-line-number="3"><span class="st">  </span><span class="kw">expand.grid</span>(<span class="dt">.decay =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="fl">0.01</span>, <span class="fl">.1</span>),</a>
+<a class="sourceLine" id="cb29-4" data-line-number="4">              <span class="dt">.size =</span> <span class="kw">c</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>),</a>
+<a class="sourceLine" id="cb29-5" data-line-number="5">              <span class="dt">.bag =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb29-6" data-line-number="6">nnetFit &lt;-</a>
+<a class="sourceLine" id="cb29-7" data-line-number="7"><span class="st">  </span><span class="kw">train</span>(</a>
+<a class="sourceLine" id="cb29-8" data-line-number="8">    traindata,</a>
+<a class="sourceLine" id="cb29-9" data-line-number="9">    response,</a>
+<a class="sourceLine" id="cb29-10" data-line-number="10">    <span class="dt">method =</span> <span class="st">&quot;avNNet&quot;</span>,</a>
+<a class="sourceLine" id="cb29-11" data-line-number="11">    <span class="dt">tuneGrid =</span> nnetGrid,</a>
+<a class="sourceLine" id="cb29-12" data-line-number="12">    <span class="dt">trControl =</span> ctrl,</a>
+<a class="sourceLine" id="cb29-13" data-line-number="13">    <span class="dt">linout =</span> <span class="ot">TRUE</span>,</a>
+<a class="sourceLine" id="cb29-14" data-line-number="14">    <span class="dt">trace =</span> <span class="ot">FALSE</span>,</a>
+<a class="sourceLine" id="cb29-15" data-line-number="15">    <span class="dt">MaxNWts =</span> <span class="dv">10</span> <span class="op">*</span><span class="st"> </span>(<span class="kw">ncol</span>(traindata) <span class="op">+</span><span class="st"> </span><span class="dv">1</span>) <span class="op">+</span><span class="st"> </span><span class="dv">10</span> <span class="op">+</span><span class="st"> </span><span class="dv">1</span>,</a>
+<a class="sourceLine" id="cb29-16" data-line-number="16">    <span class="dt">maxit =</span> <span class="dv">500</span>,</a>
+<a class="sourceLine" id="cb29-17" data-line-number="17">    <span class="dt">preProc =</span> <span class="kw">c</span>(<span class="st">&quot;center&quot;</span>, <span class="st">&quot;scale&quot;</span>)</a>
+<a class="sourceLine" id="cb29-18" data-line-number="18">  )</a>
+<a class="sourceLine" id="cb29-19" data-line-number="19">nnetFit</a></code></pre></div>
+<pre><code>## Model Averaged Neural Network 
+## 
+## 38 samples
+##  6 predictor
+## 
+## Pre-processing: centered (6), scaled (6) 
+## Resampling: Cross-Validated (10 fold) 
+## Summary of sample sizes: 34, 35, 35, 34, 34, 34, ... 
+## Resampling results across tuning parameters:
+## 
+##   decay  size  RMSE       Rsquared   MAE      
+##   0.00    1    0.3895405  0.8973923  0.3323903
+##   0.00    2    0.6569133  0.8374466  0.5035775
+##   0.00    3    0.6826297  0.8788383  0.5424810
+##   0.00    4    0.8463658  0.6359670  0.6789124
+##   0.00    5    0.7656605  0.7740208  0.6511560
+##   0.00    6    0.8698821  0.7202164  0.7354869
+##   0.00    7    1.0796775  0.6358712  0.8771279
+##   0.00    8    1.0075220  0.6479410  0.8434621
+##   0.00    9    0.8636968  0.7044664  0.7012957
+##   0.00   10    0.9540263  0.6683322  0.7794921
+##   0.01    1    0.3526006  0.9128624  0.3057678
+##   0.01    2    0.3619619  0.9298032  0.3098504
+##   0.01    3    0.3683206  0.9048323  0.3179104
+##   0.01    4    0.3941588  0.9332994  0.3447662
+##   0.01    5    0.4137627  0.9199535  0.3668975
+##   0.01    6    0.4464267  0.8694082  0.3935072
+##   0.01    7    0.4669006  0.8531353  0.4122863
+##   0.01    8    0.4569140  0.8535870  0.4078636
+##   0.01    9    0.4561972  0.8515777  0.4056808
+##   0.01   10    0.4445728  0.8499994  0.3852996
+##   0.10    1    0.3335752  0.9203501  0.2862332
+##   0.10    2    0.3416498  0.9193257  0.2975506
+##   0.10    3    0.3675403  0.9102944  0.3178251
+##   0.10    4    0.3619042  0.9101573  0.3132779
+##   0.10    5    0.3625173  0.9124789  0.3154598
+##   0.10    6    0.3646521  0.9138108  0.3179842
+##   0.10    7    0.3624660  0.9132400  0.3147886
+##   0.10    8    0.3619679  0.9140112  0.3139177
+##   0.10    9    0.3613569  0.9142954  0.3127367
+##   0.10   10    0.3638330  0.9143804  0.3153601
+## 
+## Tuning parameter &#39;bag&#39; was held constant at a value of FALSE
+## RMSE was used to select the optimal model using the smallest value.
+## The final values used for the model were size = 1, decay = 0.1 and bag
+##  = FALSE.</code></pre>
+</div>
+<div id="mars" class="section level2">
+<h2><span class="header-section-number">8.8</span> MARS</h2>
+<p><strong>Parameters</strong></p>
+<ul>
+<li>Pruning - Complexity degree of your model</li>
+</ul>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb31-1" data-line-number="1"><span class="kw">set.seed</span>(<span class="dv">123</span>)</a>
+<a class="sourceLine" id="cb31-2" data-line-number="2">marsGrid &lt;-<span class="st"> </span><span class="kw">expand.grid</span>(<span class="dt">.degree =</span> <span class="dv">1</span><span class="op">:</span><span class="dv">2</span>, <span class="dt">.nprune =</span> <span class="dv">2</span><span class="op">:</span><span class="dv">38</span>)</a>
+<a class="sourceLine" id="cb31-3" data-line-number="3">marsFit &lt;-</a>
+<a class="sourceLine" id="cb31-4" data-line-number="4"><span class="st">  </span><span class="kw">train</span>(</a>
+<a class="sourceLine" id="cb31-5" data-line-number="5">    traindata,</a>
+<a class="sourceLine" id="cb31-6" data-line-number="6">    response,</a>
+<a class="sourceLine" id="cb31-7" data-line-number="7">    <span class="dt">method =</span> <span class="st">&quot;earth&quot;</span>,</a>
+<a class="sourceLine" id="cb31-8" data-line-number="8">    <span class="dt">tuneGrid =</span> marsGrid,</a>
+<a class="sourceLine" id="cb31-9" data-line-number="9">    <span class="dt">trControl =</span> ctrl</a>
+<a class="sourceLine" id="cb31-10" data-line-number="10">  )</a>
+<a class="sourceLine" id="cb31-11" data-line-number="11">marsFit</a></code></pre></div>
+<pre><code>## Multivariate Adaptive Regression Spline 
+## 
+## 38 samples
+##  6 predictor
+## 
+## No pre-processing
+## Resampling: Cross-Validated (10 fold) 
+## Summary of sample sizes: 34, 35, 35, 34, 34, 34, ... 
+## Resampling results across tuning parameters:
+## 
+##   degree  nprune  RMSE       Rsquared   MAE      
+##   1        2      0.4839472  0.8753910  0.4147103
+##   1        3      0.5227159  0.8259529  0.4237267
+##   1        4      0.4176467  0.8780799  0.3421071
+##   1        5      0.4208958  0.8701870  0.3751769
+##   1        6      0.4182763  0.8645150  0.3776940
+##   1        7      0.4347006  0.8497555  0.3939607
+##   1        8      0.4349547  0.8440440  0.3936475
+##   1        9      0.4248572  0.8388525  0.3793411
+##   1       10      0.4248572  0.8388525  0.3793411
+##   1       11      0.4248572  0.8388525  0.3793411
+##   1       12      0.4248572  0.8388525  0.3793411
+##   1       13      0.4248572  0.8388525  0.3793411
+##   1       14      0.4248572  0.8388525  0.3793411
+##   1       15      0.4248572  0.8388525  0.3793411
+##   1       16      0.4248572  0.8388525  0.3793411
+##   1       17      0.4248572  0.8388525  0.3793411
+##   1       18      0.4248572  0.8388525  0.3793411
+##   1       19      0.4248572  0.8388525  0.3793411
+##   1       20      0.4248572  0.8388525  0.3793411
+##   1       21      0.4248572  0.8388525  0.3793411
+##   1       22      0.4248572  0.8388525  0.3793411
+##   1       23      0.4248572  0.8388525  0.3793411
+##   1       24      0.4248572  0.8388525  0.3793411
+##   1       25      0.4248572  0.8388525  0.3793411
+##   1       26      0.4248572  0.8388525  0.3793411
+##   1       27      0.4248572  0.8388525  0.3793411
+##   1       28      0.4248572  0.8388525  0.3793411
+##   1       29      0.4248572  0.8388525  0.3793411
+##   1       30      0.4248572  0.8388525  0.3793411
+##   1       31      0.4248572  0.8388525  0.3793411
+##   1       32      0.4248572  0.8388525  0.3793411
+##   1       33      0.4248572  0.8388525  0.3793411
+##   1       34      0.4248572  0.8388525  0.3793411
+##   1       35      0.4248572  0.8388525  0.3793411
+##   1       36      0.4248572  0.8388525  0.3793411
+##   1       37      0.4248572  0.8388525  0.3793411
+##   1       38      0.4248572  0.8388525  0.3793411
+##   2        2      0.4034104  0.8986415  0.3360562
+##   2        3      0.4025746  0.8919200  0.3420545
+##   2        4      0.3694814  0.8981198  0.3210576
+##   2        5      0.3805058  0.8899355  0.3317454
+##   2        6      0.3907333  0.8676445  0.3382646
+##   2        7      0.3907333  0.8676445  0.3382646
+##   2        8      0.3907333  0.8676445  0.3382646
+##   2        9      0.3907333  0.8676445  0.3382646
+##   2       10      0.3907333  0.8676445  0.3382646
+##   2       11      0.3907333  0.8676445  0.3382646
+##   2       12      0.3907333  0.8676445  0.3382646
+##   2       13      0.3907333  0.8676445  0.3382646
+##   2       14      0.3907333  0.8676445  0.3382646
+##   2       15      0.3907333  0.8676445  0.3382646
+##   2       16      0.3907333  0.8676445  0.3382646
+##   2       17      0.3907333  0.8676445  0.3382646
+##   2       18      0.3907333  0.8676445  0.3382646
+##   2       19      0.3907333  0.8676445  0.3382646
+##   2       20      0.3907333  0.8676445  0.3382646
+##   2       21      0.3907333  0.8676445  0.3382646
+##   2       22      0.3907333  0.8676445  0.3382646
+##   2       23      0.3907333  0.8676445  0.3382646
+##   2       24      0.3907333  0.8676445  0.3382646
+##   2       25      0.3907333  0.8676445  0.3382646
+##   2       26      0.3907333  0.8676445  0.3382646
+##   2       27      0.3907333  0.8676445  0.3382646
+##   2       28      0.3907333  0.8676445  0.3382646
+##   2       29      0.3907333  0.8676445  0.3382646
+##   2       30      0.3907333  0.8676445  0.3382646
+##   2       31      0.3907333  0.8676445  0.3382646
+##   2       32      0.3907333  0.8676445  0.3382646
+##   2       33      0.3907333  0.8676445  0.3382646
+##   2       34      0.3907333  0.8676445  0.3382646
+##   2       35      0.3907333  0.8676445  0.3382646
+##   2       36      0.3907333  0.8676445  0.3382646
+##   2       37      0.3907333  0.8676445  0.3382646
+##   2       38      0.3907333  0.8676445  0.3382646
+## 
+## RMSE was used to select the optimal model using the smallest value.
+## The final values used for the model were nprune = 4 and degree = 2.</code></pre>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb33-1" data-line-number="1"><span class="kw">plot</span>(marsFit)</a></code></pre></div>
+<p><img src="/post/2018-02-14-predictive-modeling-regression-summary_files/figure-html/unnamed-chunk-15-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="svm" class="section level2">
+<h2><span class="header-section-number">8.9</span> SVM</h2>
+<p><strong>Parameters</strong></p>
+<ul>
+<li>Can be either Radial / Polynomial / Linear</li>
+<li>Tunelength - Complexity</li>
+</ul>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb34-1" data-line-number="1"><span class="kw">set.seed</span>(<span class="dv">123</span>)</a>
+<a class="sourceLine" id="cb34-2" data-line-number="2">svmFit &lt;-</a>
+<a class="sourceLine" id="cb34-3" data-line-number="3"><span class="st">  </span><span class="kw">train</span>(</a>
+<a class="sourceLine" id="cb34-4" data-line-number="4">    traindata,</a>
+<a class="sourceLine" id="cb34-5" data-line-number="5">    response,</a>
+<a class="sourceLine" id="cb34-6" data-line-number="6">    <span class="dt">method =</span> <span class="st">&quot;svmRadial&quot;</span>,</a>
+<a class="sourceLine" id="cb34-7" data-line-number="7">    <span class="dt">tuneLength =</span> <span class="dv">14</span>,</a>
+<a class="sourceLine" id="cb34-8" data-line-number="8">    <span class="dt">preProc =</span> <span class="kw">c</span>(<span class="st">&quot;center&quot;</span>, <span class="st">&quot;scale&quot;</span>),</a>
+<a class="sourceLine" id="cb34-9" data-line-number="9">    <span class="dt">trControl =</span> ctrl</a>
+<a class="sourceLine" id="cb34-10" data-line-number="10">  )</a>
+<a class="sourceLine" id="cb34-11" data-line-number="11">svmFit</a></code></pre></div>
+<pre><code>## Support Vector Machines with Radial Basis Function Kernel 
+## 
+## 38 samples
+##  6 predictor
+## 
+## Pre-processing: centered (6), scaled (6) 
+## Resampling: Cross-Validated (10 fold) 
+## Summary of sample sizes: 34, 35, 35, 34, 34, 34, ... 
+## Resampling results across tuning parameters:
+## 
+##   C        RMSE       Rsquared   MAE      
+##      0.25  0.5919977  0.8378634  0.4865879
+##      0.50  0.5236983  0.8676116  0.4471119
+##      1.00  0.4691761  0.8957120  0.4029897
+##      2.00  0.4564244  0.8537364  0.3931610
+##      4.00  0.4563069  0.8448426  0.3945761
+##      8.00  0.4660388  0.8455530  0.4041276
+##     16.00  0.4733663  0.8418228  0.4093908
+##     32.00  0.4728235  0.8409826  0.3994785
+##     64.00  0.4903507  0.8238986  0.4114824
+##    128.00  0.4907464  0.8235286  0.4118808
+##    256.00  0.4907464  0.8235286  0.4118808
+##    512.00  0.4907464  0.8235286  0.4118808
+##   1024.00  0.4907464  0.8235286  0.4118808
+##   2048.00  0.4907464  0.8235286  0.4118808
+## 
+## Tuning parameter &#39;sigma&#39; was held constant at a value of 0.4731597
+## RMSE was used to select the optimal model using the smallest value.
+## The final values used for the model were sigma = 0.4731597 and C = 4.</code></pre>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb36-1" data-line-number="1"><span class="kw">plot</span>(svmFit)</a></code></pre></div>
+<p><img src="/post/2018-02-14-predictive-modeling-regression-summary_files/figure-html/unnamed-chunk-16-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="knn" class="section level2">
+<h2><span class="header-section-number">8.10</span> KNN</h2>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb37-1" data-line-number="1"><span class="kw">set.seed</span>(<span class="dv">123</span>)</a>
+<a class="sourceLine" id="cb37-2" data-line-number="2">knnFit &lt;-</a>
+<a class="sourceLine" id="cb37-3" data-line-number="3"><span class="st">  </span><span class="kw">train</span>(</a>
+<a class="sourceLine" id="cb37-4" data-line-number="4">    traindata,</a>
+<a class="sourceLine" id="cb37-5" data-line-number="5">    response,</a>
+<a class="sourceLine" id="cb37-6" data-line-number="6">    <span class="dt">method =</span> <span class="st">&quot;knn&quot;</span>,</a>
+<a class="sourceLine" id="cb37-7" data-line-number="7">    <span class="dt">preProc =</span> <span class="kw">c</span>(<span class="st">&quot;center&quot;</span>, <span class="st">&quot;scale&quot;</span>),</a>
+<a class="sourceLine" id="cb37-8" data-line-number="8">    <span class="dt">tuneGrid =</span> <span class="kw">data.frame</span>(<span class="dt">.k =</span> <span class="dv">1</span><span class="op">:</span><span class="dv">20</span>),</a>
+<a class="sourceLine" id="cb37-9" data-line-number="9">    <span class="dt">trControl =</span> ctrl</a>
+<a class="sourceLine" id="cb37-10" data-line-number="10">  )</a>
+<a class="sourceLine" id="cb37-11" data-line-number="11">knnFit</a></code></pre></div>
+<pre><code>## k-Nearest Neighbors 
+## 
+## 38 samples
+##  6 predictor
+## 
+## Pre-processing: centered (6), scaled (6) 
+## Resampling: Cross-Validated (10 fold) 
+## Summary of sample sizes: 34, 35, 35, 34, 34, 34, ... 
+## Resampling results across tuning parameters:
+## 
+##   k   RMSE       Rsquared   MAE      
+##    1  0.5414309  0.8170529  0.4652833
+##    2  0.4698088  0.8428303  0.3928792
+##    3  0.4989522  0.8224664  0.4212111
+##    4  0.5056929  0.8219990  0.4109583
+##    5  0.4905562  0.8513589  0.4127183
+##    6  0.5027853  0.8368725  0.4288778
+##    7  0.4926643  0.8435061  0.4278321
+##    8  0.4883420  0.8315829  0.4261365
+##    9  0.5170485  0.8297113  0.4485491
+##   10  0.5324021  0.8230479  0.4611917
+##   11  0.5519344  0.8178468  0.4777818
+##   12  0.5572327  0.8253967  0.4820764
+##   13  0.5587074  0.8345198  0.4788077
+##   14  0.5869497  0.8309002  0.4998607
+##   15  0.5949151  0.8369644  0.5142122
+##   16  0.6090828  0.8410554  0.5257927
+##   17  0.6261019  0.8322213  0.5506176
+##   18  0.6560881  0.8039646  0.5795620
+##   19  0.6904664  0.7902431  0.6047368
+##   20  0.7291519  0.7881980  0.6467608
+## 
+## RMSE was used to select the optimal model using the smallest value.
+## The final value used for the model was k = 2.</code></pre>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb39-1" data-line-number="1"><span class="kw">plot</span>(knnFit)</a></code></pre></div>
+<p><img src="/post/2018-02-14-predictive-modeling-regression-summary_files/figure-html/unnamed-chunk-17-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+</div>
+<div id="model-performances" class="section level1">
+<h1><span class="header-section-number">9</span> Model Performances</h1>
+<p>Evaluating performances of your model can be done by calculating a few statistical properties of the model and its predictions.</p>
+<ol style="list-style-type: decimal">
+<li>Mean Absolute Error (MEA)
+<ul>
+<li>Absolute difference between observed values and the model predictions</li>
+</ul></li>
+<li>Root Mean Squared Error (RMSE)
+<ul>
+<li>Average distance between the observed values and the model predictions</li>
+</ul></li>
+<li>R²
+<ul>
+<li>Proportion of information in the data that is explained by the model</li>
+<li>Is a <em>correlation</em> measure, not accuracy.</li>
+</ul></li>
+</ol>
+</div>
+<div id="model-comparison" class="section level1">
+<h1><span class="header-section-number">10</span> Model Comparison</h1>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb40-1" data-line-number="1">allResamples &lt;-<span class="st"> </span><span class="kw">resamples</span>(</a>
+<a class="sourceLine" id="cb40-2" data-line-number="2">  <span class="kw">list</span>(</a>
+<a class="sourceLine" id="cb40-3" data-line-number="3">    <span class="st">&quot;Linear Reg&quot;</span> =<span class="st"> </span>lmFit,</a>
+<a class="sourceLine" id="cb40-4" data-line-number="4">    <span class="st">&quot;PLS&quot;</span> =<span class="st"> </span>plsFit,</a>
+<a class="sourceLine" id="cb40-5" data-line-number="5">    <span class="st">&quot;PCR&quot;</span> =<span class="st"> </span>pcrFit,</a>
+<a class="sourceLine" id="cb40-6" data-line-number="6">    <span class="st">&quot;Ridge&quot;</span> =<span class="st"> </span>ridgeFit,</a>
+<a class="sourceLine" id="cb40-7" data-line-number="7">    <span class="st">&quot;LASSO&quot;</span> =<span class="st"> </span>lassoFit,</a>
+<a class="sourceLine" id="cb40-8" data-line-number="8">    <span class="st">&quot;Elastic Net&quot;</span> =<span class="st"> </span>enetFit,</a>
+<a class="sourceLine" id="cb40-9" data-line-number="9">    <span class="st">&quot;Neural Net&quot;</span> =<span class="st"> </span>nnetFit,</a>
+<a class="sourceLine" id="cb40-10" data-line-number="10">    <span class="st">&quot;MARS&quot;</span> =<span class="st"> </span>marsFit,</a>
+<a class="sourceLine" id="cb40-11" data-line-number="11">    <span class="st">&quot;SVM&quot;</span> =<span class="st"> </span>svmFit,</a>
+<a class="sourceLine" id="cb40-12" data-line-number="12">    <span class="st">&quot;KNN&quot;</span> =<span class="st"> </span>knnFit</a>
+<a class="sourceLine" id="cb40-13" data-line-number="13">  )</a>
+<a class="sourceLine" id="cb40-14" data-line-number="14">)</a>
+<a class="sourceLine" id="cb40-15" data-line-number="15"></a>
+<a class="sourceLine" id="cb40-16" data-line-number="16">gridExtra<span class="op">::</span><span class="kw">grid.arrange</span>(</a>
+<a class="sourceLine" id="cb40-17" data-line-number="17"><span class="kw">parallelplot</span>(allResamples, <span class="dt">metric =</span> <span class="st">&quot;RMSE&quot;</span>, <span class="dt">main =</span> <span class="st">&quot;RMSE of each fold for each model&quot;</span>),</a>
+<a class="sourceLine" id="cb40-18" data-line-number="18"><span class="kw">parallelplot</span>(allResamples, <span class="dt">metric =</span> <span class="st">&quot;Rsquared&quot;</span>, <span class="dt">main =</span> <span class="st">&quot;R² of each fold for each model&quot;</span>),</a>
+<a class="sourceLine" id="cb40-19" data-line-number="19"><span class="dt">ncol =</span> <span class="dv">2</span>)</a></code></pre></div>
+<p><img src="/post/2018-02-14-predictive-modeling-regression-summary_files/figure-html/unnamed-chunk-18-1.png" width="864" style="display: block; margin: auto;" /></p>
+</div>
+<div id="final-notes" class="section level1">
+<h1><span class="header-section-number">11</span> Final Notes</h1>
+<p>In the end, the final model that you choose to work with depends on a few factors. According to the summary, we should always choose a <code>neural network</code> in this particular example dataset. It is consistant throughout each fold, and gives very accurate predictions. However - it is harder to interpret and it takes up a lot more time than the other models.</p>
+<p>For this reason, we might also select the next best things, i.e. <code>Ridge Regression</code>, <code>Lasso</code>, <code>Elastic Net</code> or even <code>Linear Regression</code>. These models are less consistent, yet still perform well, require a lot less time and are far easier to understand, explain and comprehend for every party (think clients, managers etc.) involved.</p>
+</div>

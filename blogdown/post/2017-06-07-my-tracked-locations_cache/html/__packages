@@ -1,0 +1,12 @@
+base
+ggplot2
+jsonlite
+dplyr
+ggmap
+leaflet
+leaflet.extras
+rmarkdown
+htmlwidgets
+widgetframe
+gridExtra
+bindrcpp

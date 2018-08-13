@@ -1,0 +1,429 @@
+---
+title: An Awesome Spotify Playlist Analysis
+author: Stefan Musch
+date: '2018-03-28'
+slug: an-awesome-spotify-playlist-analysis
+output:
+  blogdown::html_page:
+    toc: false
+    highlight: "tango"
+    number_sections: false
+categories:
+  - Hobby Projects
+  - R
+tags:
+  - Data Analysis
+  - Data Visualisation
+  - Highcharter
+  - Web Mining
+  - Spotify
+  - API
+thumbnailImage: "http://res.cloudinary.com/stefanmusch/image/upload/v1522224228/awesome_mix.jpg"
+description: "Together with a couple of friends, we've created our own personal Awesome Mix Vol.1. Instead of being a tape with 13 songs however, we've added roughly 1.500 songs! Now I'm curious as to how our musical taste differs from one another, but also what kind of musical clusters we have created in our playlist."
+---
+
+
+Together with a couple of friends, we've created our own personal Awesome Mix Vol.1
+Instead of being a tape with 13 songs however, we've added roughly 1.500 songs. Now I'm curious as to how our musical taste differs from one another, but also what kind of musical clusters we have created in our playlist. 
+
+# Let's get started.
+
+```{r setup, include=FALSE, echo = F}
+knitr::opts_chunk$set(echo = F, message = F, warning = F, fig.align = "center")
+```
+
+```{r libraries, echo = F}
+
+## Load packages & Install if necessary
+ipak <- function(pkg) {
+  new.pkg <- pkg[!(pkg %in% installed.packages()[, "Package"])]
+  if (length(new.pkg))
+  install.packages(new.pkg, dependencies = TRUE)
+  sapply(pkg, require, character.only = TRUE)
+}
+
+
+packages <- c("Rspotify", "spotifyr", "tidyverse", "knitr", "kableExtra", 
+              "ggthemes", "highcharter","htmltools", "widgetframe", "cluster", "factoextra")
+
+ipak(packages)
+
+```
+
+```{r, echo = F}
+theme_set(theme_few())
+
+thm <- hc_theme_merge(
+  hc_theme_elementary(),
+  hc_theme(
+    chart = list(zoomType = "xy", style = 
+                   list(fontFamily = "Open Sans, Arial, sans-serif")),
+    title = list(style = 
+                   list(fontWeight = "bold",
+                        fontFamily = "Open Sans")),
+    subtitle = list(style = 
+                      list(fontFamily = "Open Sans")),
+    legend = list(align = "right",
+                  verticalAlign = "middle",
+                  layout = "vertical",
+                  itemStyle = 
+                    list(width = 150, 
+                         fontWeight = "bold",
+                         fontFamily = "Open Sans")),
+    xAxis = list(gridLineWidth = 1,
+                 startOnTick = T,
+                 title = list( style = list(fontWeight = "bold"))),
+    yAxis = list(title = list( style = list(fontWeight = "bold")),
+                 gridLineWidth = 1,
+                 startOnTick = T)
+  )
+)
+```
+
+```{r auth, echo = F}
+Sys.setenv(SPOTIFY_CLIENT_ID = '209f3c299b644b06acd255c0166fe5bb')
+Sys.setenv(SPOTIFY_CLIENT_SECRET = '90d6b433d7e542e3b021f73b6a95d4b8')
+
+access_token <- get_spotify_access_token()
+
+key <- spotifyOAuth("209f3c299b644b06acd255c0166fe5bb", "209f3c299b644b06acd255c0166fe5bb","90d6b433d7e542e3b021f73b6a95d4b8")
+```
+
+First, I'll have to extract the audio features of each song in the playlist. This is where the `spotifyr` package helps me out. I have removed user names or ID's for privacy reasons. 
+
+```{r, echo = F}
+tracks <- get_playlist_audio_features("rhahyrion", playlist_uris = "6EnAZiFRQvS3YBoXqMUMuH")
+```
+
+
+```{r, echo = T}
+#tracks <- get_playlist_audio_features("xxxxxxxxxx", playlist_uris = "xxxxxxxxxxxxxxx")
+
+# Keep relevant information
+tracks <- tracks %>%
+    select(artist_name, track_name, album_name, album_img, 
+           track_popularity, danceability, energy, loudness,
+           speechiness, acousticness, instrumentalness, liveness,
+           valence, tempo, key, key_mode, duration_ms,
+           time_signature, track_preview_url, track_open_spotify_url) 
+
+head(tracks, n = 5) %>%
+    kable(format = "html") %>%
+    kable_styling(bootstrap_options = c("hover", "striped", "responsive", "condensed"), 
+                  full_width = T,
+                  position = "left") %>%
+    scroll_box(width = "100%")
+```
+
+Perfect! Almost. I'm missing the column `Added By`, which does show in our spotify playlist. 
+Unfortunately, when I simply tried to copy and paste our complete track overview of the playlist, each record would give me the spotify link to the song (e.g. `https://open.spotify.com/track/17g3YBfU8QfYtkgZGI8tTT`) rather than the actual data. A quick google search for "Export Spotify Playlists" got me to a JavaScript app called [`Exportify`](https://rawgit.com/watsonbox/exportify/master/exportify.html). This worked like a charm, and provided me with a downloadable `.csv` file. 
+
+```{r, echo = T}
+#Import Exportify raw .csv data
+mixtape_raw <- read_csv("../../data/Spotify/awesome_mixtape_1.csv")
+```
+ 
+This .csv file did include the `Added By` column, which we can add to the tracks dataset after some data transformations.
+
+```{r, eval = F}
+mixtape_less_raw <- mixtape_raw %>%
+    rename_all(funs(
+            str_to_lower(.) %>%
+            str_replace_all(., "\\s", "_")
+        )) %>%
+    select(track_name, artist_name, added_by) %>%
+    mutate(added_by = str_replace(added_by, "spotify:user:", ""),
+           added_by = ifelse(added_by == "xxxxxxxxxx", "V", 
+                             ifelse(added_by == "xxxxxxxxxx", "M",
+                                    ifelse(added_by == "xxxxxxxxxx", "S", 
+                                           ifelse(added_by == "xxxxxxxxxx", "G", "O"))))) %>%
+    filter(!added_by %in% c("X", "O"))
+
+head(mixtape_less_raw, n = 5) %>%
+    kable(format = "html") %>%
+    kable_styling(bootstrap_options = c("hover", "striped", "responsive", "condensed"), 
+                  full_width = T,
+                  position = "left")
+```
+
+```{r, echo = F}
+mixtape_less_raw <- mixtape_raw %>%
+    rename_all(funs(
+            str_to_lower(.) %>%
+            str_replace_all(., "\\s", "_")
+        )) %>%
+    select(track_name, artist_name, added_by) %>%
+    mutate(added_by = str_replace(added_by, "spotify:user:", ""),
+           added_by = ifelse(added_by == "1156541371", "V", 
+                             ifelse(added_by == "rhahyrion", "M",
+                                    ifelse(added_by == "1151556473", "S", 
+                                           ifelse(added_by == "1152025879", "G", 
+                                                  ifelse(added_by == "1110498007", "O", "X")))))) %>%
+    filter(!added_by %in% c("X", "O")) 
+
+
+head(mixtape_less_raw, n = 5) %>%
+    kable(format = "html") %>%
+    kable_styling(bootstrap_options = c("hover", "striped", "responsive", "condensed"), 
+                  full_width = T,
+                  position = "left")
+```
+
+Cool. Time to join the two dataframes together and start with the analysis!
+
+```{r echo = T}
+mixtape <- tracks %>% 
+    inner_join(mixtape_less_raw, by = c("track_name", "artist_name")) %>%
+    filter(valence > 0)
+```
+
+## Awesome Music Analysis
+
+Spotify adds a bunch of music statistics to each song.  I'll be using these statistics to find out how different our music tastes are, and where they are different (if at all..., we do share a playlist after all). I'll be looking mainly at the following features:
+
+```{r, echo  = F}
+text_tbl <- data.frame(
+  Feature = c("Danceability", "Energy", "Valence", "Loudness", "Tempo", "Popularity"),
+  Description = c("Danceability describes how suitable a track is for dancing based on a combination of musical elements including tempo, rhythm stability, beat strength, and overall regularity.", "Energy represents a perceptual measure of intensity and activity. Typically, energetic tracks feel fast, loud, and noisy. For example, death metal has high energy, while a Bach prelude scores low on the scale. Perceptual features contributing to this attribute include dynamic range, perceived loudness, timbre, onset rate, and general entropy.", "A measure describing the musical positiveness conveyed by a track. Tracks with high valence sound more positive (e.g. happy, cheerful, euphoric), while tracks with low valence sound more negative (e.g. sad, depressed, angry).", "The overall loudness of a track in decibels (dB). Loudness values are averaged across the entire track and are useful for comparing relative loudness of tracks. Loudness is the quality of a sound that is the primary psychological correlate of physical strength (amplitude). ", "	The overall estimated tempo of a track in beats per minute (BPM). In musical terminology, tempo is the speed or pace of a given piece and derives directly from the average beat duration.", "Although not a musical feature, the popularity index provides a way of determining how popular a song is. The exact description is not provided, but I'm sure it has a well thought-out algorithm underneath."
+                  ),
+  `Values` = c("0 to 1", "0 to 1", "0 to 1", "-60dB to 0dB", "0 bpm to 250bpm", "0 to 100")
+)
+
+kable(text_tbl, "html") %>%
+  kable_styling(full_width = F, bootstrap_options = c("striped", "hover", "condensed", "responsive")) %>%
+    row_spec(0, bold = T) %>%
+    column_spec(1, bold = T)
+```
+
+### Cue the violins!
+
+Normally I'd use boxplots to see if the densities in our musical taste is different from eachother.. Except we are dealing with music here, which just screams the use of `violin plots`. 
+
+```{r, fig.height = 12, fig.width = 12}
+temp <- mixtape %>% 
+    select(added_by, danceability, energy, valence) %>%
+    reshape2::melt(., "added_by", variable.name = "attribute", value.name ="value")
+
+temp %>%
+    ggplot(aes(x = added_by, y = value, fill = added_by))+
+    geom_violin(color = "black")+
+    ylim(0,1)+
+    scale_fill_manual(values = RColorBrewer::brewer.pal(4, "Set1"))+
+    facet_wrap(~ attribute, ncol = 1)+
+    labs(title = "Density distribution per attribute",
+         x = "Added By")+
+    theme(plot.title = element_text(hjust = 0.5))
+```
+
+We mostly see that `G` has a thicker upside on Valence - he tends to like happier songs than the others. Specifically, `V` tends to add more songs low on the Valence scale. `M` and `S` are somewhere in between. On `Danceability` and `Energy` there is not much to say about the differences - we seem fairly identical in those regards. 
+
+```{r, fig.height = 12, fig.width = 12}
+temp <- mixtape %>% 
+    select(added_by, loudness, tempo, track_popularity) %>%
+    reshape2::melt(., "added_by", 
+                   variable.name = "attribute", 
+                   value.name ="value")
+
+temp %>%
+    ggplot(aes(x = added_by, y = value, fill = added_by))+
+    geom_violin(color = "black")+
+    scale_fill_manual(values = RColorBrewer::brewer.pal(4, "Set1"))+
+    facet_wrap(~ attribute, ncol = 1, scales = "free")+
+    labs(title = "Density distribution per attribute",
+         x = "Added By")+
+    theme(plot.title = element_text(hjust = 0.5))
+
+    
+```
+
+Well I guess that is clear. We have extremely similar taste when it comes to individual attributes. Popularity, Tempo and Loudness don't really seem to have any clear distinction among us.
+  
+One thing that is missing however, is the combination of features! The combination of both `Energy` and `Valence` can give some very diverse results. In the interactive plot below all of the songs are added with their attached value on these two attributes. This plot is heavily inspired by the [Sentify](http://www.rcharlie.net/sentify/) app created by `RCharlie`. He has attached meaning to the value combinations in an arbitrary way. 
+  
+A track with high `energy` and high `valence` will be an active happy song, while a low energy and low valence song will be a more sad and depressing song. Anyways, enjoy lookin at the songs and our individual tastes, and what songs classify as happy or sad!
+
+```{r, eval = T, fig.height = 10, fig.width = 10}
+
+tooltip <- c("artist_name", "track_name", "album_name", "track_popularity",
+             "valence", "energy","added_by") %>%
+  map(function(x){
+    tags$tr(
+      tags$th(str_replace_all(str_to_title(x), "_", " ")),
+      tags$td(paste0("{point.", x, "}"))
+    )
+  }) %>% 
+  do.call(tagList, .) %>% 
+  as.character()
+
+tooltip <- paste0(as.character(tagList(
+      tags$tr(
+          tags$th(rowspan= 8,
+                tags$img(src = "{point.album_img}",
+                         width = "125px",
+                         height = "125px",
+                         align = "middle",
+                         border = "1px solid black")))
+   )), tooltip)
+
+plot <- highchart() %>%
+    hc_add_series(data = mixtape, 
+                  type = "scatter",
+                  marker = list(symbol = "circle"),
+                  hcaes(x = valence, y = energy, group = added_by)) %>%
+    hc_yAxis(min = 0, max = 1,
+           title = list(text = "<b>Energy</b>"),
+           plotLines = list(
+             list(color = "black", # Set black origin line
+                  width = 2,
+                  dashStyle = "ShortDashDot",
+                  value = 0.5))) %>%
+    hc_xAxis(min = 0, max = 1,
+              title = list(text = "<b>Valence</b>"),
+           plotLines = list(
+             list(color = "black", # Set black origin line
+                  width = 2,
+                  dashStyle = "ShortDashDot",
+                  value = 0.5))) %>%
+  hc_colors(map_chr(RColorBrewer::brewer.pal(4, "Set1"), .f = hex_to_rgba, alpha = 0.7)) %>%
+  hc_plotOptions(series = list(fillOpacity = 0.5)) %>%
+  hc_legend(title = list(text = "Added By:")) %>%
+    hc_tooltip(
+        useHTML = TRUE,
+        borderRadius = 0,
+        borderWidth = 5,
+        headerFormat = "<table>",
+        pointFormat = tooltip,
+        footerFormat = "</table>"
+     ) %>%
+  hc_add_theme(thm) %>%
+  hc_title(text = "Energy vs Valence") %>%
+  hc_exporting(enabled = TRUE)
+
+plot2 <-  plot %>%
+    hc_add_annotation(labelOptions = list(shape = "rect"),
+                      labels = list(
+          list(point = list(xAxis = 0, yAxis = 0, x =0.75 , y = 0.85),
+               text = 'Energetic & Happy'),
+          list(point = list(xAxis = 0, yAxis = 0, x =0.75 , y = 0),
+               text = 'Chill & Peaceful.'),
+          list(point = list(xAxis = 0, yAxis = 0, x =0.25 , y = 0.85),
+               text = 'Energetic & Angry'),
+          list(point = list(xAxis = 0, yAxis = 0, x =0.25 , y = 0),
+               text = 'Sad & Slow')
+          )
+        )
+
+```
+
+```{r}
+frameWidget(plot2, width = "800px", height = "800px")
+```
+
+
+Most songs seems to be in the upper half of the energy atmosphere. Which seems reasonable considering our preference for Rock and Punk-Rock styles. However, we do see a slight difference in the energy / valence combination of songs for `V`. He tends to like more negatively loaded energetic songs from artists like `Sum 41`, `Muse` or ` Shinedown`. Especially `G` seems to enjoy the happier highly energetic songs from artists such as `Smash Mouth`, `The Strokes`, `The Kinks` and `The Bloodhound Gang`. `M` and `S` are on the more neutal spectrum with regards to valence. They prefer songs that are not overhally happy or sad.
+
+## Finding Awesome Clusters
+
+So in which musical clusters can we divide our `Awesome Mixtape #1` playlist? To answer this question I will be using the `K-Means` clustering method. The basic idea behind k-means clustering consists of defining clusters so that the total within-cluster variation is minimized. 
+
+The drawback is that we have to specify the number of clusters we want the data to be devided into. In order to determine the optimal number of `k` I emply both the *elbow* method and *silhouette* method as seen below. Although the silhouette method suggests `k = 2` as the optimal number, this will not provide me with much more detail. Therefor I'll guide my choice based on the elbow method, where at `k = 5` the line starts *bending* somewhat.
+
+
+```{r, echo = T, fig.width = 12, fig.height = 5}
+
+# Centering and Scaling is necessary for the k-means to work properly
+cluster_df <- mixtape %>% 
+    select_if(.predicate = is.numeric) %>%
+    map_df(scale)
+
+set.seed(123)
+
+gridExtra::grid.arrange(
+fviz_nbclust(cluster_df, kmeans, method = "wss") + 
+    theme(plot.title = element_text(hjust = 0.5),
+          plot.subtitle = element_text(hjust =0.5)) +
+    labs(subtitle = "Elbow Method"),
+fviz_nbclust(cluster_df, kmeans, method = "silhouette") +
+    theme(plot.title = element_text(hjust = 0.5),
+          plot.subtitle = element_text(hjust =0.5))+
+    labs(subtitle = "Silhouette Method"),
+ncol = 2)
+
+```
+
+Creating final clusters with `k = 5`. 
+
+```{r, echo = T}
+final_clusters <- kmeans(cluster_df, 5, nstart = 25)
+
+mixtape_clusters <- mixtape %>% 
+    mutate(cluster = final_clusters$cluster) %>%
+    select(cluster, artist_name, track_name, danceability,
+           energy, valence, loudness, speechiness,
+           acousticness, instrumentalness,
+           liveness, tempo, duration_ms)
+
+```
+
+Now that everything is done, we can start looking at the clusters, and see what kind of distinction the algorithm made.
+
+```{r, echo = T}
+mixtape_clusters %>% 
+    group_by(cluster) %>%
+    select(-artist_name, -track_name) %>%
+    summarize_all(mean) %>%
+    mutate_all(round, 3) %>%
+    kable(format = "html") %>%
+    kable_styling(bootstrap_options = c("hover", "striped", 
+                                        "responsive", "condensed"), 
+                  full_width = T,
+                  position = "left") %>%
+    scroll_box(width = "100%")
+```
+
+Although the distinction is hard to tell in this way, I see the following patterns:
+
+1. `Cluster 1` - Fun, happy, dancable and energetic songs. 
+2. `Cluster 2` - Angry, up-tempo songs
+3. `Cluster 3` - Instrumental, acoustic songs
+4. `Cluster 4` - High tempo and energetic instrumental songs
+5. `Cluster 5` - Far more likely to be live performance songs
+
+Let's try to see if this fits with some songs for each cluster!
+
+```{r, asis = T}
+set.seed(123)
+
+show_cluster_songs <- function(clust){
+    mixtape_clusters %>% 
+        filter(cluster == clust) %>%
+        mutate(song = paste0(artist_name, " - ", track_name)) %>%
+        select(song) %>%
+        sample_n(size = 10)
+}
+cbind(show_cluster_songs(1), show_cluster_songs(2)) %>%
+        kable(format = "html",
+              col.names = c("Cluster 1", "Cluster 2")) %>%
+        kable_styling(bootstrap_options = c("hover", "striped", "responsive", "condensed"), 
+                  full_width = T)
+cbind(show_cluster_songs(3), show_cluster_songs(4)) %>%
+        kable(format = "html",
+              col.names = c("Cluster 3", "Cluster 4")) %>%
+        kable_styling(bootstrap_options = c("hover", "striped", "responsive", "condensed"), 
+                  full_width = T)
+
+show_cluster_songs(5) %>%
+        kable(format = "html",
+              col.names = c("Cluster 5")) %>%
+        kable_styling(bootstrap_options = c("hover", "striped", "responsive", "condensed"), 
+                  full_width =T)
+                  
+```
+  
+  
+## Awesome Conclusion
+
+As a first impression, the songs fit the descriptions I made quite well. I do think that I put too much emphasis on `energy`. For example `cluster 2` does have quite negatively loaded songs, but aren't necessarily energetic songs.  `Cluster 3` seems to fit the `acousticness` value quite well. The addition of *Xavier Rudd, Dermot Kennedy* and *Luke Sital-Singh* confirm the slow acoustic nature of this cluster.
+In `Cluster 5` we see only one live performed song, yet still one more than in the other clusters. So perhaps if we had a bigger sample of songs we'd see more added live songs in this cluster. 
+  
+In the end, I feel like the clusters made some nice distinctions. Perhaps in the future I could add more metadata or even sentiment of the songs by analyzing the lyrics of a song with the [Genius API](https://genius.com/). 

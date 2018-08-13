@@ -1,0 +1,1264 @@
+
+
+  
+    
+  
+
+
+  
+
+
+
+
+
+  
+
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Hugo 0.46 with theme Tranquilpeak 0.4.3-BETA">
+    <title>How Jolly are Christmas Songs Actually?</title>
+    <meta name="author" content="Stefan Musch">
+    <meta name="keywords" content=", Data Science, Data Blog, R Markdown, R Visualisation">
+
+    <link rel="icon" href="/favicon.png">
+    
+
+    
+    <meta name="description" content="Christmas is almost here, and we&#39;ve been hearing a ton of christmas carols and chrismas songs. Now my question is, how jolly are these songs actually? This is a nice opportunity to test my Web Scraping &amp; Text Mining skills.">
+    <meta property="og:description" content="Christmas is almost here, and we&#39;ve been hearing a ton of christmas carols and chrismas songs. Now my question is, how jolly are these songs actually? This is a nice opportunity to test my Web Scraping &amp; Text Mining skills.">
+    <meta property="og:type" content="blog">
+    <meta property="og:title" content="How Jolly are Christmas Songs Actually?">
+    <meta property="og:url" content="/2017/12/how-jolly-are-christmas-songs-actually/">
+    <meta property="og:site_name" content="S. Musch">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="S. Musch">
+    <meta name="twitter:description" content="Christmas is almost here, and we&#39;ve been hearing a ton of christmas carols and chrismas songs. Now my question is, how jolly are these songs actually? This is a nice opportunity to test my Web Scraping &amp; Text Mining skills.">
+    
+      <meta name="twitter:creator" content="@Stefan_Musch">
+    
+    
+
+    
+    
+
+    
+      <meta property="og:image" content="http://res.cloudinary.com/stefanmusch/image/upload/c_scale,w_725/v1534148918/thumbnail/headshot2.jpg">
+    
+
+    
+      <meta property="og:image" content="http://res.cloudinary.com/stefanmusch/image/upload/v1513786269/thumbnail/ChristmasThumbnail.png">
+    
+    
+      <meta property="og:image" content="http://res.cloudinary.com/stefanmusch/image/upload/a_hflip/v1513786205/cover/Christmas.jpg">
+    
+    
+
+    
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/jquery.fancybox.min.css" integrity="sha256-vuXZ9LGmmwtjqFX1F+EKin1ThZMub58gKULUyf0qECk=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/helpers/jquery.fancybox-thumbs.min.css" integrity="sha256-SEa4XYAHihTcEP1f5gARTB2K26Uk8PsndQYHQC1f4jU=" crossorigin="anonymous" />
+    
+    
+    <link rel="stylesheet" href="/css/style-jsjn0006wyhpyzivf6yceb31gvpjatbcs3qzjvlumobfnugccvobqwxnnaj8.min.css" />
+    
+    
+
+    
+      
+<script>
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-111116966-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+
+    
+    
+  </head>
+
+  <body>
+    <div id="blog">
+      <header id="header" data-behavior="4">
+  <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+  <div class="header-title">
+    <a class="header-title-link" href="/">S. Musch</a>
+  </div>
+  
+    
+      <a class="header-right-picture "
+         href="/#about">
+    
+    
+    
+      
+        <img class="header-picture" src="http://res.cloudinary.com/stefanmusch/image/upload/c_scale,w_725/v1534148918/thumbnail/headshot2.jpg" alt="Author&#39;s picture" />
+      
+    
+    </a>
+  
+</header>
+
+      <nav id="sidebar" data-behavior="4">
+  <div class="sidebar-container">
+    
+      <div class="sidebar-profile">
+        <a href="/#about">
+          <img class="sidebar-profile-picture" src="http://res.cloudinary.com/stefanmusch/image/upload/c_scale,w_725/v1534148918/thumbnail/headshot2.jpg" alt="Author&#39;s picture" />
+        </a>
+        <h4 class="sidebar-profile-name">Stefan Musch</h4>
+        
+          <h5 class="sidebar-profile-bio">Data Scientist | Music Lover | Sports &amp; Adventure Enthousiast <br> <br> This blog is the place where I share my work, projects, frustrations and discoveries. I designed it to be entertaining to some, and educative to others. Sometimes hopefully both. <br><br>Enjoy reading, and feel free to leave a comment!</h5>
+        
+      </div>
+    
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="/">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+      
+      <span class="sidebar-button-desc">Home</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="/#about">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+      
+      <span class="sidebar-button-desc">About</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="/page/curriculum-vitae">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-graduation-cap"></i>
+      
+      <span class="sidebar-button-desc">CV</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="/page/contact">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-envelope"></i>
+      
+      <span class="sidebar-button-desc">Contact</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="/archives">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+      
+      <span class="sidebar-button-desc">Archives</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="/categories">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+      
+      <span class="sidebar-button-desc">Categories</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="/tags">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+      
+      <span class="sidebar-button-desc">Tags</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://github.com/StefanMusch">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+      
+      <span class="sidebar-button-desc">GitHub</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://www.linkedin.com/in/stefanmusch/">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-linkedin-square"></i>
+      
+      <span class="sidebar-button-desc">LinkedIn</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://www.r-bloggers.com">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+      
+      <span class="sidebar-button-desc">R-Bloggers</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+
+    </ul>
+  </div>
+</nav>
+
+      
+  <div class="post-header-cover
+              text-left
+              post-header-cover--partial"
+       style="background-image:url('http://res.cloudinary.com/stefanmusch/image/upload/a_hflip/v1513786205/cover/Christmas.jpg')"
+       data-behavior="4">
+    
+      <div class="post-header main-content-wrap text-left">
+  
+    <h1 class="post-title" itemprop="headline">
+      How Jolly are Christmas Songs Actually?
+    </h1>
+  
+  
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2017-12-22T00:00:00Z">
+        
+  
+  
+  
+  
+    22 December 2017
+  
+
+      </time>
+    
+    
+  
+  
+    <span>in</span>
+    
+      <a class="category-link" href="/categories/hobby-projects">Hobby Projects</a>, 
+    
+      <a class="category-link" href="/categories/r">R</a>
+    
+  
+
+  </div>
+
+</div>
+    
+  </div>
+
+
+      <div id="main" data-behavior="4"
+        class="hasCover
+               hasCoverMetaIn
+               ">
+        <article class="post" itemscope itemType="http://schema.org/BlogPosting">
+          
+          
+          <div class="post-content markdown" itemprop="articleBody">
+            <div class="main-content-wrap">
+              <script src="/rmarkdown-libs/kePrint/kePrint.js"></script>
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; position: absolute; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; }
+pre.numberSource a.sourceLine:empty
+  { position: absolute; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: absolute; left: -5em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  { background-color: #f8f8f8; }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ef2929; } /* Alert */
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #c4a000; } /* Attribute */
+code span.bn { color: #0000cf; } /* BaseN */
+code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4e9a06; } /* Char */
+code span.cn { color: #000000; } /* Constant */
+code span.co { color: #8f5902; font-style: italic; } /* Comment */
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code span.dt { color: #204a87; } /* DataType */
+code span.dv { color: #0000cf; } /* DecVal */
+code span.er { color: #a40000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #0000cf; } /* Float */
+code span.fu { color: #000000; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code span.ot { color: #8f5902; } /* Other */
+code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code span.sc { color: #000000; } /* SpecialChar */
+code span.ss { color: #4e9a06; } /* SpecialString */
+code span.st { color: #4e9a06; } /* String */
+code span.va { color: #000000; } /* Variable */
+code span.vs { color: #4e9a06; } /* VerbatimString */
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<div id="TOC">
+<ul>
+<li><a href="#web-scraping">Web Scraping</a><ul>
+<li><a href="#required-libraries">Required libraries</a></li>
+<li><a href="#list-of-songs">List of Songs</a></li>
+<li><a href="#lyrics-of-the-songs">Lyrics of the Songs</a></li>
+</ul></li>
+<li><a href="#text-analysis">Text Analysis</a><ul>
+<li><a href="#top-15-words">Top 15 words</a></li>
+<li><a href="#christmas-carol-sentiments">Christmas Carol Sentiments</a></li>
+<li><a href="#positive-vs-negative">Positive vs Negative</a></li>
+<li><a href="#most-positive-most-negative-christmas-carol">Most Positive &amp; Most Negative Christmas Carol</a></li>
+</ul></li>
+</ul>
+</div>
+
+<p>Christmas is almost here, and we’ve been hearing a ton of christmas carols and chrismas songs. Now my question is, how jolly are these songs actually? This is a nice opportunity to train my <em>Web Scraping</em> &amp; <em>Text Mining</em> skills. Special thanks to <a href="http://colinfay.me/">Colin Fay</a> for some great tutorials on working with <code>purrr</code> and <code>rvest</code>.</p>
+<div id="web-scraping" class="section level1">
+<h1>Web Scraping</h1>
+<p>My first goal is to obtain lyrics of a high number of christmas carols. After scouring the internet for a little bit I came across the following website: <a href="http://www.lyricsfreak.com/c/christmas+songs/">LyricsFreak</a>. This website has links for approximetely 200 christmas songs with the lyrics in a nice format. Seems like the perfect opportunity for web scraping.</p>
+<div id="required-libraries" class="section level2">
+<h2>Required libraries</h2>
+<p><code>rvest</code>, <code>stringr</code>, the <code>tidyverse</code> and <code>tidytext</code> work really well together to keep the code as well as the outputs consice, clear and in the same <strong>tibble</strong> format. The <code>ggthemes</code>, <code>magick</code> and <code>gris</code> packages are mainly used to make things pretty. Additionally, I used the chrome extension <a href="http://selectorgadget.com/">SelectorGadget</a> to select the relevant CSS elements for the <code>html_nodes()</code> function from <code>rvest</code>. If you are curious as to how this works, there are many tutorials on <code>rvest</code> which could explain this far better than I could.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1">## Load packages &amp; Install if necessary</a>
+<a class="sourceLine" id="cb1-2" data-line-number="2">ipak &lt;-<span class="st"> </span><span class="cf">function</span>(pkg) {</a>
+<a class="sourceLine" id="cb1-3" data-line-number="3">  new.pkg &lt;-<span class="st"> </span>pkg[<span class="op">!</span>(pkg <span class="op">%in%</span><span class="st"> </span><span class="kw">installed.packages</span>()[, <span class="st">&quot;Package&quot;</span>])]</a>
+<a class="sourceLine" id="cb1-4" data-line-number="4">  <span class="cf">if</span> (<span class="kw">length</span>(new.pkg))</a>
+<a class="sourceLine" id="cb1-5" data-line-number="5">  <span class="kw">install.packages</span>(new.pkg, <span class="dt">dependencies =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb1-6" data-line-number="6">  <span class="kw">sapply</span>(pkg, require, <span class="dt">character.only =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb1-7" data-line-number="7">}</a>
+<a class="sourceLine" id="cb1-8" data-line-number="8"></a>
+<a class="sourceLine" id="cb1-9" data-line-number="9"></a>
+<a class="sourceLine" id="cb1-10" data-line-number="10">packages &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;rvest&quot;</span>, <span class="st">&quot;tidyverse&quot;</span>, <span class="st">&quot;tidytext&quot;</span>, <span class="st">&quot;stringr&quot;</span>, <span class="st">&quot;ggthemes&quot;</span>, <span class="st">&quot;magick&quot;</span>, <span class="st">&quot;grid&quot;</span></a>
+<a class="sourceLine" id="cb1-11" data-line-number="11">              ,<span class="st">&quot;gridExtra&quot;</span>, <span class="st">&quot;knitr&quot;</span>, <span class="st">&quot;kableExtra&quot;</span>, <span class="st">&quot;ggplot2&quot;</span>)</a>
+<a class="sourceLine" id="cb1-12" data-line-number="12"></a>
+<a class="sourceLine" id="cb1-13" data-line-number="13"><span class="kw">ipak</span>(packages)</a></code></pre></div>
+<pre><code>##      rvest  tidyverse   tidytext    stringr   ggthemes     magick 
+##       TRUE       TRUE       TRUE       TRUE       TRUE       TRUE 
+##       grid  gridExtra      knitr kableExtra    ggplot2 
+##       TRUE       TRUE       TRUE       TRUE       TRUE</code></pre>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">url &lt;-<span class="st"> &quot;http://www.lyricsfreak.com/c/christmas+songs/&quot;</span></a></code></pre></div>
+</div>
+<div id="list-of-songs" class="section level2">
+<h2>List of Songs</h2>
+<p>The first goal is to obtain a list of the song names on the page as well as the link to the page with the actual lyrics. If we manage to get these two in a nice tibble we can then map over the tibble to read the lycrics data for each song.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="co">#-------------------------</span></a>
+<a class="sourceLine" id="cb4-2" data-line-number="2"><span class="co"># Get Song List Function</span></a>
+<a class="sourceLine" id="cb4-3" data-line-number="3"><span class="co">#-------------------------</span></a>
+<a class="sourceLine" id="cb4-4" data-line-number="4">get_song_list &lt;-<span class="st"> </span><span class="cf">function</span>(url){</a>
+<a class="sourceLine" id="cb4-5" data-line-number="5">    </a>
+<a class="sourceLine" id="cb4-6" data-line-number="6">  SongURL &lt;-<span class="st"> </span><span class="kw">read_html</span>(url)  <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb4-7" data-line-number="7"><span class="st">    </span><span class="kw">html_nodes</span>(<span class="st">&quot;.floatfix td a&quot;</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb4-8" data-line-number="8"><span class="st">    </span><span class="kw">html_attr</span>(<span class="st">&quot;href&quot;</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb4-9" data-line-number="9"><span class="st">    </span><span class="kw">discard</span>(<span class="op">~</span><span class="st"> </span>.x <span class="op">==</span><span class="st"> &quot;javascript:void(0)&quot;</span>) </a>
+<a class="sourceLine" id="cb4-10" data-line-number="10">  </a>
+<a class="sourceLine" id="cb4-11" data-line-number="11">  SongURL &lt;-<span class="st"> </span><span class="kw">paste0</span>(<span class="st">&quot;http://www.lyricsfreak.com&quot;</span>, SongURL)</a>
+<a class="sourceLine" id="cb4-12" data-line-number="12">    </a>
+<a class="sourceLine" id="cb4-13" data-line-number="13">  SongName &lt;-<span class="st"> </span><span class="kw">read_html</span>(url)  <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb4-14" data-line-number="14"><span class="st">      </span><span class="kw">html_nodes</span>(<span class="st">&quot;.floatfix td a&quot;</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb4-15" data-line-number="15"><span class="st">      </span><span class="kw">html_text</span>() <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb4-16" data-line-number="16"><span class="st">      </span><span class="kw">str_replace_all</span>(<span class="st">&quot; Lyrics&quot;</span>, <span class="st">&quot;&quot;</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb4-17" data-line-number="17"><span class="st">    </span>##Remove first 6 characters which include a bullet point and whitespace</a>
+<a class="sourceLine" id="cb4-18" data-line-number="18"><span class="st">      </span><span class="kw">gsub</span>(<span class="dt">pattern =</span> <span class="st">&quot;^.{6}(.*$)&quot;</span>, <span class="dt">replacement =</span> <span class="st">&quot;</span><span class="ch">\\</span><span class="st">1&quot;</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb4-19" data-line-number="19"><span class="st">      </span><span class="kw">discard</span>(<span class="op">~</span><span class="st"> </span>.x <span class="op">==</span><span class="st"> &quot;mas Songs lyrics&quot;</span> <span class="op">|</span><span class="st"> </span>.x <span class="op">==</span><span class="st"> &quot;Stars&quot;</span> <span class="op">|</span><span class="st"> </span>.x <span class="op">==</span><span class="st"> &quot;Time&quot;</span>) </a>
+<a class="sourceLine" id="cb4-20" data-line-number="20">    </a>
+<a class="sourceLine" id="cb4-21" data-line-number="21">    <span class="kw">tibble</span>(<span class="dt">song =</span> SongName,</a>
+<a class="sourceLine" id="cb4-22" data-line-number="22">           <span class="dt">url =</span> SongURL)</a>
+<a class="sourceLine" id="cb4-23" data-line-number="23">}</a>
+<a class="sourceLine" id="cb4-24" data-line-number="24"></a>
+<a class="sourceLine" id="cb4-25" data-line-number="25">SongTable&lt;-<span class="st"> </span><span class="kw">map_df</span>(url, get_song_list)</a>
+<a class="sourceLine" id="cb4-26" data-line-number="26"></a>
+<a class="sourceLine" id="cb4-27" data-line-number="27"><span class="kw">head</span>(SongTable, <span class="dt">n =</span><span class="dv">10</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb4-28" data-line-number="28"><span class="st">  </span><span class="kw">kable</span>(<span class="st">&quot;html&quot;</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb4-29" data-line-number="29"><span class="st">  </span><span class="kw">kable_styling</span>(<span class="dt">bootstrap_options =</span> <span class="st">&quot;striped&quot;</span>, <span class="dt">full_width =</span> F, <span class="dt">position =</span> <span class="st">&quot;left&quot;</span>)</a></code></pre></div>
+<table class="table table-striped" style="width: auto !important; ">
+<thead>
+<tr>
+<th style="text-align:left;">
+song
+</th>
+<th style="text-align:left;">
+url
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+12 Crazy Days Of Christmas
+</td>
+<td style="text-align:left;">
+<a href="http://www.lyricsfreak.com/c/christmas+songs/12+crazy+days+of+christmas_20866253.html" class="uri">http://www.lyricsfreak.com/c/christmas+songs/12+crazy+days+of+christmas_20866253.html</a>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+A Baby Just Like You
+</td>
+<td style="text-align:left;">
+<a href="http://www.lyricsfreak.com/c/christmas+songs/a+baby+just+like+you_20674310.html" class="uri">http://www.lyricsfreak.com/c/christmas+songs/a+baby+just+like+you_20674310.html</a>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+A Boy Is Born In Bethlehem
+</td>
+<td style="text-align:left;">
+<a href="http://www.lyricsfreak.com/c/christmas+songs/a+boy+is+born+in+bethlehem_20681786.html" class="uri">http://www.lyricsfreak.com/c/christmas+songs/a+boy+is+born+in+bethlehem_20681786.html</a>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+A Christmas Carol
+</td>
+<td style="text-align:left;">
+<a href="http://www.lyricsfreak.com/c/christmas+songs/a+christmas+carol_20689791.html" class="uri">http://www.lyricsfreak.com/c/christmas+songs/a+christmas+carol_20689791.html</a>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+A Day, A Day Of Glory
+</td>
+<td style="text-align:left;">
+<a href="http://www.lyricsfreak.com/c/christmas+songs/a+day+a+day+of+glory_20710277.html" class="uri">http://www.lyricsfreak.com/c/christmas+songs/a+day+a+day+of+glory_20710277.html</a>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+A Different Kind Of Christmas
+</td>
+<td style="text-align:left;">
+<a href="http://www.lyricsfreak.com/c/christmas+songs/a+different+kind+of+christmas_20674293.html" class="uri">http://www.lyricsfreak.com/c/christmas+songs/a+different+kind+of+christmas_20674293.html</a>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+A Great And Mighty Wonder
+</td>
+<td style="text-align:left;">
+<a href="http://www.lyricsfreak.com/c/christmas+songs/a+great+and+mighty+wonder_20674215.html" class="uri">http://www.lyricsfreak.com/c/christmas+songs/a+great+and+mighty+wonder_20674215.html</a>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+A Marshmallow World
+</td>
+<td style="text-align:left;">
+<a href="http://www.lyricsfreak.com/c/christmas+songs/a+marshmallow+world_20681753.html" class="uri">http://www.lyricsfreak.com/c/christmas+songs/a+marshmallow+world_20681753.html</a>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+A Visit From Saint Nicholas
+</td>
+<td style="text-align:left;">
+<a href="http://www.lyricsfreak.com/c/christmas+songs/a+visit+from+saint+nicholas_20674265.html" class="uri">http://www.lyricsfreak.com/c/christmas+songs/a+visit+from+saint+nicholas_20674265.html</a>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Adeste Fideles
+</td>
+<td style="text-align:left;">
+<a href="http://www.lyricsfreak.com/c/christmas+songs/adeste+fideles_20696557.html" class="uri">http://www.lyricsfreak.com/c/christmas+songs/adeste+fideles_20696557.html</a>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Alright, looks good! Now to create a function to obtain the lyrics from a song page.</p>
+</div>
+<div id="lyrics-of-the-songs" class="section level2">
+<h2>Lyrics of the Songs</h2>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="co">#-------------------------</span></a>
+<a class="sourceLine" id="cb5-2" data-line-number="2"><span class="co"># Get Lyrics function</span></a>
+<a class="sourceLine" id="cb5-3" data-line-number="3"><span class="co">#-------------------------</span></a>
+<a class="sourceLine" id="cb5-4" data-line-number="4">get_lyrics &lt;-<span class="st"> </span><span class="cf">function</span>(url, song){</a>
+<a class="sourceLine" id="cb5-5" data-line-number="5">  page &lt;-<span class="st"> </span><span class="kw">read_html</span>(url)</a>
+<a class="sourceLine" id="cb5-6" data-line-number="6">  </a>
+<a class="sourceLine" id="cb5-7" data-line-number="7">  lyrics &lt;-<span class="st"> </span>page  <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb5-8" data-line-number="8"><span class="st">    </span><span class="kw">html_nodes</span>(<span class="st">&quot;#content_h&quot;</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb5-9" data-line-number="9"><span class="st">    </span><span class="kw">gsub</span>(<span class="dt">pattern =</span> <span class="st">&#39;&lt;.*?&gt;&#39;</span>, <span class="dt">replacement =</span> <span class="st">&quot; &quot;</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb5-10" data-line-number="10"><span class="st">    </span><span class="kw">str_trim</span>(<span class="dt">side =</span> <span class="st">&quot;both&quot;</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb5-11" data-line-number="11"><span class="st">    </span><span class="co"># Remove everything between brackets (artist/song names where here)</span></a>
+<a class="sourceLine" id="cb5-12" data-line-number="12"><span class="st">    </span><span class="kw">gsub</span>(<span class="dt">pattern =</span> <span class="st">&quot;</span><span class="ch">\\</span><span class="st">s*</span><span class="ch">\\</span><span class="st">([^</span><span class="ch">\\</span><span class="st">)]+</span><span class="ch">\\</span><span class="st">)&quot;</span>, <span class="dt">replacement =</span> <span class="st">&quot;&quot;</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb5-13" data-line-number="13"><span class="st">    </span><span class="co"># Remove punctuation</span></a>
+<a class="sourceLine" id="cb5-14" data-line-number="14"><span class="st">    </span><span class="kw">gsub</span>(<span class="dt">pattern =</span> <span class="st">&quot;[[:punct:]]&quot;</span>, <span class="dt">replacement =</span> <span class="st">&quot;&quot;</span>)</a>
+<a class="sourceLine" id="cb5-15" data-line-number="15">  </a>
+<a class="sourceLine" id="cb5-16" data-line-number="16">  <span class="kw">tibble</span>(<span class="dt">Song =</span> song,</a>
+<a class="sourceLine" id="cb5-17" data-line-number="17">         <span class="dt">Lyrics =</span> lyrics)</a>
+<a class="sourceLine" id="cb5-18" data-line-number="18">}</a></code></pre></div>
+<p>Now that we have the function to extract the lyrics from the webpage, we can map over the previously created dataframe which contained the songname and the URL’s.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">safe_lyr &lt;-<span class="st"> </span><span class="kw">safely</span>(get_lyrics) ## Makes sure the function works, even if there are dead pages (404)</a>
+<a class="sourceLine" id="cb6-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb6-3" data-line-number="3"><span class="co">#-------------------------</span></a>
+<a class="sourceLine" id="cb6-4" data-line-number="4"><span class="co"># Create Lyrics Dataframe </span></a>
+<a class="sourceLine" id="cb6-5" data-line-number="5"><span class="co">#-------------------------</span></a>
+<a class="sourceLine" id="cb6-6" data-line-number="6">lyrics_df &lt;-<span class="st"> </span><span class="kw">map2</span>(SongTable<span class="op">$</span>url, </a>
+<a class="sourceLine" id="cb6-7" data-line-number="7">                  SongTable<span class="op">$</span>song, </a>
+<a class="sourceLine" id="cb6-8" data-line-number="8">                  <span class="op">~</span><span class="st"> </span><span class="kw">safe_lyr</span>(.x,.y)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb6-9" data-line-number="9"><span class="st">  </span><span class="kw">map</span>(<span class="st">&quot;result&quot;</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb6-10" data-line-number="10"><span class="st">  </span><span class="kw">compact</span>() <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb6-11" data-line-number="11"><span class="st">  </span><span class="kw">reduce</span>(bind_rows)</a>
+<a class="sourceLine" id="cb6-12" data-line-number="12"></a>
+<a class="sourceLine" id="cb6-13" data-line-number="13"><span class="kw">head</span>(lyrics_df, <span class="dt">n =</span> <span class="dv">3</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb6-14" data-line-number="14"><span class="st">  </span><span class="kw">kable</span>(<span class="st">&quot;html&quot;</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb6-15" data-line-number="15"><span class="st">  </span><span class="kw">kable_styling</span>(<span class="dt">bootstrap_options =</span> <span class="st">&quot;striped&quot;</span>, <span class="dt">full_width =</span> F, <span class="dt">position =</span> <span class="st">&quot;left&quot;</span>)</a></code></pre></div>
+<table class="table table-striped" style="width: auto !important; ">
+<thead>
+<tr>
+<th style="text-align:left;">
+Song
+</th>
+<th style="text-align:left;">
+Lyrics
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+12 Crazy Days Of Christmas
+</td>
+<td style="text-align:left;">
+On the 1st day of Christmas my true love gave to me A dry brown Christmas tree On the 2nd day of Christmas my true love gave to me 2 bras and a dry brown Christmas tree On the 3rd day of Christmas my true love gave to me 3 crying babies 2 bras and a dry brown Christmas tree On the 4th day of Christmas my true love gave to me 4 credit cards 3 crying babies 2 bras And a dry brown Christmas tree On the 5th day of Christmas my true love gave to me 5 EXTRA POUNDS 4 credit cards 3 crying babies 2 bras And a dry brown Christmas tree On the 6th day of Christmas my true love gave to me 6 crazy inlaws 5 EXTRA POUNDS 4 credit cards 3 crying babies 2 bras and a dry brown Christmas tree On the 7th day of Christmas my true love gave to me 7 Christmas parties 6 crazy inlaws 5 EXTRA POUNDS 4 credit cards 3 crying babies 2 bras and a dry brown Christmas tree On the 8th day of Christmas my true love gave to me 8 bags a missing 7 Christmas parties 6 crazy inlaws 5 EXTRA POUNDS 4 credit cards 3 crying babies 2 bras And a dry brown Christmas tree On the 9th day of Christmas my true love gave to me 9 broken presents 8 bags a missing 7 Christmas parties 6 crazy inlaws 5 EXTRA POUNDS 4 credit cards 3 crying babies 2 bras and a dry brown Christmas tree On the 10th day of Christmas my true love gave to me 10 cars a honking 9 broken presents 8 bags a missing 7 Christmas parties 6 crazy inlaws 5 EXTRA POUNDS 4 credit cards 3 crying babies 2 bras And a dry brown Christmas tree On the 11th day of Christmas my true love gave to me 11 shoppers fighting 10 cars a honking 9 broken presents 8 bags a missing 7 Christmas parties 6 crazy inlaws 5 EXTRA POUNDS 4 credit cards 3 crying babies 2 bras And a dry brown Christmas tree On the 12th day of Christmas my true love gave to me 12 chocolate cookies 11 shoppers fighting 10 cars a honking 9 broken presents 8 bags a missing 7 Christmas parties 6 crazy inlaws 5 EXTRA POUNDS 4 credit cards 3 crying babies 2 bras and a dry brown Christmas tree
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+A Baby Just Like You
+</td>
+<td style="text-align:left;">
+The season is upon us now A time for gifts and giving And as the year draws to its close I think about my living The Christmas time when I was young The magic and the wonder But colors dull and candles dim And dark my standing under O little Zachary shining light Youve set my soul to dreaming Youve given back my joy in life And filled me with new meaning A Savior King was born that day A baby just like you And as the Magi came with gifts I come with my gift too That peace on Earth fills up your time That brotherhood surrounds you That you may know the warmth of love And wrap it all around you Its just a wish a dream Im told From days when I was young Merry Christmas little Zachary Merry Christmas everyone Merry Christmas little Zachary Merry Christmas everyone
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+A Boy Is Born In Bethlehem
+</td>
+<td style="text-align:left;">
+A Boy is Born in Bethlehem Allelujah Allelujah And joy is in Jerusalem Allelujah Allelujah And there He lay in manger poor Allelujah Allelujah Whose rein shall last for evermore Allelujah Allelujah The ass and ox and all the heard Allelujah Allelujah Knew well that Boy to be the Lord Allelujah Allelujah And kings from out the East there were Allelujah Allelujah With gold and frankincense and myrrh Allelujah Allelujah He lived like us in form and dress Allelujah Allelujah Without our taint of wickedness Allelujah Allelujah He came our souls to purify Allelujah Allelujah And bring us safe to bliss on high Allelujah Allelujah Therefore let us with one accord Allelujah Allelujah On this His Birthday praise the Lord Allelujah Allelujah
+</td>
+</tr>
+</tbody>
+</table>
+<p>Alright there we go. A nice data frame with 200 songs with the accompanying lyrics. Now it’s time to find out how jolly these songs actually are!</p>
+</div>
+</div>
+<div id="text-analysis" class="section level1">
+<h1>Text Analysis</h1>
+<p>The first step is to create a tidy data frame of the text. This is made extremely easy with the <code>unnest_tokens()</code> function from the <code>tidytext</code> package. Additionally, anti-joining the dataframe with the <strong>stop_words</strong> data frame that comes with the package removes all of the unnecesary words.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1">tidy_lyrics &lt;-<span class="st"> </span>lyrics_df <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb7-2" data-line-number="2"><span class="st">  </span><span class="kw">group_by</span>(Song) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb7-3" data-line-number="3"><span class="st">  </span><span class="kw">unnest_tokens</span>(word, Lyrics) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb7-4" data-line-number="4"><span class="st">  </span><span class="kw">anti_join</span>(stop_words) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb7-5" data-line-number="5"><span class="st">  </span><span class="kw">ungroup</span>()</a></code></pre></div>
+<div id="top-15-words" class="section level2">
+<h2>Top 15 words</h2>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="co">#Pretty background image</span></a>
+<a class="sourceLine" id="cb8-2" data-line-number="2">ChristmasImage &lt;-<span class="st"> </span><span class="kw">image_read</span>(<span class="st">&#39;https://images.pond5.com/falling-snowflakes-and-stars-green-footage-012608589_prevstill.jpeg&#39;</span>)</a>
+<a class="sourceLine" id="cb8-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb8-4" data-line-number="4"><span class="co">#Top 15 words plot</span></a>
+<a class="sourceLine" id="cb8-5" data-line-number="5">tidy_lyrics <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb8-6" data-line-number="6"><span class="st">  </span><span class="kw">count</span>(word, <span class="dt">sort =</span> <span class="ot">TRUE</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb8-7" data-line-number="7"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">proportion =</span> n <span class="op">/</span><span class="st"> </span><span class="kw">sum</span>(n)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb8-8" data-line-number="8"><span class="st">  </span><span class="kw">arrange</span>(<span class="kw">desc</span>(proportion)) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb8-9" data-line-number="9"><span class="st">  </span><span class="kw">head</span>(<span class="dt">n=</span><span class="dv">15</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb8-10" data-line-number="10"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">word =</span> <span class="kw">str_to_title</span>(word)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb8-11" data-line-number="11"><span class="st">  </span><span class="kw">ggplot</span>()<span class="op">+</span></a>
+<a class="sourceLine" id="cb8-12" data-line-number="12"><span class="st">  </span><span class="co">#Add background image</span></a>
+<a class="sourceLine" id="cb8-13" data-line-number="13"><span class="st">  </span><span class="kw">annotation_custom</span>(<span class="kw">rasterGrob</span>(ChristmasImage, <span class="dt">height=</span> <span class="kw">unit</span>(<span class="dv">1</span>, <span class="st">&quot;npc&quot;</span>)), </a>
+<a class="sourceLine" id="cb8-14" data-line-number="14">                    <span class="op">-</span><span class="ot">Inf</span>, <span class="ot">Inf</span>, <span class="op">-</span><span class="ot">Inf</span>, <span class="ot">Inf</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb8-15" data-line-number="15"><span class="st">  </span><span class="kw">geom_col</span>(<span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">reorder</span>(word, n), <span class="dt">y =</span> n), <span class="dt">fill =</span> <span class="st">&quot;red&quot;</span>, <span class="dt">color =</span> <span class="st">&quot;black&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb8-16" data-line-number="16"><span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;Word Count&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb8-17" data-line-number="17"><span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb8-18" data-line-number="18"><span class="st">  </span><span class="kw">coord_flip</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb8-19" data-line-number="19"><span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;Top 15 words in Christmas Carols&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb8-20" data-line-number="20"><span class="st">  </span><span class="kw">scale_y_continuous</span>(<span class="dt">expand =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">0</span>))<span class="op">+</span></a>
+<a class="sourceLine" id="cb8-21" data-line-number="21"><span class="st">  </span><span class="kw">scale_x_discrete</span>(<span class="dt">expand =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">0</span>))<span class="op">+</span></a>
+<a class="sourceLine" id="cb8-22" data-line-number="22"><span class="st">  </span><span class="kw">theme_few</span>() <span class="op">+</span><span class="st">  </span></a>
+<a class="sourceLine" id="cb8-23" data-line-number="23"><span class="st">  </span><span class="kw">theme</span>(<span class="dt">plot.title =</span> <span class="kw">element_text</span>(<span class="dt">hjust =</span> <span class="fl">0.5</span>))</a></code></pre></div>
+<p><img src="/post/2017-12-22-how-jolly-are-christmas-songs-actually_files/figure-html/unnamed-chunk-2-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>Alright, our first check whether the data is actually correct. What do you think, it does seem intuitive that <em>christmas</em> is the most used word, right?</p>
+</div>
+<div id="christmas-carol-sentiments" class="section level2">
+<h2>Christmas Carol Sentiments</h2>
+<p>The <code>tidytext</code> package comes with three sets of sentiment lexicons. Each set has a list of words with a score or classifaction attached, depending on the lexicon.</p>
+<ul>
+<li><code>AFINN</code> from Finn Årup Nielsen,</li>
+<li><code>bing</code> from Bing Liu and collaborators, and</li>
+<li><code>nrc</code> from Saif Mohammad and Peter Turney.</li>
+</ul>
+<p>In this blog I’ll be using the <code>nrc</code> lexicon, which also classifies words as <em>joy</em>.</p>
+<p>So. Let’s have a look at how well represented each sentiment from the <code>nrc</code> lexicon is.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="co">#Pretty background image</span></a>
+<a class="sourceLine" id="cb9-2" data-line-number="2">ChristmasImage &lt;-<span class="st"> </span><span class="kw">image_read</span>(<span class="st">&#39;https://images.pond5.com/falling-snowflakes-and-stars-green-footage-012608589_prevstill.jpeg&#39;</span>)</a>
+<a class="sourceLine" id="cb9-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb9-4" data-line-number="4">nrc &lt;-<span class="st"> </span><span class="kw">get_sentiments</span>(<span class="st">&quot;nrc&quot;</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb9-5" data-line-number="5"><span class="st">  </span><span class="kw">filter</span>(sentiment <span class="op">!=</span><span class="st"> &quot;negative&quot;</span> <span class="op">&amp;</span><span class="st"> </span>sentiment <span class="op">!=</span><span class="st">&quot;positive&quot;</span>)</a>
+<a class="sourceLine" id="cb9-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb9-7" data-line-number="7">tidy_lyrics <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb9-8" data-line-number="8"><span class="st">  </span><span class="kw">inner_join</span>(nrc, <span class="dt">by =</span> <span class="st">&quot;word&quot;</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb9-9" data-line-number="9"><span class="st">  </span><span class="kw">group_by</span>(sentiment) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb9-10" data-line-number="10"><span class="st">  </span><span class="kw">summarize</span>(<span class="dt">count =</span> <span class="kw">n</span>()) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb9-11" data-line-number="11"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">sentiment =</span> <span class="kw">str_to_title</span>(sentiment)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb9-12" data-line-number="12"><span class="st">  </span><span class="kw">ggplot</span>()<span class="op">+</span></a>
+<a class="sourceLine" id="cb9-13" data-line-number="13"><span class="st">  </span><span class="co">#Add background image</span></a>
+<a class="sourceLine" id="cb9-14" data-line-number="14"><span class="st">  </span><span class="kw">annotation_custom</span>(<span class="kw">rasterGrob</span>(ChristmasImage, <span class="dt">height=</span> <span class="kw">unit</span>(<span class="dv">1</span>, <span class="st">&quot;npc&quot;</span>)), </a>
+<a class="sourceLine" id="cb9-15" data-line-number="15">                    <span class="op">-</span><span class="ot">Inf</span>, <span class="ot">Inf</span>, <span class="op">-</span><span class="ot">Inf</span>, <span class="ot">Inf</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb9-16" data-line-number="16"><span class="st">  </span><span class="kw">geom_col</span>(<span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">reorder</span>(sentiment, count), <span class="dt">y =</span> count), <span class="dt">fill =</span> <span class="st">&quot;red&quot;</span>, <span class="dt">color =</span> <span class="st">&quot;black&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb9-17" data-line-number="17"><span class="st">  </span><span class="kw">coord_flip</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb9-18" data-line-number="18"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x=</span><span class="st">&quot;Sentiment&quot;</span>, </a>
+<a class="sourceLine" id="cb9-19" data-line-number="19">       <span class="dt">y=</span><span class="st">&quot;Count&quot;</span>,</a>
+<a class="sourceLine" id="cb9-20" data-line-number="20">       <span class="dt">title=</span><span class="st">&quot;Sentiment of christmas carols (200 songs)&quot;</span>,</a>
+<a class="sourceLine" id="cb9-21" data-line-number="21">       <span class="dt">subtitle=</span><span class="st">&quot;Sentiments based on NRC Word-Emotion Association Lexicon&quot;</span>)<span class="op">+</span></a>
+<a class="sourceLine" id="cb9-22" data-line-number="22"><span class="st">  </span><span class="kw">theme_few</span>() <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb9-23" data-line-number="23"><span class="st">  </span><span class="kw">scale_y_continuous</span>(<span class="dt">expand =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">0</span>))<span class="op">+</span></a>
+<a class="sourceLine" id="cb9-24" data-line-number="24"><span class="st">  </span><span class="kw">scale_x_discrete</span>(<span class="dt">expand =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">0</span>))<span class="op">+</span></a>
+<a class="sourceLine" id="cb9-25" data-line-number="25"><span class="st">  </span><span class="kw">theme</span>(<span class="dt">plot.title =</span> <span class="kw">element_text</span>(<span class="dt">hjust =</span> <span class="fl">0.5</span>),</a>
+<a class="sourceLine" id="cb9-26" data-line-number="26">        <span class="dt">plot.subtitle =</span> <span class="kw">element_text</span>(<span class="dt">hjust =</span><span class="fl">0.5</span>))</a></code></pre></div>
+<p><img src="/post/2017-12-22-how-jolly-are-christmas-songs-actually_files/figure-html/unnamed-chunk-3-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>If that isn’t <em>Joyful</em>, I don’t know what is! I also really like how anticipation scores so high. We are after all, always excited for Christmas to come!</p>
+</div>
+<div id="positive-vs-negative" class="section level2">
+<h2>Positive vs Negative</h2>
+<p>Now that we have total scores, I’m still quite interested in individual song scores. Are there actually any negatively loaded christmas songs, or do the positive words always outweigh the negative? Let’s find out.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1">ChristmasImage &lt;-<span class="st"> </span><span class="kw">image_read</span>(<span class="st">&#39;http://www.falmouth-bookseller.co.uk/wp-content/uploads/dark-green-christmas-background.jpg&#39;</span>)</a>
+<a class="sourceLine" id="cb10-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb10-3" data-line-number="3">## Filter the NRC dataset by Negative and Positive only</a>
+<a class="sourceLine" id="cb10-4" data-line-number="4">nrc_pos_neg &lt;-<span class="st"> </span><span class="kw">get_sentiments</span>(<span class="st">&quot;nrc&quot;</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb10-5" data-line-number="5"><span class="st">  </span><span class="kw">filter</span>(sentiment <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;positive&quot;</span>, <span class="st">&quot;negative&quot;</span>))</a>
+<a class="sourceLine" id="cb10-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb10-7" data-line-number="7"><span class="co"># Absolute positive - negative score</span></a>
+<a class="sourceLine" id="cb10-8" data-line-number="8">pos_neg_absolute &lt;-<span class="st"> </span>tidy_lyrics <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb10-9" data-line-number="9"><span class="kw">inner_join</span>(nrc_pos_neg, <span class="dt">by =</span> <span class="st">&quot;word&quot;</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb10-10" data-line-number="10"><span class="st">  </span><span class="kw">group_by</span>(Song, sentiment) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb10-11" data-line-number="11"><span class="st">  </span><span class="kw">summarize</span>(<span class="dt">count =</span> <span class="kw">n</span>()) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb10-12" data-line-number="12"><span class="st">  </span><span class="kw">spread</span>(sentiment, count, <span class="dt">fill =</span> <span class="dv">0</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb10-13" data-line-number="13"><span class="st">  </span><span class="co"># Create new sentiment variable</span></a>
+<a class="sourceLine" id="cb10-14" data-line-number="14"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">sentiment =</span> positive <span class="op">-</span><span class="st"> </span>negative) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb10-15" data-line-number="15"><span class="st">  </span><span class="kw">ggplot</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb10-16" data-line-number="16"><span class="st">    </span><span class="kw">annotation_custom</span>(<span class="kw">rasterGrob</span>(ChristmasImage, <span class="dt">width=</span><span class="kw">unit</span>(<span class="dv">1</span>,<span class="st">&quot;npc&quot;</span>)), </a>
+<a class="sourceLine" id="cb10-17" data-line-number="17">                    <span class="op">-</span><span class="ot">Inf</span>, <span class="ot">Inf</span>, <span class="op">-</span><span class="ot">Inf</span>, <span class="ot">Inf</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb10-18" data-line-number="18"><span class="st">  </span><span class="kw">geom_col</span>(<span class="kw">aes</span>(Song, sentiment), <span class="dt">fill =</span> <span class="st">&quot;red&quot;</span>, <span class="dt">color =</span> <span class="st">&quot;black&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb10-19" data-line-number="19"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x=</span><span class="st">&quot;Individual songs&quot;</span>, </a>
+<a class="sourceLine" id="cb10-20" data-line-number="20">       <span class="dt">y=</span><span class="st">&quot;Sentiment score&quot;</span>,</a>
+<a class="sourceLine" id="cb10-21" data-line-number="21">       <span class="dt">title=</span><span class="st">&quot;Sentiment of each Christmas Carol | Positive vs Negative&quot;</span>,</a>
+<a class="sourceLine" id="cb10-22" data-line-number="22">       <span class="dt">subtitle=</span><span class="st">&quot;Sentiments based on NRC Word-Emotion Association Lexicon&quot;</span>)<span class="op">+</span></a>
+<a class="sourceLine" id="cb10-23" data-line-number="23"><span class="st">  </span><span class="kw">theme_few</span>() <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb10-24" data-line-number="24"><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.text.x =</span> <span class="kw">element_blank</span>(),</a>
+<a class="sourceLine" id="cb10-25" data-line-number="25">        <span class="dt">axis.ticks =</span> <span class="kw">element_blank</span>(),</a>
+<a class="sourceLine" id="cb10-26" data-line-number="26">        <span class="dt">plot.title =</span> <span class="kw">element_text</span>(<span class="dt">hjust =</span> <span class="fl">0.5</span>),</a>
+<a class="sourceLine" id="cb10-27" data-line-number="27">        <span class="dt">plot.subtitle =</span> <span class="kw">element_text</span>(<span class="dt">hjust =</span><span class="fl">0.5</span>))</a>
+<a class="sourceLine" id="cb10-28" data-line-number="28"></a>
+<a class="sourceLine" id="cb10-29" data-line-number="29"><span class="co"># Relative positive - (negative score) / (positive + negative)</span></a>
+<a class="sourceLine" id="cb10-30" data-line-number="30">pos_neg_relative &lt;-<span class="st"> </span>tidy_lyrics <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb10-31" data-line-number="31"><span class="st">  </span><span class="kw">inner_join</span>(nrc_pos_neg, <span class="dt">by =</span> <span class="st">&quot;word&quot;</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb10-32" data-line-number="32"><span class="st">  </span><span class="kw">group_by</span>(Song, sentiment) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb10-33" data-line-number="33"><span class="st">  </span><span class="kw">summarize</span>(<span class="dt">count =</span> <span class="kw">n</span>()) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb10-34" data-line-number="34"><span class="st">  </span><span class="kw">spread</span>(sentiment, count, <span class="dt">fill =</span> <span class="dv">0</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb10-35" data-line-number="35"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">sentiment =</span> ((positive <span class="op">-</span><span class="st"> </span>negative) <span class="op">/</span><span class="st"> </span>(positive<span class="op">+</span>negative)) <span class="op">*</span><span class="st"> </span><span class="dv">100</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb10-36" data-line-number="36"><span class="st">  </span><span class="kw">ggplot</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb10-37" data-line-number="37"><span class="st">  </span><span class="kw">annotation_custom</span>(<span class="kw">rasterGrob</span>(ChristmasImage, <span class="dt">width=</span><span class="kw">unit</span>(<span class="dv">1</span>,<span class="st">&quot;npc&quot;</span>)), </a>
+<a class="sourceLine" id="cb10-38" data-line-number="38">                    <span class="op">-</span><span class="ot">Inf</span>, <span class="ot">Inf</span>, <span class="op">-</span><span class="ot">Inf</span>, <span class="ot">Inf</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb10-39" data-line-number="39"><span class="st">  </span><span class="kw">geom_col</span>(<span class="kw">aes</span>(Song, sentiment), <span class="dt">fill =</span> <span class="st">&quot;red&quot;</span>, <span class="dt">color =</span> <span class="st">&quot;black&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb10-40" data-line-number="40"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x=</span><span class="st">&quot;Individual songs&quot;</span>, </a>
+<a class="sourceLine" id="cb10-41" data-line-number="41">       <span class="dt">y=</span><span class="st">&quot;Ratio (%)&quot;</span>,</a>
+<a class="sourceLine" id="cb10-42" data-line-number="42">       <span class="dt">title=</span><span class="st">&quot;Sentiment of each Christmas Carol | Positive vs Negative Ratio&quot;</span>,</a>
+<a class="sourceLine" id="cb10-43" data-line-number="43">       <span class="dt">subtitle=</span><span class="st">&quot;Sentiments based on NRC Word-Emotion Association Lexicon&quot;</span>)<span class="op">+</span></a>
+<a class="sourceLine" id="cb10-44" data-line-number="44"><span class="st">  </span><span class="kw">theme_few</span>() <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb10-45" data-line-number="45"><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.text.x =</span> <span class="kw">element_blank</span>(),</a>
+<a class="sourceLine" id="cb10-46" data-line-number="46">        <span class="dt">axis.ticks =</span> <span class="kw">element_blank</span>(),</a>
+<a class="sourceLine" id="cb10-47" data-line-number="47">        <span class="dt">plot.title =</span> <span class="kw">element_text</span>(<span class="dt">hjust =</span> <span class="fl">0.5</span>),</a>
+<a class="sourceLine" id="cb10-48" data-line-number="48">        <span class="dt">plot.subtitle =</span> <span class="kw">element_text</span>(<span class="dt">hjust =</span><span class="fl">0.5</span>))</a>
+<a class="sourceLine" id="cb10-49" data-line-number="49"></a>
+<a class="sourceLine" id="cb10-50" data-line-number="50"><span class="kw">grid.arrange</span>(pos_neg_absolute, pos_neg_relative, <span class="dt">nrow =</span><span class="dv">2</span> )</a></code></pre></div>
+<p><img src="/post/2017-12-22-how-jolly-are-christmas-songs-actually_files/figure-html/unnamed-chunk-4-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>I guess there are still quite a few negative christmas songs in there!</p>
+</div>
+<div id="most-positive-most-negative-christmas-carol" class="section level2">
+<h2>Most Positive &amp; Most Negative Christmas Carol</h2>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="co">#Dataframe </span></a>
+<a class="sourceLine" id="cb11-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb11-3" data-line-number="3">nrc &lt;-<span class="st"> </span><span class="kw">get_sentiments</span>(<span class="st">&quot;nrc&quot;</span>)</a>
+<a class="sourceLine" id="cb11-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb11-5" data-line-number="5">pos_neg &lt;-<span class="st"> </span>tidy_lyrics <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb11-6" data-line-number="6"><span class="st">  </span><span class="kw">inner_join</span>(nrc, <span class="dt">by =</span> <span class="st">&quot;word&quot;</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb11-7" data-line-number="7"><span class="st">  </span><span class="kw">group_by</span>(Song, sentiment) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb11-8" data-line-number="8"><span class="st">  </span><span class="kw">summarize</span>(<span class="dt">count =</span> <span class="kw">n</span>()) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb11-9" data-line-number="9"><span class="st">  </span><span class="kw">spread</span>(sentiment, count, <span class="dt">fill =</span> <span class="dv">0</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb11-10" data-line-number="10"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">sentiment =</span> (positive <span class="op">-</span><span class="st"> </span>negative),</a>
+<a class="sourceLine" id="cb11-11" data-line-number="11">         <span class="dt">prop =</span> <span class="kw">round</span>(sentiment <span class="op">/</span><span class="st"> </span>(positive <span class="op">+</span><span class="st"> </span>negative),<span class="dv">2</span>))</a>
+<a class="sourceLine" id="cb11-12" data-line-number="12"></a>
+<a class="sourceLine" id="cb11-13" data-line-number="13"></a>
+<a class="sourceLine" id="cb11-14" data-line-number="14"></a>
+<a class="sourceLine" id="cb11-15" data-line-number="15"><span class="co">#Most positive and most negative songs relative</span></a>
+<a class="sourceLine" id="cb11-16" data-line-number="16">pos_abs &lt;-<span class="st"> </span>pos_neg  <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb11-17" data-line-number="17"><span class="st">  </span><span class="kw">arrange</span>(<span class="kw">desc</span>(sentiment, prop)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb11-18" data-line-number="18"><span class="st">  </span><span class="kw">head</span>(<span class="dt">n=</span><span class="dv">1</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb11-19" data-line-number="19"><span class="st">  </span><span class="kw">select</span>(Song, sentiment, prop) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb11-20" data-line-number="20"><span class="st">  </span><span class="kw">ungroup</span>()</a>
+<a class="sourceLine" id="cb11-21" data-line-number="21"></a>
+<a class="sourceLine" id="cb11-22" data-line-number="22">neg_abs &lt;-<span class="st"> </span>pos_neg  <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb11-23" data-line-number="23"><span class="st">  </span><span class="kw">arrange</span>(sentiment, prop) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb11-24" data-line-number="24"><span class="st">  </span><span class="kw">head</span>(<span class="dt">n=</span><span class="dv">1</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb11-25" data-line-number="25"><span class="st">  </span><span class="kw">select</span>(Song, sentiment, prop) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb11-26" data-line-number="26"><span class="st">  </span><span class="kw">ungroup</span>()</a></code></pre></div>
+<p>Now for what we’ve all been waiting for. The most positive and most negative christmas carol based on the NRC sentiment analysis! Could you guess which ones they where?</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1">finaltable &lt;-<span class="st"> </span><span class="kw">rbind</span>(pos_abs, neg_abs) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb12-2" data-line-number="2"><span class="st">  </span><span class="kw">inner_join</span>(lyrics_df, <span class="dt">by =</span> <span class="st">&quot;Song&quot;</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb12-3" data-line-number="3"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">Score =</span> <span class="kw">c</span>(<span class="st">&quot;Most Positve Song&quot;</span>, <span class="st">&quot;Most Negative Song&quot;</span>)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb12-4" data-line-number="4"><span class="st">  </span><span class="kw">select</span>(Score, Song, Lyrics)</a>
+<a class="sourceLine" id="cb12-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb12-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb12-7" data-line-number="7">finaltable <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb12-8" data-line-number="8"><span class="st">  </span><span class="kw">kable</span>(<span class="st">&quot;html&quot;</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb12-9" data-line-number="9"><span class="st">  </span><span class="kw">kable_styling</span>(<span class="dt">bootstrap_options =</span> <span class="kw">c</span>(<span class="st">&quot;striped&quot;</span>, <span class="st">&quot;hover&quot;</span>, <span class="st">&quot;condensed&quot;</span>, <span class="st">&quot;bordered&quot;</span>), </a>
+<a class="sourceLine" id="cb12-10" data-line-number="10">                <span class="dt">full_width =</span> F, <span class="dt">position =</span> <span class="st">&quot;left&quot;</span>)</a></code></pre></div>
+<table class="table table-striped table-hover table-condensed table-bordered" style="width: auto !important; ">
+<thead>
+<tr>
+<th style="text-align:left;">
+Score
+</th>
+<th style="text-align:left;">
+Song
+</th>
+<th style="text-align:left;">
+Lyrics
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Most Positve Song
+</td>
+<td style="text-align:left;">
+Beautiful Star Of Bethlehem
+</td>
+<td style="text-align:left;">
+Beautiful Star of Bethlehem Shining afar through shadows dim Giving the light to those who long have gone Guiding the Wise Men on their way Unto the place where Jesus lay Beautiful Star of Bethlehem shine on Oh Beautiful Star Of Bethlehem Shine upon us until the glory dawns Give us the light to light the way Unto the land of perfect day Beautiful Star of Bethlehem shine on Beautiful Star the hope of light Guiding the pilgrims through the night Over the mountains til the break of dawn Into the light of perfect day It will give out a lovely ray Beautiful Star of Bethlehem shine on Oh Beautiful Star Of Bethlehem Shine upon us until the glory dawns Give us the light to light the way Unto the land of perfect day Beautiful Star of Bethlehem shine on Beautiful Star the hope of rest For the redeemed the good and the blessed Yonder in glory when the crown is won Jesus is now that star divine Brighter and brighter He will shine Beautiful Star of Bethlehem shine on Oh Beautiful Star Of Bethlehem Shine upon us until the glory dawns Give us the light to light the way Unto the land of perfect day Beautiful Star of Bethlehem shine on
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Most Negative Song
+</td>
+<td style="text-align:left;">
+Hard Candy Christmas
+</td>
+<td style="text-align:left;">
+Hey maybe Ill dye my hair Maybe Ill move somewhere Maybe Ill get a car Maybe Ill drive so far Theyll all lose track Me Ill bounce right back Maybe Ill sleep real late Maybe Ill lose some weight Maybe Ill clear my junk Maybe Ill just get drunk on apple wine Me Ill be just Fine and Dandy Lord its like a hard candy christmas Im barely getting through tomorrow But still I wont let Sorrow bring me way down Ill be fine and dandy Lord its like a hard candy christmas Im barely getting through tomorrow But still I wont let Sorrow get me way down Hey maybe Ill learn to sew Maybe Ill just lie low Maybe Ill hit the bars Maybe Ill count the stars until dawn Me I will go on Maybe Ill settle down Maybe Ill just leave town Maybe Ill have some fun Maybe Ill meet someone And make him mine Me Ill be just Fine and dandy Lord its like a hard candy christmas Im barely getting through tomorrow But still I wont let Sorrow bring me way down Ill be fine and dandy Lord its like a hard candy christmas Im barely getting through tomorrow But still I wont let Sorrow bring me way down Ill be fine and dandy Lord its like a hard candy christmas Im barely getting through tomorrow But still I wont let Sorrow bring me way down Cause Ill be fine Oh Ill be fine
+</td>
+</tr>
+</tbody>
+</table>
+<p>Ah. That does make sense. <strong>Beautiful Star of Bethlehem</strong> is probably skewed due to the title being sang a lot. <strong>Hard Candy Christmas</strong> is indeed quite negatively loaded.</p>
+<p>I hope you enjoyed reading about the sentiments of these christmas carols as much as I had performing the analysis!</p>
+</div>
+</div>
+
+              
+            </div>
+          </div>
+          <div id="post-footer" class="post-footer main-content-wrap">
+            
+              
+                
+                
+                  <div class="post-footer-tags">
+                    <span class="text-color-light text-small">TAGGED IN</span><br/>
+                    
+  <a class="tag tag--primary tag--small" href="/tags/data-analysis/">Data Analysis</a>
+
+  <a class="tag tag--primary tag--small" href="/tags/data-visualisation/">Data Visualisation</a>
+
+  <a class="tag tag--primary tag--small" href="/tags/web-mining/">Web Mining</a>
+
+  <a class="tag tag--primary tag--small" href="/tags/text-mining/">Text Mining</a>
+
+  <a class="tag tag--primary tag--small" href="/tags/web-scraping/">Web Scraping</a>
+
+  <a class="tag tag--primary tag--small" href="/tags/christmas/">Christmas</a>
+
+                  </div>
+                
+              
+            
+            
+  <div class="post-actions-wrap">
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="/2017/12/reading-excel-files-tips-tricks/" data-tooltip="Reading Excel &amp; SPSS Files in R |  Tips &amp; Tricks">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="/2018/02/predictive-modeling-regression-summary/" data-tooltip="Predictive Modeling - Regression Summary">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=/2017/12/how-jolly-are-christmas-songs-actually/">
+              <i class="fa fa-facebook-official"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=/2017/12/how-jolly-are-christmas-songs-actually/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=/2017/12/how-jolly-are-christmas-songs-actually/">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        
+      
+      
+        <li class="post-action">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+            <i class="fa fa-comment-o"></i>
+          </a>
+        </li>
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+
+            
+              
+                <div id="disqus_thread">
+  <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+              
+            
+          </div>
+        </article>
+        <footer id="footer" class="main-content-wrap">
+  <span class="copyrights">
+    &copy; 2018 Stefan Musch. All Rights Reserved
+  </span>
+</footer>
+
+      </div>
+      <div id="bottom-bar" class="post-bottom-bar" data-behavior="4">
+        
+  <div class="post-actions-wrap">
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="/2017/12/reading-excel-files-tips-tricks/" data-tooltip="Reading Excel &amp; SPSS Files in R |  Tips &amp; Tricks">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="/2018/02/predictive-modeling-regression-summary/" data-tooltip="Predictive Modeling - Regression Summary">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=/2017/12/how-jolly-are-christmas-songs-actually/">
+              <i class="fa fa-facebook-official"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=/2017/12/how-jolly-are-christmas-songs-actually/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=/2017/12/how-jolly-are-christmas-songs-actually/">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        
+      
+      
+        <li class="post-action">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+            <i class="fa fa-comment-o"></i>
+          </a>
+        </li>
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+
+      </div>
+      <div id="share-options-bar" class="share-options-bar" data-behavior="4">
+  <i id="btn-close-shareoptions" class="fa fa-close"></i>
+  <ul class="share-options">
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=%2F2017%2F12%2Fhow-jolly-are-christmas-songs-actually%2F">
+          <i class="fa fa-facebook-official"></i><span>Share on Facebook</span>
+        </a>
+      </li>
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=%2F2017%2F12%2Fhow-jolly-are-christmas-songs-actually%2F">
+          <i class="fa fa-twitter"></i><span>Share on Twitter</span>
+        </a>
+      </li>
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=%2F2017%2F12%2Fhow-jolly-are-christmas-songs-actually%2F">
+          <i class="fa fa-google-plus"></i><span>Share on Google&#43;</span>
+        </a>
+      </li>
+    
+  </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+    </div>
+    
+    <div id="about">
+  <div id="about-card">
+    <div id="about-btn-close">
+      <i class="fa fa-remove"></i>
+    </div>
+    
+      <img id="about-card-picture" src="http://res.cloudinary.com/stefanmusch/image/upload/c_scale,w_725/v1534148918/thumbnail/headshot2.jpg" alt="Author&#39;s picture" />
+    
+    <h4 id="about-card-name">Stefan Musch</h4>
+    
+      <div id="about-card-bio">Data Scientist | Music Lover | Sports &amp; Adventure Enthousiast <br> <br> This blog is the place where I share my work, projects, frustrations and discoveries. I designed it to be entertaining to some, and educative to others. Sometimes hopefully both. <br><br>Enjoy reading, and feel free to leave a comment!</div>
+    
+    
+      <div id="about-card-job">
+        <i class="fa fa-briefcase"></i>
+        <br/>
+        Data Scientist
+      </div>
+    
+    
+      <div id="about-card-location">
+        <i class="fa fa-map-marker"></i>
+        <br/>
+        Netherlands
+      </div>
+    
+  </div>
+</div>
+
+    <div id="algolia-search-modal" class="modal-container">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="close-button"><i class="fa fa-close"></i></span>
+      <a href="https://algolia.com" target="_blank" rel="noopener" class="searchby-algolia text-color-light link-unstyled">
+        <span class="searchby-algolia-text text-color-light text-small">by</span>
+        <img class="searchby-algolia-logo" src="https://www.algolia.com/static_assets/images/press/downloads/algolia-light.svg">
+      </a>
+      <i class="search-icon fa fa-search"></i>
+      <form id="algolia-search-form">
+        <input type="text" id="algolia-search-input" name="search"
+          class="form-control input--large search-input" placeholder="Search" />
+      </form>
+    </div>
+    <div class="modal-body">
+      <div class="no-result text-color-light text-center">no post found</div>
+      <div class="results">
+        
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="/2018/03/an-awesome-spotify-playlist-analysis/">
+                <h3 class="media-heading">An Awesome Spotify Playlist Analysis</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Mar 3, 2018
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">a.sourceLine { display: inline-block; line-height: 1.25; }a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }a.sourceLine:empty { height: 1.2em; position: absolute; }.sourceCode { overflow: visible; }code.sourceCode { white-space: pre; position: relative; }div.sourceCode { margin: 1em 0; }pre.sourceCode { margin: 0; }@media screen {div.sourceCode { overflow: auto; }}@media print {code.sourceCode { white-space: pre-wrap; }a.sourceLine { text-indent: -1em; padding-left: 1em; }}pre.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="/2018/02/creating-your-own-beautiful-holiday-poster/">
+                <h3 class="media-heading">Creating your own beautiful holiday poster!</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Feb 2, 2018
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">a.sourceLine { display: inline-block; line-height: 1.25; }a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }a.sourceLine:empty { height: 1.2em; position: absolute; }.sourceCode { overflow: visible; }code.sourceCode { white-space: pre; position: relative; }div.sourceCode { margin: 1em 0; }pre.sourceCode { margin: 0; }@media screen {div.sourceCode { overflow: auto; }}@media print {code.sourceCode { white-space: pre-wrap; }a.sourceLine { text-indent: -1em; padding-left: 1em; }}pre.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="/2018/02/predictive-modeling-regression-summary/">
+                <h3 class="media-heading">Predictive Modeling - Regression Summary</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Feb 2, 2018
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">a.sourceLine { display: inline-block; line-height: 1.25; }a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }a.sourceLine:empty { height: 1.2em; position: absolute; }.sourceCode { overflow: visible; }code.sourceCode { white-space: pre; position: relative; }div.sourceCode { margin: 1em 0; }pre.sourceCode { margin: 0; }@media screen {div.sourceCode { overflow: auto; }}@media print {code.sourceCode { white-space: pre-wrap; }a.sourceLine { text-indent: -1em; padding-left: 1em; }}pre.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="/2017/12/how-jolly-are-christmas-songs-actually/">
+                <h3 class="media-heading">How Jolly are Christmas Songs Actually?</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Dec 12, 2017
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">a.sourceLine { display: inline-block; line-height: 1.25; }a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }a.sourceLine:empty { height: 1.2em; position: absolute; }.sourceCode { overflow: visible; }code.sourceCode { white-space: pre; position: relative; }div.sourceCode { margin: 1em 0; }pre.sourceCode { margin: 0; }@media screen {div.sourceCode { overflow: auto; }}@media print {code.sourceCode { white-space: pre-wrap; }a.sourceLine { text-indent: -1em; padding-left: 1em; }}pre.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="/2017/12/reading-excel-files-tips-tricks/">
+                <h3 class="media-heading">Reading Excel &amp; SPSS Files in R |  Tips &amp; Tricks</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Dec 12, 2017
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">a.sourceLine { display: inline-block; line-height: 1.25; }a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }a.sourceLine:empty { height: 1.2em; position: absolute; }.sourceCode { overflow: visible; }code.sourceCode { white-space: pre; position: relative; }div.sourceCode { margin: 1em 0; }pre.sourceCode { margin: 0; }@media screen {div.sourceCode { overflow: auto; }}@media print {code.sourceCode { white-space: pre-wrap; }a.sourceLine { text-indent: -1em; padding-left: 1em; }}pre.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="/2017/06/my-tracked-locations/">
+                <h3 class="media-heading">My Tracked Locations</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jun 6, 2017
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">a.sourceLine { display: inline-block; line-height: 1.25; }a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }a.sourceLine:empty { height: 1.2em; position: absolute; }.sourceCode { overflow: visible; }code.sourceCode { white-space: pre; position: relative; }div.sourceCode { margin: 1em 0; }pre.sourceCode { margin: 0; }@media screen {div.sourceCode { overflow: auto; }}@media print {code.sourceCode { white-space: pre-wrap; }a.sourceLine { text-indent: -1em; padding-left: 1em; }}pre.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="/2017/06/an-r-blog-introduction/">
+                <h3 class="media-heading">My R Blog Introduction!</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jun 6, 2017
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">When you’ve written the same code 3 times, write a function
+When you’ve given the same in-person advice 3 times, write a blog post
+&mdash; David Robinson (@drob) November 9, 2017  My StoryI started learning R for real in the summer of 2017, after graduation for my MSc in Marketing Management. My graduation thesis was all about Recommendation Systems and their impact. I wrote my thesis for a festival application called Appic.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+      </div>
+    </div>
+    <div class="modal-footer">
+      <p class="results-count text-medium"
+         data-message-zero="no post found"
+         data-message-one="1 post found"
+         data-message-other="{n} posts found">
+         7 posts found
+      </p>
+    </div>
+  </div>
+</div>
+    
+  
+    
+    <div id="cover" style="background-image:url('http://res.cloudinary.com/stefanmusch/image/upload/v1513248424/cover/Cover3.jpg');"></div>
+  
+
+
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.3/prism.min.js" integrity="sha256-haEv2ilTk2sXcJaGbkTtErRCHy/qGt3g+bGbgPf5OTY=" crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.7/js/jquery.fancybox.min.js" integrity="sha256-GEAnjcTqVP+vBp3SSc8bEDQqvWAZMiHyUSIorrWwH50=" crossorigin="anonymous"></script>
+
+
+<script src="/js/script-qi9wbxp2ya2j6p7wx1i6tgavftewndznf4v0hy2gvivk1rxgc3lm7njqb6bz.min.js"></script>
+
+
+
+
+  
+    
+      <script>
+        var disqus_config = function () {
+          this.page.url = '\/2017\/12\/how-jolly-are-christmas-songs-actually\/';
+          
+            this.page.identifier = '\/2017\/12\/how-jolly-are-christmas-songs-actually\/'
+          
+        };
+        (function() {
+          
+          
+          if (window.location.hostname == "localhost") {
+            return;
+          }
+          var d = document, s = d.createElement('script');
+          var disqus_shortname = 'https-stefanmusch-netlify-com';
+          s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+          s.setAttribute('data-timestamp', +new Date());
+          (d.head || d.body).appendChild(s);
+        })();
+      </script>
+    
+  
+
+
+
+    
+  </body>
+</html>
+
