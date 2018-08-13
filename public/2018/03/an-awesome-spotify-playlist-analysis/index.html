@@ -358,8 +358,8 @@ Instead of being a tape with 13 songs however, we’ve added roughly 1.500 songs
 <h1>Let’s get started.</h1>
 <pre><code>##    Rspotify    spotifyr   tidyverse       knitr  kableExtra    ggthemes 
 ##        TRUE        TRUE        TRUE        TRUE        TRUE        TRUE 
-## highcharter   htmltools widgetframe     cluster  factoextra 
-##        TRUE        TRUE        TRUE        TRUE        TRUE</code></pre>
+## highcharter   htmltools widgetframe     cluster  factoextra        here 
+##        TRUE        TRUE        TRUE        TRUE        TRUE        TRUE</code></pre>
 <p>First, I’ll have to extract the audio features of each song in the playlist. This is where the <code>spotifyr</code> package helps me out. I have removed user names or ID’s for privacy reasons.</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="co">#tracks &lt;- get_playlist_audio_features(&quot;xxxxxxxxxx&quot;, playlist_uris = &quot;xxxxxxxxxxxxxxx&quot;)</span></a>
 <a class="sourceLine" id="cb2-2" data-line-number="2"></a>
@@ -760,7 +760,7 @@ NA
 <p>Perfect! Almost. I’m missing the column <code>Added By</code>, which does show in our spotify playlist.
 Unfortunately, when I simply tried to copy and paste our complete track overview of the playlist, each record would give me the spotify link to the song (e.g. <code>https://open.spotify.com/track/17g3YBfU8QfYtkgZGI8tTT</code>) rather than the actual data. A quick google search for “Export Spotify Playlists” got me to a JavaScript app called <a href="https://rawgit.com/watsonbox/exportify/master/exportify.html"><code>Exportify</code></a>. This worked like a charm, and provided me with a downloadable <code>.csv</code> file.</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="co">#Import Exportify raw .csv data</span></a>
-<a class="sourceLine" id="cb3-2" data-line-number="2">mixtape_raw &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;../../data/Spotify/awesome_mixtape_1.csv&quot;</span>)</a></code></pre></div>
+<a class="sourceLine" id="cb3-2" data-line-number="2">mixtape_raw &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="kw">here</span>(<span class="st">&quot;static&quot;</span>, <span class="st">&quot;data&quot;</span>, <span class="st">&quot;Spotify/awesome_mixtape_1.csv&quot;</span>))</a></code></pre></div>
 <p>This .csv file did include the <code>Added By</code> column, which we can add to the tracks dataset after some data transformations.</p>
 <table class="table table-hover table-striped table-responsive table-condensed" style="">
 <thead>
@@ -1812,6 +1812,23 @@ In <code>Cluster 5</code> we see only one live performed song, yet still one mor
           <div class="media">
             
             <div class="media-body">
+              <a class="link-unstyled" href="/2017/11/dutch-housing-situation-rotterdam/">
+                <h3 class="media-heading">Dutch Housing Situation - Rotterdam</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Nov 11, 2017
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">a.sourceLine { display: inline-block; line-height: 1.25; }a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }a.sourceLine:empty { height: 1.2em; position: absolute; }.sourceCode { overflow: visible; }code.sourceCode { white-space: pre; position: relative; }div.sourceCode { margin: 1em 0; }pre.sourceCode { margin: 0; }@media screen {div.sourceCode { overflow: auto; }}@media print {code.sourceCode { white-space: pre-wrap; }a.sourceLine { text-indent: -1em; padding-left: 1em; }}pre.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
               <a class="link-unstyled" href="/2017/06/my-tracked-locations/">
                 <h3 class="media-heading">My Tracked Locations</h3>
               </a>
@@ -1852,7 +1869,7 @@ When you’ve given the same in-person advice 3 times, write a blog post
          data-message-zero="no post found"
          data-message-one="1 post found"
          data-message-other="{n} posts found">
-         7 posts found
+         8 posts found
       </p>
     </div>
   </div>

@@ -44,7 +44,8 @@ ipak <- function(pkg) {
 
 
 packages <- c("Rspotify", "spotifyr", "tidyverse", "knitr", "kableExtra", 
-              "ggthemes", "highcharter","htmltools", "widgetframe", "cluster", "factoextra")
+              "ggthemes", "highcharter","htmltools", "widgetframe", "cluster", 
+              "factoextra", "here")
 
 ipak(packages)
 
@@ -120,7 +121,7 @@ Unfortunately, when I simply tried to copy and paste our complete track overview
 
 ```{r, echo = T}
 #Import Exportify raw .csv data
-mixtape_raw <- read_csv("../../data/Spotify/awesome_mixtape_1.csv")
+mixtape_raw <- read_csv(here("static", "data", "Spotify/awesome_mixtape_1.csv"))
 ```
  
 This .csv file did include the `Added By` column, which we can add to the tracks dataset after some data transformations.

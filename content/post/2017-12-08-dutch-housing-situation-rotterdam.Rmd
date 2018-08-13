@@ -1,0 +1,364 @@
+---
+title: Dutch Housing Situation - Rotterdam
+author: Stefan Musch
+date: '2017-11-01'
+output:
+  blogdown::html_page:
+    toc: true
+    highlight: "tango"
+slug: dutch-housing-situation-rotterdam
+categories:
+  - Professional Projects
+  - R
+tags:
+  - Data Analysis
+  - Data Visualisation
+  - Highcharter
+  - R Markdown
+  - Rotterdam
+  - Netherlands
+  - Housing Prices
+  - Jaap.nl
+thumbnailImage: "http://res.cloudinary.com/stefanmusch/image/upload/c_fill,g_east,h_300,w_300/v1513248627/thumbnail/housing-market_uywlvk.jpg"
+coverImage: "http://res.cloudinary.com/stefanmusch/image/upload/c_scale,h_1020,w_1980/v1513248427/cover/Houses.jpg"
+coverSize: partial
+description: "As a Data Science Trainee for the municipality of Rotterdam, I was tasked to find out-of-the-box data sources to measure economic growth within the city. Naturally, I turned towards online estate agents."
+---
+
+As a Data Science Trainee for the municipality of Rotterdam, I was tasked to find out-of-the-box data sources to measure economic growth within the city. Naturally, I turned towards online estate agents. Funda and Jaap.nl are the biggest players in the Netherlands. Fortunately for me, Jaap.nl makes aggregated data for each municipality publicly available. This document is an analysis of this datasource.
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(cache = TRUE, echo = TRUE, include = TRUE,warning = FALSE,message = FALSE, fig.align = "center", fig.width = 10)
+```
+
+# Loading Libraries
+```{r loading_libraries}
+##Loading Libraries
+library(data.table)
+library(readxl)
+library(dplyr)
+library(tidyr)
+library(reshape2)
+library(sp)
+library(rgdal)
+library(ggplot2)
+library(leaflet)
+library(scales)
+library(ggthemes)
+library(viridis)
+library(highcharter)
+library(widgetframe)
+library(here)
+```
+
+# Data Wrangling
+
+In order to get the data in the right format I used a combination of the base R function `Melt()` and `dplyr` syntax and piping.
+```{r data cleaning, cache = TRUE}
+
+Gem <- read_xls(here("static", "data", "Woningmarkt/Gemeenten.xls"), sheet = 1)
+Med <- read_xls(here("static", "data", "Woningmarkt/Gemeenten.xls"), sheet =2)
+Gem_m2 <- read_xls(here("static", "data", "Woningmarkt/Gemeenten.xls"), sheet =3)
+Aanbod <- read_xls(here("static", "data","Woningmarkt/Gemeenten.xls"), sheet =4)
+
+melt_Gem <- Gem %>% melt() %>% rename(Gemiddeld = value)
+melt_Gem_m2 <- Gem_m2 %>% melt() %>% rename(Gemiddeld_m2 = value)
+melt_Med <- Med %>% melt() %>% rename(Mediaan = value)
+melt_Aanbod <- Aanbod %>% melt() %>% rename(Aanbod = value)
+
+df <- melt_Gem %>% left_join(melt_Gem_m2, by = c("Gemeente", "variable")) %>%
+  left_join(melt_Med, by =c("Gemeente", "variable")) %>%
+  left_join(melt_Aanbod, by =c("Gemeente", "variable")) %>%
+  mutate(Datum = variable) %>%
+  filter(Gemiddeld > 0 & Gemiddeld <1000000) #Remove outliers
+
+
+```
+
+
+# House Prices over time - Netherlands
+
+The code below generates a color coded map of average house prices in the Netherlands for each municipality, plotted on top of a map of the Netherlands. 
+```{r echo = TRUE, eval = FALSE}
+###MAP Section###
+NLD <- readRDS("/Gemeente Rotterdam/Datasets/Woningmarkt/NLD_adm2.rds")
+NLD_fixed <- subset(NLD, !NLD$NAME_1  %in% c("Zeeuwse meren", "IJsselmeer"))
+NLD_fixed <- fortify(NLD_fixed)
+
+Gem <- Gem %>% rename(gemeente = Gemeente)
+Gem_m2 <- Gem_m2 %>% rename(gemeente = Gemeente)
+
+names_and_numbers <- data_frame(id=rownames(NLD@data),
+                                gemeente=NLD@data$NAME_2) %>% 
+  left_join(Gem_m2, by = "gemeente")
+
+final_map <- left_join(NLD_fixed, names_and_numbers, by = "id")
+
+
+maanden <- as.data.frame(c(colnames(final_map)), stringsAsFactors = FALSE)
+maanden2 <- maanden %>%
+  tail(-8)
+
+
+## Create function to plot one map
+plots <- function (j){
+  final_map %>%
+    ggplot(aes_string(x = "long", y = "lat", group = "group", fill = j)) + 
+    geom_polygon() + 
+    geom_path(color = 'black') + 
+    scale_fill_viridis(option="plasma",
+                       name = "Gemiddelde woningsprijs per m2(in €)",
+                       labels = comma,
+                       limits = c(0, 6000),
+                       direction = -1)+
+    coord_map('albers', lat0=30, lat1=40) + 
+    theme_map()+
+    ggtitle(paste0("Huizen Markt in Netherlands(o.b.v. JAAP.nl)  - ", j)) + 
+    theme(plot.title = element_text(hjust = 0.5),
+          legend.position = "right")
+}
+```
+  
+I called the function above for each different month of the data to create an image for each month. After I created all of the seperate images, I turned towards the image manipulation tool  [ImageMagick ](https://www.imagemagick.org/script/index.php) in order to create the .gif as seen below
+
+```{r echo = TRUE, eval = FALSE}
+## Plot a map for each month value to create a gif.
+setwd("Gemeente Rotterdam/Datasets/Woningmarkt/images/Gem_M2")
+for (i in 1:nrow(maanden2)) {
+  j <- maanden2[i,]
+  plotmap <- plots(j)
+  name <- paste("Gem_M2",sprintf("%03.f", i),"_", j,".png", sep="")
+  png(name, width=800, height=600)
+  print(plotmap)
+  dev.off()
+}
+
+```
+
+
+</center>
+
+<center>
+![Housing Situation Netherlands over time](http://res.cloudinary.com/stefanmusch/image/upload/v1513248431/Gemiddelde.gif)
+
+</center>
+  
+## Netherlands
+
+Since I'm in love with the Highcharts JavaScript Library I visualised the time series. The housing market in the Netherlands saw a huge decline house prices and a huge growth in the number of available houses from 2012 to 2016. At the start of 2016, banks started to offer extremely low mortgage rates, which caused the population to collectively invest in properties all around the countries. House prices roared upwards while the offer of available houses declined again. This is causing massive uproar, especially in larger municipalities - where house prices are through the roof. Rotterdam in specific benefited greatly and finally caught up to the national average of house prices. 
+
+```{r Netherlands, fig.height = 7, fig.width = 8, cache = TRUE}
+
+TS_gem <- df %>%
+  group_by(Datum) %>%
+  summarise(Gemiddelde = round(mean(Gemiddeld), 0))%>%
+  select(-Datum) %>%
+  ts(start = c(2008, 9), frequency = 12) 
+
+TS_med <- df %>%
+  group_by(Datum) %>%
+  summarise(Mediaan = round(mean(Mediaan), 0))%>%
+  select(-Datum) %>%
+  ts(start = c(2008, 9), frequency = 12) 
+
+TS_gemm2 <- df %>%
+  filter(Gemiddeld_m2 > 0 & Gemiddeld_m2 < 5000) %>%
+  group_by(Datum) %>%
+  summarise(`Gemiddelde per m2` = round(mean(Gemiddeld_m2), 0))%>%
+  select(-Datum) %>%
+  ts(start = c(2008, 9), frequency = 12) 
+
+TS_Aanbod <- df %>%
+  filter(Aanbod > 0) %>%
+  group_by(Datum) %>%
+  summarise(Aanbod = round(mean(Aanbod), 0))%>%
+  select(-Datum) %>%
+  ts(start = c(2008, 9), frequency = 12) 
+
+p1 <- highchart() %>%
+  hc_add_series_ts(TS_gem, 
+                name = "Average House Price", color = "orangered")%>%
+  hc_add_series_ts(TS_med,
+                   name = "Median House Price", color = "orange") %>%
+  hc_title(text="Evaluation Housing Situation in the Netherlands") %>%
+  hc_yAxis(title = list(text = "Amount in Euro's"))%>%
+  hc_subtitle(text = "Based on JAAP.nl data") %>%
+    hc_legend(align = "right",
+            verticalAlign = "middle",
+                 layout = "vertical")
+
+
+p2 <- highchart() %>%
+  hc_add_series_ts(TS_gemm2,
+                   name = "Aver Price m2", color = "orange") %>%
+  hc_title(text="Evaluation Housing Situation in the Netherlands") %>%
+  hc_subtitle(text = "Based on JAAP.nl data") %>%
+  hc_yAxis(title = list(text = "Amount in Euro's"))%>%
+    hc_legend(align = "right",
+            verticalAlign = "middle",
+                 layout = "vertical")
+
+p3 <- highchart() %>%
+  hc_add_series_ts(TS_Aanbod,
+                   name = "# For Sale", color = "orange") %>%
+  hc_title(text="Evaluation Housing Situation in the Netherlands") %>%
+  hc_subtitle(text = "Based on JAAP.nl Data") %>%
+  hc_yAxis(title = list(text = "Amount"))%>%
+    hc_legend(align = "right",
+            verticalAlign = "middle",
+                 layout = "vertical")
+
+
+```
+
+```{r echo = FALSE}
+frameWidget(p1)
+```
+<br>
+  
+```{r echo = FALSE}
+frameWidget(p2)
+```
+<br>
+  
+```{r echo = FALSE}
+frameWidget(p3)
+```
+
+## Rotterdam
+
+```{r Rotterdam, fig.height = 7, fig.width = 10, cache = TRUE}
+
+TS_gem_Rot <- df %>%
+  filter(Gemeente == "Rotterdam") %>%
+  group_by(Datum) %>%
+  summarise(Gemiddelde = round(mean(Gemiddeld), 0))%>%
+  select(-Datum) %>%
+  ts(start = c(2008, 9), frequency = 12) 
+
+TS_med_Rot <- df %>%
+  filter(Gemeente == "Rotterdam") %>%
+  group_by(Datum) %>%
+  summarise(Mediaan = round(mean(Mediaan), 0))%>%
+  select(-Datum) %>%
+  ts(start = c(2008, 9), frequency = 12) 
+
+TS_gemm2_Rot <- df %>%
+  filter(Gemeente == "Rotterdam") %>%
+  group_by(Datum) %>%
+  summarise(`Gemiddelde per m2` = round(mean(Gemiddeld_m2), 0))%>%
+  select(-Datum) %>%
+  ts(start = c(2008, 9), frequency = 12) 
+
+TS_Aanbod_Rot <- df %>%
+  filter(Gemeente == "Rotterdam") %>%
+  group_by(Datum) %>%
+  summarise(`Aanbod` = round(mean(Aanbod), 0))%>%
+  select(-Datum) %>%
+  ts(start = c(2008, 9), frequency = 12) 
+
+p4 <- highchart() %>%
+  hc_add_series_ts(TS_gem_Rot, 
+                name = "Average House Price", color = "lightgreen")%>%
+  hc_add_series_ts(TS_med_Rot,
+                   name = "Median House Price", color = "darkgreen") %>%
+  hc_title(text="Evaluation Housing Situation in Rotterdam") %>%
+  hc_yAxis(title = list(text = "Amount in Euro's"))%>%
+  hc_subtitle(text = "Based on Jaap.nl data")%>%
+    hc_legend(align = "right",
+            verticalAlign = "middle",
+                 layout = "vertical")
+
+p5 <- highchart() %>%
+  hc_add_series_ts(TS_gemm2_Rot,
+                   name = "Average price m2", color = "green") %>%
+  hc_title(text="Evaluation Housing Situation in Rotterdam") %>%
+  hc_subtitle(text = "Based on Jaap.nl data") %>%
+  hc_yAxis(title = list(text = "Amount in Euro's"))%>%
+    hc_legend(align = "right",
+            verticalAlign = "middle",
+                 layout = "vertical")
+
+p6 <- highchart() %>%
+  hc_add_series_ts(TS_Aanbod_Rot,
+                   name = "# of Houses for Sale", color = "green") %>%
+  hc_title(text="Evaluation Housing Situation in Rotterdam") %>%
+  hc_subtitle(text = "Based on Jaap.nl data") %>%
+  hc_yAxis(title = list(text = "Amount"))%>%
+    hc_legend(align = "right",
+            verticalAlign = "middle",
+                 layout = "vertical")
+
+
+```
+
+```{r echo = FALSE}
+frameWidget(p4)
+```
+<br>
+  
+```{r echo = FALSE}
+frameWidget(p5)
+```
+<br>
+```{r echo = FALSE}
+frameWidget(p6)
+```
+
+## Rotterdam Vs. Netherlands
+```{r Rotterdam vs Netherlands, fig.height = 7, fig.width = 10, cache = TRUE}
+
+p7 <- highchart() %>%
+  hc_add_series_ts(TS_gem_Rot, 
+                name = "Average House Price | Rotterdam", color = "darkgreen")%>%
+  hc_add_series_ts(TS_med_Rot,
+                   name = "Median House Price | Rotterdam", color = "lightgreen") %>%
+  hc_add_series_ts(TS_gem,
+                   name = "Average House Price | Netherlands", color = "orangered") %>%
+    hc_add_series_ts(TS_med, 
+                name = "Median House Price | Netherlands", color = "orange")%>%
+  hc_title(text="Evaluation Housing Situation | Netherlands vs. Rotterdam") %>%
+  hc_yAxis(title = list(text = "Amount in Euro's"))%>%
+  hc_subtitle(text = "Based on Jaap.nl data") %>%
+    hc_legend(align = "right",
+            verticalAlign = "middle",
+                 layout = "vertical")
+
+p8 <- highchart() %>%
+  hc_add_series_ts(TS_gemm2_Rot,
+                   name = "Average Price m2 | Rotterdam", color = "green") %>%
+    hc_add_series_ts(TS_gemm2,
+                   name = "Average Price  m2 | Netherlands", color = "orange") %>%
+  hc_title(text="Evaluation Housing Situation | Netherlands vs. Rotterdam") %>%
+  hc_subtitle(text = "Based on Jaap.nl data") %>%
+  hc_yAxis(title = list(text = "Amount in Euro's"))%>%
+    hc_legend(align = "right",
+            verticalAlign = "middle",
+                 layout = "vertical")
+
+p9 <- highchart() %>%
+  hc_add_series_ts(TS_Aanbod_Rot,
+                   name = "# Of Houses for Sale | Rotterdam", color = "green") %>%
+    hc_add_series_ts(TS_Aanbod,
+                   name = "# Of Houses for Sale | Netherlands", color = "orange") %>%
+  hc_title(text="Evaluation Housig Situation | Netherlands vs. Rotterdam") %>%
+  hc_subtitle(text = "Based on Jaap.nl data") %>%
+  hc_yAxis(title = list(text = "Amount"))%>%
+  hc_legend(align = "right",
+            verticalAlign = "middle",
+            layout = "vertical")
+
+
+```
+
+```{r echo = FALSE}
+frameWidget(p7)
+```
+<br>
+```{r echo = FALSE}
+frameWidget(p8)
+```
+<br>
+```{r echo = FALSE}
+frameWidget(p9)
+```

@@ -385,20 +385,20 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <a class="sourceLine" id="cb1-8" data-line-number="8"></a>
 <a class="sourceLine" id="cb1-9" data-line-number="9"></a>
 <a class="sourceLine" id="cb1-10" data-line-number="10">packages &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;ggplot2&quot;</span>, <span class="st">&quot;jsonlite&quot;</span>, <span class="st">&quot;dplyr&quot;</span>, <span class="st">&quot;ggmap&quot;</span>, <span class="st">&quot;leaflet&quot;</span>, <span class="st">&quot;leaflet.extras&quot;</span>, <span class="st">&quot;rmarkdown&quot;</span></a>
-<a class="sourceLine" id="cb1-11" data-line-number="11">              ,<span class="st">&quot;widgetframe&quot;</span>, <span class="st">&quot;gridExtra&quot;</span>)</a>
+<a class="sourceLine" id="cb1-11" data-line-number="11">              ,<span class="st">&quot;widgetframe&quot;</span>, <span class="st">&quot;gridExtra&quot;</span>, <span class="st">&quot;here&quot;</span>)</a>
 <a class="sourceLine" id="cb1-12" data-line-number="12"></a>
 <a class="sourceLine" id="cb1-13" data-line-number="13"><span class="kw">ipak</span>(packages)</a></code></pre></div>
 <pre><code>##        ggplot2       jsonlite          dplyr          ggmap        leaflet 
 ##           TRUE           TRUE           TRUE           TRUE           TRUE 
-## leaflet.extras      rmarkdown    widgetframe      gridExtra 
-##           TRUE           TRUE           TRUE           TRUE</code></pre>
+## leaflet.extras      rmarkdown    widgetframe      gridExtra           here 
+##           TRUE           TRUE           TRUE           TRUE           TRUE</code></pre>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">## Load data</a>
 <a class="sourceLine" id="cb3-2" data-line-number="2">## Create a smaller RDS file to use.</a>
 <a class="sourceLine" id="cb3-3" data-line-number="3"><span class="co"># data &lt;- fromJSON(&quot;../../data/Google_Locations/Locatiegeschiedenis.json&quot;)</span></a>
 <a class="sourceLine" id="cb3-4" data-line-number="4"><span class="co"># locations &lt;- data$locations</span></a>
 <a class="sourceLine" id="cb3-5" data-line-number="5"><span class="co"># saveRDS(locations, file = &quot;../../data/Google_Locations/locations.rds&quot;)</span></a>
 <a class="sourceLine" id="cb3-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb3-7" data-line-number="7">locations &lt;-<span class="st"> </span><span class="kw">readRDS</span>(<span class="dt">file =</span> <span class="st">&quot;../../data/Google_Locations/locations.rds&quot;</span>)</a>
+<a class="sourceLine" id="cb3-7" data-line-number="7">locations &lt;-<span class="st"> </span><span class="kw">readRDS</span>(<span class="dt">file =</span> <span class="kw">here</span>(<span class="st">&quot;static&quot;</span>, <span class="st">&quot;data&quot;</span>,<span class="st">&quot;Google_Locations/locations.rds&quot;</span>))</a>
 <a class="sourceLine" id="cb3-8" data-line-number="8"></a>
 <a class="sourceLine" id="cb3-9" data-line-number="9">## Clean data</a>
 <a class="sourceLine" id="cb3-10" data-line-number="10">locations<span class="op">$</span>timestampMs &lt;-<span class="st"> </span><span class="kw">as.numeric</span>(locations<span class="op">$</span>timestampMs)</a>
@@ -521,7 +521,7 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
             </li>
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--default tooltip--top" href="/2017/12/reading-excel-files-tips-tricks/" data-tooltip="Reading Excel &amp; SPSS Files in R |  Tips &amp; Tricks">
+                <a class="post-action-btn btn btn--default tooltip--top" href="/2017/11/dutch-housing-situation-rotterdam/" data-tooltip="Dutch Housing Situation - Rotterdam">
               
                   <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
                   <i class="fa fa-angle-right"></i>
@@ -607,7 +607,7 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
             </li>
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--default tooltip--top" href="/2017/12/reading-excel-files-tips-tricks/" data-tooltip="Reading Excel &amp; SPSS Files in R |  Tips &amp; Tricks">
+                <a class="post-action-btn btn btn--default tooltip--top" href="/2017/11/dutch-housing-situation-rotterdam/" data-tooltip="Dutch Housing Situation - Rotterdam">
               
                   <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
                   <i class="fa fa-angle-right"></i>
@@ -825,6 +825,23 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
           <div class="media">
             
             <div class="media-body">
+              <a class="link-unstyled" href="/2017/11/dutch-housing-situation-rotterdam/">
+                <h3 class="media-heading">Dutch Housing Situation - Rotterdam</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Nov 11, 2017
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">a.sourceLine { display: inline-block; line-height: 1.25; }a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }a.sourceLine:empty { height: 1.2em; position: absolute; }.sourceCode { overflow: visible; }code.sourceCode { white-space: pre; position: relative; }div.sourceCode { margin: 1em 0; }pre.sourceCode { margin: 0; }@media screen {div.sourceCode { overflow: auto; }}@media print {code.sourceCode { white-space: pre-wrap; }a.sourceLine { text-indent: -1em; padding-left: 1em; }}pre.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
               <a class="link-unstyled" href="/2017/06/my-tracked-locations/">
                 <h3 class="media-heading">My Tracked Locations</h3>
               </a>
@@ -865,7 +882,7 @@ When you’ve given the same in-person advice 3 times, write a blog post
          data-message-zero="no post found"
          data-message-one="1 post found"
          data-message-other="{n} posts found">
-         7 posts found
+         8 posts found
       </p>
     </div>
   </div>

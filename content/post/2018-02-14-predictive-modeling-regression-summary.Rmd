@@ -42,7 +42,7 @@ ipak <- function(pkg) {
 
 
 packages <- c("data.table", "ggthemes", "tidyverse", "DataExplorer", "kableExtra", "knitr", "data.table"
-              ,"readr", "RColorBrewer", "htmlwidgets", "htmltools", "widgetframe", "highcharter", "elasticnet")
+              ,"readr", "RColorBrewer", "htmlwidgets", "htmltools", "widgetframe", "highcharter", "elasticnet", "here")
 
 ipak(packages)
 
@@ -56,7 +56,7 @@ theme_set(theme_few()) # add few theme to plots
 Quick look at the data.
 
 ```{r}
-FuelEff <- fread("../../data/Regressions/FuelEfficiency.csv")
+FuelEff <- fread(here("static", "data","Regressions/FuelEfficiency.csv"))
 
 FuelEff$ET <- as.factor(FuelEff$ET)
 FuelEff$NC <- as.factor(FuelEff$NC)
@@ -167,7 +167,7 @@ In R, the easiest way to train models, and set control parameters is with the pa
 
 ```{r}
 library(caret)
-FuelEff <- fread("../../data/Regressions/FuelEfficiency.csv")
+FuelEff <- fread(here("static", "data", "Regressions/FuelEfficiency.csv"))
 FuelEff <- FuelEff[, -1] %>%
   as.data.frame()
 

@@ -134,8 +134,9 @@ For instance, `SPSSFile <- spss.system.file("Path/To/File.sav")` creats an impor
 library(memisc)
 library(knitr)
 library(kableExtra)
+library(here)
 
-SPSSFile <- spss.system.file("../../data/Excel_SPSS/testdata.sav")
+SPSSFile <- spss.system.file(here("static", "data","Excel_SPSS/testdata.sav"))
 
 print(SPSSFile)
 ```
@@ -143,7 +144,7 @@ While the function `description()` gives us this:
   
 ```{r echo = FALSE}
 
-SPSSFile <- spss.system.file("../../data/Excel_SPSS/testdata.sav")
+SPSSFile <- spss.system.file(here("static", "data","Excel_SPSS/testdata.sav"))
 
 desc <- description(SPSSFile)
 desctable <- as.data.frame(do.call(rbind, desc))

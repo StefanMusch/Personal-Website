@@ -37,7 +37,7 @@ ipak <- function(pkg) {
 
 
 packages <- c("ggplot2", "jsonlite", "dplyr", "ggmap", "leaflet", "leaflet.extras", "rmarkdown"
-              ,"widgetframe", "gridExtra")
+              ,"widgetframe", "gridExtra", "here")
 
 ipak(packages)
 
@@ -51,7 +51,7 @@ ipak(packages)
 # locations <- data$locations
 # saveRDS(locations, file = "../../data/Google_Locations/locations.rds")
 
-locations <- readRDS(file = "../../data/Google_Locations/locations.rds")
+locations <- readRDS(file = here("static", "data","Google_Locations/locations.rds"))
 
 ## Clean data
 locations$timestampMs <- as.numeric(locations$timestampMs)

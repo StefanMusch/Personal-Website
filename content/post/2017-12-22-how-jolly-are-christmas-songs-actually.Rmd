@@ -47,7 +47,7 @@ ipak <- function(pkg) {
 
 
 packages <- c("rvest", "tidyverse", "tidytext", "stringr", "ggthemes", "magick", "grid"
-              ,"gridExtra", "knitr", "kableExtra", "ggplot2")
+              ,"gridExtra", "knitr", "kableExtra", "ggplot2", "here")
 
 ipak(packages)
 

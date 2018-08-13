@@ -139,21 +139,21 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <a class="sourceLine" id="cb1-11" data-line-number="11"></a>
 <a class="sourceLine" id="cb1-12" data-line-number="12"></a>
 <a class="sourceLine" id="cb1-13" data-line-number="13">packages &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;data.table&quot;</span>, <span class="st">&quot;ggthemes&quot;</span>, <span class="st">&quot;tidyverse&quot;</span>, <span class="st">&quot;DataExplorer&quot;</span>, <span class="st">&quot;kableExtra&quot;</span>, <span class="st">&quot;knitr&quot;</span>, <span class="st">&quot;data.table&quot;</span></a>
-<a class="sourceLine" id="cb1-14" data-line-number="14">              ,<span class="st">&quot;readr&quot;</span>, <span class="st">&quot;RColorBrewer&quot;</span>, <span class="st">&quot;htmlwidgets&quot;</span>, <span class="st">&quot;htmltools&quot;</span>, <span class="st">&quot;widgetframe&quot;</span>, <span class="st">&quot;highcharter&quot;</span>, <span class="st">&quot;elasticnet&quot;</span>)</a>
+<a class="sourceLine" id="cb1-14" data-line-number="14">              ,<span class="st">&quot;readr&quot;</span>, <span class="st">&quot;RColorBrewer&quot;</span>, <span class="st">&quot;htmlwidgets&quot;</span>, <span class="st">&quot;htmltools&quot;</span>, <span class="st">&quot;widgetframe&quot;</span>, <span class="st">&quot;highcharter&quot;</span>, <span class="st">&quot;elasticnet&quot;</span>, <span class="st">&quot;here&quot;</span>)</a>
 <a class="sourceLine" id="cb1-15" data-line-number="15"></a>
 <a class="sourceLine" id="cb1-16" data-line-number="16"><span class="kw">ipak</span>(packages)</a></code></pre></div>
 <pre><code>##   data.table     ggthemes    tidyverse DataExplorer   kableExtra 
 ##         TRUE         TRUE         TRUE         TRUE         TRUE 
 ##        knitr   data.table        readr RColorBrewer  htmlwidgets 
 ##         TRUE         TRUE         TRUE         TRUE         TRUE 
-##    htmltools  widgetframe  highcharter   elasticnet 
-##         TRUE         TRUE         TRUE         TRUE</code></pre>
+##    htmltools  widgetframe  highcharter   elasticnet         here 
+##         TRUE         TRUE         TRUE         TRUE         TRUE</code></pre>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw">theme_set</span>(<span class="kw">theme_few</span>()) <span class="co"># add few theme to plots</span></a></code></pre></div>
 </div>
 <div id="exploratory-data-analysis-eda" class="section level1">
 <h1><span class="header-section-number">3</span> Exploratory Data Analysis (EDA)</h1>
 <p>Quick look at the data.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">FuelEff &lt;-<span class="st"> </span><span class="kw">fread</span>(<span class="st">&quot;../../data/Regressions/FuelEfficiency.csv&quot;</span>)</a>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">FuelEff &lt;-<span class="st"> </span><span class="kw">fread</span>(<span class="kw">here</span>(<span class="st">&quot;static&quot;</span>, <span class="st">&quot;data&quot;</span>,<span class="st">&quot;Regressions/FuelEfficiency.csv&quot;</span>))</a>
 <a class="sourceLine" id="cb4-2" data-line-number="2"></a>
 <a class="sourceLine" id="cb4-3" data-line-number="3">FuelEff<span class="op">$</span>ET &lt;-<span class="st"> </span><span class="kw">as.factor</span>(FuelEff<span class="op">$</span>ET)</a>
 <a class="sourceLine" id="cb4-4" data-line-number="4">FuelEff<span class="op">$</span>NC &lt;-<span class="st"> </span><span class="kw">as.factor</span>(FuelEff<span class="op">$</span>NC)</a>
@@ -272,7 +272,7 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <p>To reduce these issues, a variety of techniques for training your data can be used. The most common ones are <a href="https://en.wikipedia.org/wiki/Cross-validation_(statistics)"><code>Cross-Validation (CV)</code></a> and <a href="https://en.wikipedia.org/wiki/Cross-validation_(statistics)#Leave-one-out_cross-validation"><code>Leave One Out Cross Validation (LOOCV)</code></a>.</p>
 <p>In R, the easiest way to train models, and set control parameters is with the package <a href="http://topepo.github.io/caret/index.html"><code>Caret</code></a>. Which is what I will be using as well.</p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="kw">library</span>(caret)</a>
-<a class="sourceLine" id="cb11-2" data-line-number="2">FuelEff &lt;-<span class="st"> </span><span class="kw">fread</span>(<span class="st">&quot;../../data/Regressions/FuelEfficiency.csv&quot;</span>)</a>
+<a class="sourceLine" id="cb11-2" data-line-number="2">FuelEff &lt;-<span class="st"> </span><span class="kw">fread</span>(<span class="kw">here</span>(<span class="st">&quot;static&quot;</span>, <span class="st">&quot;data&quot;</span>, <span class="st">&quot;Regressions/FuelEfficiency.csv&quot;</span>))</a>
 <a class="sourceLine" id="cb11-3" data-line-number="3">FuelEff &lt;-<span class="st"> </span>FuelEff[, <span class="dv">-1</span>] <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb11-4" data-line-number="4"><span class="st">  </span><span class="kw">as.data.frame</span>()</a>
 <a class="sourceLine" id="cb11-5" data-line-number="5"></a>
