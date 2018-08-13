@@ -6,7 +6,6 @@ slug: creating-your-own-beautiful-holiday-poster
 output:
   blogdown::html_page:
     toc: false
-    highlight: "tango"
     number_sections: false
 categories:
   - Hobby Projects

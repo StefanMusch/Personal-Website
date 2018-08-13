@@ -22,9 +22,15 @@
   {{ .Scratch.Set "authorPicture" (absURL .Site.Author.picture) }}
 {{ end }}
 <!DOCTYPE html>
+<link rel="stylesheet" href="{{"css/hybrid.css" | absURL}}" rel="stylesheet" id="theme-stylesheet">
+<script src="{{ "js/highlight.pack.js" | absURL }}"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
 <html lang="{{ .Site.LanguageCode }}">
   <head>
+  
     {{ partial "head_start.html" . }}
+	
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Hugo {{ .Hugo.Version }} with theme Tranquilpeak 0.4.3-BETA">

@@ -6,7 +6,6 @@ slug: how-jolly-are-christmas-songs-actually
 output:
   blogdown::html_page:
     toc: true
-    highlight: "tango"
 categories:
   - Hobby Projects
   - R

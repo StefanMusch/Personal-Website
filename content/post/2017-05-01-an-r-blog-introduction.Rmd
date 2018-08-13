@@ -6,7 +6,6 @@ slug: an-r-blog-introduction
 output:
   blogdown::html_page:
     toc: false
-    highlight: "tango"
 categories:
   - Hobby Projects
 tags:

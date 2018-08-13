@@ -5,7 +5,6 @@ date: '2017-06-07'
 output:
   blogdown::html_page:
     toc: true
-    highlight: "tango"
 slug: my-tracked-locations
 categories:
   - Hobby Projects

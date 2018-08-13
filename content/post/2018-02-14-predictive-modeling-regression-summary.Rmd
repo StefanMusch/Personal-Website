@@ -6,7 +6,6 @@ slug: predictive-modeling-regression-summary
 output:
   blogdown::html_page:
     toc: true
-    highlight: "tango"
     number_sections: true
 categories:
   - Professional Projects

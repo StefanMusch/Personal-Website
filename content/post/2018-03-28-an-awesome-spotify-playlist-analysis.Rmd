@@ -6,7 +6,6 @@ slug: an-awesome-spotify-playlist-analysis
 output:
   blogdown::html_page:
     toc: false
-    highlight: "tango"
     number_sections: false
 categories:
   - Hobby Projects

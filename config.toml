@@ -33,9 +33,9 @@ ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$"]
 
 [author]
   name = "Stefan Musch"
-  bio = "Data Scientist | Music Lover | Sports & Adventure Enthousiast <br> <br> This blog is the place where I share my work, projects, frustrations and discoveries. I designed it to be entertaining to some, and educative to others. Sometimes hopefully both. <br><br>Enjoy reading, and feel free to leave a comment!"
+  bio = "Data Scientist | Marketing Analyst <br> Music, Sports & Adventure Enthousiast <br> <br> This blog is the place where I share my work, projects, frustrations and discoveries. I designed it to be entertaining to some, and educative to others. Sometimes hopefully both. <br><br>Enjoy reading, and feel free to leave a comment!"
   job = "Data Scientist"
-  location = "Netherlands"
+  location = "'s-Hertogenbosch, NL"
   # Your Gravatar email. Overwrite `author.picture` everywhere in the blog
   #gravatarEmail = ""
   # Your profile picture
@@ -122,7 +122,7 @@ ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$"]
 
   # Syntax highlighter, possible choice between: "highlight.js" (recommanded) and "prism.js" (experimental)
   # You can comment it to disable syntax highlighting
-  syntaxHighlighter = "prism.js"
+  #syntaxHighlighter = "prism.js"
 
   # Hide sidebar on all article page to let article take full width to improve reading, and enjoy wide images and cover images. (true: enable, false: disable)
   clearReading = true

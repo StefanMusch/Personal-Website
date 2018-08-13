@@ -14,9 +14,15 @@
   
 
 <!DOCTYPE html>
+<link rel="stylesheet" href="/css/hybrid.css" rel="stylesheet" id="theme-stylesheet">
+<script src="/js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
 <html lang="en-us">
   <head>
+  
     
+	
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Hugo 0.46 with theme Tranquilpeak 0.4.3-BETA">
@@ -117,7 +123,7 @@ if (!doNotTrack) {
         </a>
         <h4 class="sidebar-profile-name">Stefan Musch</h4>
         
-          <h5 class="sidebar-profile-bio">Data Scientist | Music Lover | Sports &amp; Adventure Enthousiast <br> <br> This blog is the place where I share my work, projects, frustrations and discoveries. I designed it to be entertaining to some, and educative to others. Sometimes hopefully both. <br><br>Enjoy reading, and feel free to leave a comment!</h5>
+          <h5 class="sidebar-profile-bio">Data Scientist | Marketing Analyst <br> Music, Sports &amp; Adventure Enthousiast <br> <br> This blog is the place where I share my work, projects, frustrations and discoveries. I designed it to be entertaining to some, and educative to others. Sometimes hopefully both. <br><br>Enjoy reading, and feel free to leave a comment!</h5>
         
       </div>
     
@@ -286,70 +292,6 @@ if (!doNotTrack) {
 <script src="/rmarkdown-libs/htmlwidgets/htmlwidgets.js"></script>
 <script src="/rmarkdown-libs/pymjs/pym.v1.js"></script>
 <script src="/rmarkdown-libs/widgetframe-binding/widgetframe.js"></script>
-<style type="text/css">
-a.sourceLine { display: inline-block; line-height: 1.25; }
-a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
-a.sourceLine:empty { height: 1.2em; position: absolute; }
-.sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; position: relative; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-code.sourceCode { white-space: pre-wrap; }
-a.sourceLine { text-indent: -1em; padding-left: 1em; }
-}
-pre.numberSource a.sourceLine
-  { position: relative; }
-pre.numberSource a.sourceLine:empty
-  { position: absolute; }
-pre.numberSource a.sourceLine::before
-  { content: attr(data-line-number);
-    position: absolute; left: -5em; text-align: right; vertical-align: baseline;
-    border: none; pointer-events: all;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-    color: #aaaaaa;
-  }
-pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
-div.sourceCode
-  { background-color: #f8f8f8; }
-@media screen {
-a.sourceLine::before { text-decoration: underline; }
-}
-code span.al { color: #ef2929; } /* Alert */
-code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
-code span.at { color: #c4a000; } /* Attribute */
-code span.bn { color: #0000cf; } /* BaseN */
-code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
-code span.ch { color: #4e9a06; } /* Char */
-code span.cn { color: #000000; } /* Constant */
-code span.co { color: #8f5902; font-style: italic; } /* Comment */
-code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
-code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
-code span.dt { color: #204a87; } /* DataType */
-code span.dv { color: #0000cf; } /* DecVal */
-code span.er { color: #a40000; font-weight: bold; } /* Error */
-code span.ex { } /* Extension */
-code span.fl { color: #0000cf; } /* Float */
-code span.fu { color: #000000; } /* Function */
-code span.im { } /* Import */
-code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
-code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
-code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
-code span.ot { color: #8f5902; } /* Other */
-code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
-code span.sc { color: #000000; } /* SpecialChar */
-code span.ss { color: #4e9a06; } /* SpecialString */
-code span.st { color: #4e9a06; } /* String */
-code span.va { color: #000000; } /* Variable */
-code span.vs { color: #4e9a06; } /* VerbatimString */
-code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
-</style>
 
 
 <p>Together with a couple of friends, we’ve created our own personal Awesome Mix Vol.1
@@ -361,22 +303,22 @@ Instead of being a tape with 13 songs however, we’ve added roughly 1.500 songs
 ## highcharter   htmltools widgetframe     cluster  factoextra        here 
 ##        TRUE        TRUE        TRUE        TRUE        TRUE        TRUE</code></pre>
 <p>First, I’ll have to extract the audio features of each song in the playlist. This is where the <code>spotifyr</code> package helps me out. I have removed user names or ID’s for privacy reasons.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="co">#tracks &lt;- get_playlist_audio_features(&quot;xxxxxxxxxx&quot;, playlist_uris = &quot;xxxxxxxxxxxxxxx&quot;)</span></a>
-<a class="sourceLine" id="cb2-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb2-3" data-line-number="3"><span class="co"># Keep relevant information</span></a>
-<a class="sourceLine" id="cb2-4" data-line-number="4">tracks &lt;-<span class="st"> </span>tracks <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb2-5" data-line-number="5"><span class="st">    </span><span class="kw">select</span>(artist_name, track_name, album_name, album_img, </a>
-<a class="sourceLine" id="cb2-6" data-line-number="6">           track_popularity, danceability, energy, loudness,</a>
-<a class="sourceLine" id="cb2-7" data-line-number="7">           speechiness, acousticness, instrumentalness, liveness,</a>
-<a class="sourceLine" id="cb2-8" data-line-number="8">           valence, tempo, key, key_mode, duration_ms,</a>
-<a class="sourceLine" id="cb2-9" data-line-number="9">           time_signature, track_preview_url, track_open_spotify_url) </a>
-<a class="sourceLine" id="cb2-10" data-line-number="10"></a>
-<a class="sourceLine" id="cb2-11" data-line-number="11"><span class="kw">head</span>(tracks, <span class="dt">n =</span> <span class="dv">5</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb2-12" data-line-number="12"><span class="st">    </span><span class="kw">kable</span>(<span class="dt">format =</span> <span class="st">&quot;html&quot;</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb2-13" data-line-number="13"><span class="st">    </span><span class="kw">kable_styling</span>(<span class="dt">bootstrap_options =</span> <span class="kw">c</span>(<span class="st">&quot;hover&quot;</span>, <span class="st">&quot;striped&quot;</span>, <span class="st">&quot;responsive&quot;</span>, <span class="st">&quot;condensed&quot;</span>), </a>
-<a class="sourceLine" id="cb2-14" data-line-number="14">                  <span class="dt">full_width =</span> T,</a>
-<a class="sourceLine" id="cb2-15" data-line-number="15">                  <span class="dt">position =</span> <span class="st">&quot;left&quot;</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb2-16" data-line-number="16"><span class="st">    </span><span class="kw">scroll_box</span>(<span class="dt">width =</span> <span class="st">&quot;100%&quot;</span>)</a></code></pre></div>
+<pre class="r"><code>#tracks &lt;- get_playlist_audio_features(&quot;xxxxxxxxxx&quot;, playlist_uris = &quot;xxxxxxxxxxxxxxx&quot;)
+
+# Keep relevant information
+tracks &lt;- tracks %&gt;%
+    select(artist_name, track_name, album_name, album_img, 
+           track_popularity, danceability, energy, loudness,
+           speechiness, acousticness, instrumentalness, liveness,
+           valence, tempo, key, key_mode, duration_ms,
+           time_signature, track_preview_url, track_open_spotify_url) 
+
+head(tracks, n = 5) %&gt;%
+    kable(format = &quot;html&quot;) %&gt;%
+    kable_styling(bootstrap_options = c(&quot;hover&quot;, &quot;striped&quot;, &quot;responsive&quot;, &quot;condensed&quot;), 
+                  full_width = T,
+                  position = &quot;left&quot;) %&gt;%
+    scroll_box(width = &quot;100%&quot;)</code></pre>
 <div style="border: 1px solid #ddd; padding: 5px; overflow-x: scroll; width:100%; ">
 <table class="table table-hover table-striped table-responsive table-condensed" style="">
 <thead>
@@ -759,8 +701,8 @@ NA
 </div>
 <p>Perfect! Almost. I’m missing the column <code>Added By</code>, which does show in our spotify playlist.
 Unfortunately, when I simply tried to copy and paste our complete track overview of the playlist, each record would give me the spotify link to the song (e.g. <code>https://open.spotify.com/track/17g3YBfU8QfYtkgZGI8tTT</code>) rather than the actual data. A quick google search for “Export Spotify Playlists” got me to a JavaScript app called <a href="https://rawgit.com/watsonbox/exportify/master/exportify.html"><code>Exportify</code></a>. This worked like a charm, and provided me with a downloadable <code>.csv</code> file.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="co">#Import Exportify raw .csv data</span></a>
-<a class="sourceLine" id="cb3-2" data-line-number="2">mixtape_raw &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="kw">here</span>(<span class="st">&quot;static&quot;</span>, <span class="st">&quot;data&quot;</span>, <span class="st">&quot;Spotify/awesome_mixtape_1.csv&quot;</span>))</a></code></pre></div>
+<pre class="r"><code>#Import Exportify raw .csv data
+mixtape_raw &lt;- read_csv(here(&quot;static&quot;, &quot;data&quot;, &quot;Spotify/awesome_mixtape_1.csv&quot;))</code></pre>
 <p>This .csv file did include the <code>Added By</code> column, which we can add to the tracks dataset after some data transformations.</p>
 <table class="table table-hover table-striped table-responsive table-condensed" style="">
 <thead>
@@ -835,9 +777,9 @@ M
 </tbody>
 </table>
 <p>Cool. Time to join the two dataframes together and start with the analysis!</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">mixtape &lt;-<span class="st"> </span>tracks <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb4-2" data-line-number="2"><span class="st">    </span><span class="kw">inner_join</span>(mixtape_less_raw, <span class="dt">by =</span> <span class="kw">c</span>(<span class="st">&quot;track_name&quot;</span>, <span class="st">&quot;artist_name&quot;</span>)) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb4-3" data-line-number="3"><span class="st">    </span><span class="kw">filter</span>(valence <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>)</a></code></pre></div>
+<pre class="r"><code>mixtape &lt;- tracks %&gt;% 
+    inner_join(mixtape_less_raw, by = c(&quot;track_name&quot;, &quot;artist_name&quot;)) %&gt;%
+    filter(valence &gt; 0)</code></pre>
 <div id="awesome-music-analysis" class="section level2">
 <h2>Awesome Music Analysis</h2>
 <p>Spotify adds a bunch of music statistics to each song. I’ll be using these statistics to find out how different our music tastes are, and where they are different (if at all…, we do share a playlist after all). I’ll be looking mainly at the following features:</p>
@@ -942,45 +884,45 @@ Although not a musical feature, the popularity index provides a way of determini
 <h2>Finding Awesome Clusters</h2>
 <p>So in which musical clusters can we divide our <code>Awesome Mixtape #1</code> playlist? To answer this question I will be using the <code>K-Means</code> clustering method. The basic idea behind k-means clustering consists of defining clusters so that the total within-cluster variation is minimized.</p>
 <p>The drawback is that we have to specify the number of clusters we want the data to be devided into. In order to determine the optimal number of <code>k</code> I emply both the <em>elbow</em> method and <em>silhouette</em> method as seen below. Although the silhouette method suggests <code>k = 2</code> as the optimal number, this will not provide me with much more detail. Therefor I’ll guide my choice based on the elbow method, where at <code>k = 5</code> the line starts <em>bending</em> somewhat.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="co"># Centering and Scaling is necessary for the k-means to work properly</span></a>
-<a class="sourceLine" id="cb5-2" data-line-number="2">cluster_df &lt;-<span class="st"> </span>mixtape <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb5-3" data-line-number="3"><span class="st">    </span><span class="kw">select_if</span>(<span class="dt">.predicate =</span> is.numeric) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb5-4" data-line-number="4"><span class="st">    </span><span class="kw">map_df</span>(scale)</a>
-<a class="sourceLine" id="cb5-5" data-line-number="5"></a>
-<a class="sourceLine" id="cb5-6" data-line-number="6"><span class="kw">set.seed</span>(<span class="dv">123</span>)</a>
-<a class="sourceLine" id="cb5-7" data-line-number="7"></a>
-<a class="sourceLine" id="cb5-8" data-line-number="8">gridExtra<span class="op">::</span><span class="kw">grid.arrange</span>(</a>
-<a class="sourceLine" id="cb5-9" data-line-number="9"><span class="kw">fviz_nbclust</span>(cluster_df, kmeans, <span class="dt">method =</span> <span class="st">&quot;wss&quot;</span>) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb5-10" data-line-number="10"><span class="st">    </span><span class="kw">theme</span>(<span class="dt">plot.title =</span> <span class="kw">element_text</span>(<span class="dt">hjust =</span> <span class="fl">0.5</span>),</a>
-<a class="sourceLine" id="cb5-11" data-line-number="11">          <span class="dt">plot.subtitle =</span> <span class="kw">element_text</span>(<span class="dt">hjust =</span><span class="fl">0.5</span>)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb5-12" data-line-number="12"><span class="st">    </span><span class="kw">labs</span>(<span class="dt">subtitle =</span> <span class="st">&quot;Elbow Method&quot;</span>),</a>
-<a class="sourceLine" id="cb5-13" data-line-number="13"><span class="kw">fviz_nbclust</span>(cluster_df, kmeans, <span class="dt">method =</span> <span class="st">&quot;silhouette&quot;</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb5-14" data-line-number="14"><span class="st">    </span><span class="kw">theme</span>(<span class="dt">plot.title =</span> <span class="kw">element_text</span>(<span class="dt">hjust =</span> <span class="fl">0.5</span>),</a>
-<a class="sourceLine" id="cb5-15" data-line-number="15">          <span class="dt">plot.subtitle =</span> <span class="kw">element_text</span>(<span class="dt">hjust =</span><span class="fl">0.5</span>))<span class="op">+</span></a>
-<a class="sourceLine" id="cb5-16" data-line-number="16"><span class="st">    </span><span class="kw">labs</span>(<span class="dt">subtitle =</span> <span class="st">&quot;Silhouette Method&quot;</span>),</a>
-<a class="sourceLine" id="cb5-17" data-line-number="17"><span class="dt">ncol =</span> <span class="dv">2</span>)</a></code></pre></div>
+<pre class="r"><code># Centering and Scaling is necessary for the k-means to work properly
+cluster_df &lt;- mixtape %&gt;% 
+    select_if(.predicate = is.numeric) %&gt;%
+    map_df(scale)
+
+set.seed(123)
+
+gridExtra::grid.arrange(
+fviz_nbclust(cluster_df, kmeans, method = &quot;wss&quot;) + 
+    theme(plot.title = element_text(hjust = 0.5),
+          plot.subtitle = element_text(hjust =0.5)) +
+    labs(subtitle = &quot;Elbow Method&quot;),
+fviz_nbclust(cluster_df, kmeans, method = &quot;silhouette&quot;) +
+    theme(plot.title = element_text(hjust = 0.5),
+          plot.subtitle = element_text(hjust =0.5))+
+    labs(subtitle = &quot;Silhouette Method&quot;),
+ncol = 2)</code></pre>
 <p><img src="/post/2018-03-28-an-awesome-spotify-playlist-analysis_files/figure-html/unnamed-chunk-13-1.png" width="1152" style="display: block; margin: auto;" /></p>
 <p>Creating final clusters with <code>k = 5</code>.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">final_clusters &lt;-<span class="st"> </span><span class="kw">kmeans</span>(cluster_df, <span class="dv">5</span>, <span class="dt">nstart =</span> <span class="dv">25</span>)</a>
-<a class="sourceLine" id="cb6-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb6-3" data-line-number="3">mixtape_clusters &lt;-<span class="st"> </span>mixtape <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb6-4" data-line-number="4"><span class="st">    </span><span class="kw">mutate</span>(<span class="dt">cluster =</span> final_clusters<span class="op">$</span>cluster) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb6-5" data-line-number="5"><span class="st">    </span><span class="kw">select</span>(cluster, artist_name, track_name, danceability,</a>
-<a class="sourceLine" id="cb6-6" data-line-number="6">           energy, valence, loudness, speechiness,</a>
-<a class="sourceLine" id="cb6-7" data-line-number="7">           acousticness, instrumentalness,</a>
-<a class="sourceLine" id="cb6-8" data-line-number="8">           liveness, tempo, duration_ms)</a></code></pre></div>
+<pre class="r"><code>final_clusters &lt;- kmeans(cluster_df, 5, nstart = 25)
+
+mixtape_clusters &lt;- mixtape %&gt;% 
+    mutate(cluster = final_clusters$cluster) %&gt;%
+    select(cluster, artist_name, track_name, danceability,
+           energy, valence, loudness, speechiness,
+           acousticness, instrumentalness,
+           liveness, tempo, duration_ms)</code></pre>
 <p>Now that everything is done, we can start looking at the clusters, and see what kind of distinction the algorithm made.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1">mixtape_clusters <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb7-2" data-line-number="2"><span class="st">    </span><span class="kw">group_by</span>(cluster) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb7-3" data-line-number="3"><span class="st">    </span><span class="kw">select</span>(<span class="op">-</span>artist_name, <span class="op">-</span>track_name) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb7-4" data-line-number="4"><span class="st">    </span><span class="kw">summarize_all</span>(mean) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb7-5" data-line-number="5"><span class="st">    </span><span class="kw">mutate_all</span>(round, <span class="dv">3</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb7-6" data-line-number="6"><span class="st">    </span><span class="kw">kable</span>(<span class="dt">format =</span> <span class="st">&quot;html&quot;</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb7-7" data-line-number="7"><span class="st">    </span><span class="kw">kable_styling</span>(<span class="dt">bootstrap_options =</span> <span class="kw">c</span>(<span class="st">&quot;hover&quot;</span>, <span class="st">&quot;striped&quot;</span>, </a>
-<a class="sourceLine" id="cb7-8" data-line-number="8">                                        <span class="st">&quot;responsive&quot;</span>, <span class="st">&quot;condensed&quot;</span>), </a>
-<a class="sourceLine" id="cb7-9" data-line-number="9">                  <span class="dt">full_width =</span> T,</a>
-<a class="sourceLine" id="cb7-10" data-line-number="10">                  <span class="dt">position =</span> <span class="st">&quot;left&quot;</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb7-11" data-line-number="11"><span class="st">    </span><span class="kw">scroll_box</span>(<span class="dt">width =</span> <span class="st">&quot;100%&quot;</span>)</a></code></pre></div>
+<pre class="r"><code>mixtape_clusters %&gt;% 
+    group_by(cluster) %&gt;%
+    select(-artist_name, -track_name) %&gt;%
+    summarize_all(mean) %&gt;%
+    mutate_all(round, 3) %&gt;%
+    kable(format = &quot;html&quot;) %&gt;%
+    kable_styling(bootstrap_options = c(&quot;hover&quot;, &quot;striped&quot;, 
+                                        &quot;responsive&quot;, &quot;condensed&quot;), 
+                  full_width = T,
+                  position = &quot;left&quot;) %&gt;%
+    scroll_box(width = &quot;100%&quot;)</code></pre>
 <div style="border: 1px solid #ddd; padding: 5px; overflow-x: scroll; width:100%; ">
 <table class="table table-hover table-striped table-responsive table-condensed" style="">
 <thead>
@@ -1686,7 +1628,7 @@ In <code>Cluster 5</code> we see only one live performed song, yet still one mor
     
     <h4 id="about-card-name">Stefan Musch</h4>
     
-      <div id="about-card-bio">Data Scientist | Music Lover | Sports &amp; Adventure Enthousiast <br> <br> This blog is the place where I share my work, projects, frustrations and discoveries. I designed it to be entertaining to some, and educative to others. Sometimes hopefully both. <br><br>Enjoy reading, and feel free to leave a comment!</div>
+      <div id="about-card-bio">Data Scientist | Marketing Analyst <br> Music, Sports &amp; Adventure Enthousiast <br> <br> This blog is the place where I share my work, projects, frustrations and discoveries. I designed it to be entertaining to some, and educative to others. Sometimes hopefully both. <br><br>Enjoy reading, and feel free to leave a comment!</div>
     
     
       <div id="about-card-job">
@@ -1699,7 +1641,7 @@ In <code>Cluster 5</code> we see only one live performed song, yet still one mor
       <div id="about-card-location">
         <i class="fa fa-map-marker"></i>
         <br/>
-        Netherlands
+        &#39;s-Hertogenbosch, NL
       </div>
     
   </div>
@@ -1735,7 +1677,8 @@ In <code>Cluster 5</code> we see only one live performed song, yet still one mor
                   Mar 3, 2018
                 </span>
               </span>
-              <div class="media-content hide-xs font-merryweather">a.sourceLine { display: inline-block; line-height: 1.25; }a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }a.sourceLine:empty { height: 1.2em; position: absolute; }.sourceCode { overflow: visible; }code.sourceCode { white-space: pre; position: relative; }div.sourceCode { margin: 1em 0; }pre.sourceCode { margin: 0; }@media screen {div.sourceCode { overflow: auto; }}@media print {code.sourceCode { white-space: pre-wrap; }a.sourceLine { text-indent: -1em; padding-left: 1em; }}pre.</div>
+              <div class="media-content hide-xs font-merryweather">Together with a couple of friends, we’ve created our own personal Awesome Mix Vol.1Instead of being a tape with 13 songs however, we’ve added roughly 1.500 songs. Now I’m curious as to how our musical taste differs from one another, but also what kind of musical clusters we have created in our playlist.
+Let’s get started.## Rspotify spotifyr tidyverse knitr kableExtra ggthemes ## TRUE TRUE TRUE TRUE TRUE TRUE ## highcharter htmltools widgetframe cluster factoextra here ## TRUE TRUE TRUE TRUE TRUE TRUEFirst, I’ll have to extract the audio features of each song in the playlist.</div>
             </div>
             <div style="clear:both;"></div>
             <hr>
@@ -1803,7 +1746,7 @@ In <code>Cluster 5</code> we see only one live performed song, yet still one mor
                   Dec 12, 2017
                 </span>
               </span>
-              <div class="media-content hide-xs font-merryweather">a.sourceLine { display: inline-block; line-height: 1.25; }a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }a.sourceLine:empty { height: 1.2em; position: absolute; }.sourceCode { overflow: visible; }code.sourceCode { white-space: pre; position: relative; }div.sourceCode { margin: 1em 0; }pre.sourceCode { margin: 0; }@media screen {div.sourceCode { overflow: auto; }}@media print {code.sourceCode { white-space: pre-wrap; }a.sourceLine { text-indent: -1em; padding-left: 1em; }}pre.</div>
+              <div class="media-content hide-xs font-merryweather">A Researcher’s Love for Excel and SPSSWorking for the research department at the municipality of Rotterdam (OBI), I discovered their love for excel spread sheets and SPSS documents. Hundreds, no, thousands of them. Each file additionally has another 100 sheets. Sometimes, I needed to join sheets, or bind columns and rows, which is tedious in excel itself. I started scouring packages and functions to find what I needed. In this post, you’ll find some tips and tricks that helped me speed things up.</div>
             </div>
             <div style="clear:both;"></div>
             <hr>
@@ -1883,8 +1826,6 @@ When you’ve given the same in-person advice 3 times, write a blog post
 
     
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
-
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.3/prism.min.js" integrity="sha256-haEv2ilTk2sXcJaGbkTtErRCHy/qGt3g+bGbgPf5OTY=" crossorigin="anonymous"></script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.7/js/jquery.fancybox.min.js" integrity="sha256-GEAnjcTqVP+vBp3SSc8bEDQqvWAZMiHyUSIorrWwH50=" crossorigin="anonymous"></script>
 

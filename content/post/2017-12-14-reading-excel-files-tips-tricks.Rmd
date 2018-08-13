@@ -6,7 +6,6 @@ slug: reading-excel-files-tips-tricks
 output:
   blogdown::html_page:
     toc: false
-    highlight: "tango"
 categories:
   - Professional Projects
   - R
