@@ -1,0 +1,210 @@
+---
+title: Curriculum Vitae
+author: Stefan Musch
+slug: curriculum-vitae
+categories: []
+tags: []
+comments: false
+showMeta: false
+clearReading: false
+---
+
+
+## <i class="fa fa-compass fa-lg"></i>  Personal Story
+
+For me, the greatest thing about data is it's universal language. Rows upon rows, columns besides columns. Meaningless on it's own. Yet an absolute goldmine when combined with context and proper exploration. Where many people prefer being an expert in one field of work, I absolutely love the fact that data analysis is a thing in any field or sector. Getting to know one's business in order to extract the true value of the data analysis is in my opinion the most exciting part about data analysis. 
+
+Besides my passion for data, I might even be more passionate about the outdoors. Climbing in the Scottish Highlands, hiking through the Belgium Ardennes, surfing on the Australian coastline or just sitting out on my balcony, moments to cherish and times to feel free. 
+  
+So what's missing here? Music of course! Festivals and concerts are my jam. Rock to Pop, Jazz to Rap, Country or R&B, I listen to all of it. Hopefully I'll get around to analysing some amazing music datasets (Similar to my work at Appic, where I was a data analyst for a music festival app start-up). 
+  
+  
+If you ever see a guy surfing, hiking or climbing with a laptop and headphones.. That'll be me. 
+
+## <i class="fa fa-folder fa-lg"></i>  Professional Projects
+
+Besides the projects that you can find on this blog, I occasionally need to work for a living (strange right?). Below you can find a couple of example projects open to the public.  
+<br/>
+  
+<ul style="list-style-type:none">
+<li><i class="fa fa-dashboard  fa-lg"></i>  **FlexDashboard: Economische Verkenning Rotterdam 2018 (EVR)**</li>
+*`Visualising` & `Dashboarding`*
+  
+  
+Creating a handmade,shareable and reproducible dashboard for internal and external use in the corporate identity of the Rotterdam municipality. Written in R and R Markdown, using the JavaScript library `Highcharts`. The dashboard can be found [**here**](https://evr010.nl/highcharts). Seperate graphs made by me can be found all over the [EVR Website](https://evr010.nl)
+  
+  
+Click [**here**](http://res.cloudinary.com/stefanmusch/image/upload/v1519027846/EVR.png) for a preview.  
+<br/>
+  
+<li><i class="fa fa-dashboard  fa-lg"></i> **Shiny App: Real Estate Navigator** </li>
+*`Visualising` & `Dashboarding` & `Application Building`*
+  
+  
+Interactive leaflet map for the visualisation of real estate data and accompanying workforce related function within the municipality of Rotterdam. A selection on the map can be drawn, after which the entire dashboard will change it's data accordingly. Multiple statistical analysis and visualisations are then given based on the selected region.  
+<br/>
+  
+Click [**here**](http://res.cloudinary.com/stefanmusch/image/upload/v1517397713/Preview_Vastgoed_Navigator.png) for a preview image. Full release coming soon!
+</ul>
+
+
+## <i class="fa fa-graduation-cap fa-lg"></i>  Educational Progress
+
+<ul style="list-style-type:none">
+<li><i class="fa fa-spinner  fa-lg"></i>  **Data Science & Business Analytics** *(VU | 2017 - Present)*</li>
+<li><i class="fa fa-graduation-cap  fa-lg"></i>  **MSc Master Marketing & Management** *(Tilburg University | 2016 - 2017)*</li>
+</ul>
+
+<blockquote>
+<p style= font-size:16px;> 
+<i class="fa fa-quote-left  fa-lg"></i> 
+*Stefan is a hard-working, innovative and pragmatic young professional. I'm amazed by his eagerness (and ability) to master SQL and R quickly. Stefan really embraces challenges rather than shy away from them. Mentoring Stefan was a great experience, and I am sure he will be a valuable asset to any data-driven company.*
+<i class="fa fa-quote-right  fa-lg"></i> 
+<br>
+<b>dr. Hannes Datta MSc </b> | Professor at Tilburg University
+</p>
+</blockquote>
+<br>
+<ul style="list-style-type:none">
+<li><i class="fa fa-graduation-cap  fa-lg"></i>  **MSc Pre-Master Marketing & Management** *(Tilburg University | 2015)*</li>
+<i class="fa fa-graduation-cap  fa-lg"></i>  **BSc Bachelor Sports & Economy - Marketing & Management** *(Fontys | 2012 - 2015)*  
+<i class="fa fa-remove fa-lg"></i>  **BSc Innovation Sciences** *(TU/E | 2011-2012)*  
+<i class ="fa fa-globe fa-lg"></i>  **BSc in Backpacking & Traveling** *(Australia | 2010-2011)*  
+<i class="fa fa-graduation-cap  fa-lg"></i>  **Pre-University Education (VWO)** *(D'oultremontcollege | 2004 - 2010)*  
+</ul>
+## <i class="fa fa-briefcase fa-lg"></i>  Work Experience
+
+<ul style="list-style-type:none">
+<li><i class="fa fa-spinner  fa-lg"></i>   **Rotterdam Municipality** | *Data Science Trainee (2017 - Present)* </li>
+<li><i class="fa fa-briefcase  fa-lg"></i>  **Appic** | *Data Analyst (2016-2017)* </li>
+<li><i class="fa fa-briefcase  fa-lg"></i>  **Jos America** | *Marketing Communications Assistent(2012-2014)* </li>
+<li><i class="fa fa-briefcase  fa-lg"></i>  **Various Hospitality Establishments** | *Bartender & Waiter (2008-2017)* </li>
+</ul>
+
+## <i class="fa fa-wrench fa-lg"></i>  Skills
+Below you can find a radar chart with my skillsets. Click on one of the categories to drilldown to a subset of related skills and my, of course, extremely objective ratings.
+<center><p>
+```{r SkillRadarChart,  echo = FALSE, warning = FALSE, error = FALSE, message = FALSE}
+library(highcharter)
+library(dplyr)
+library(purrr)
+library(widgetframe)
+
+df <- data_frame(
+  name = c("Business Understanding", "Computer Science", "Math & Statistical Knowledge"),
+  y = c(9, 8, 6),
+  drilldown = c("BU", "CS", "M&S")
+)
+
+
+df_BU <- data_frame(
+  name = c("Communicating", "Presenting", "People Management", "Project Management", "Eager to learn"),
+  value = c(8, 7, 9, 7, 9),
+  color = "#78201e"
+)
+
+df_CS <- data_frame(
+  name = c("Javascript","Python", "R", "SQL", "CSS", "HTML", "Visulization"),
+  value = c(3,4,9,8,6,6,8),
+  color = "#60677c"
+)
+
+df_MS <- data_frame(
+  name = c("Clustering", "Dimensionality Reduction", "Regression", "Classification","Reinforcement learning"),
+  value = c(7, 4, 8, 7, 1 ),
+  color = "#eae4e6"
+)
+
+second_el_to_numeric <- function(ls){
+  
+  map(ls, function(x){
+    x[[2]] <- as.numeric(x[[2]])
+    x
+  })
+  
+}
+
+ds_BU <- second_el_to_numeric(list_parse2(df_BU))
+
+ds_CS <- second_el_to_numeric(list_parse2(df_CS))
+
+ds_MS <- second_el_to_numeric(list_parse2(df_MS))
+
+
+
+
+hc <- highchart() %>%
+  hc_chart(type = "area", polar = T, 
+           borderRadius = 0, height = 400) %>% 
+  hc_xAxis(type = "category") %>% 
+  hc_yAxis(min = 0,
+           max = 10) %>%
+  hc_add_theme(hc_theme_tufte())%>%
+  hc_legend(enabled = FALSE) %>% 
+  hc_plotOptions(
+    series = list(
+      borderWidth = 0,
+      dataLabels = list(enabled = T)
+    )
+  ) %>% 
+  hc_colors(c("#78201e", "#7b566d", "#1E2032")) %>%
+  hc_add_series(
+    name = "Score",
+    colorByPoint = TRUE,
+    data = df,
+    type = "column"
+  )
+
+hc <- hc %>% 
+  hc_drilldown(
+    activeDataLabelStyle = list(textDecoration = "none", color = "#74727C"),
+    activeAxisLabelStyle = list(textDecoration = "none", color = "#74727C"),
+    allowPointDrilldown = TRUE,
+    drillUpButton = 
+      list(
+            relativeTo = 'spacingBox',
+            position = list(
+              y = 0,
+              x = 0),
+            theme = list(
+              fill = 'white',
+              stroke = 'silver',
+              r = 0,
+              states = list(
+                hover = list(
+                  fill = '#a4edba'
+                ),
+                select = list(
+                  stroke ='#039',
+                  fill ='#a4edba'
+                )
+              )
+            )
+      
+    ),
+    series = list(
+      list(
+        name = "Score",
+        id = "BU",
+        data = ds_BU,
+        color = "#78201e"
+      ),
+      list(
+        name = "Score",
+        id = "CS",
+        data = ds_CS,
+        color = "#7b566d"
+      ),
+      list(
+        name = "Score",
+        id = "M&S",
+        data = ds_MS,
+        color = "#1E2032"
+      )
+    )
+  )
+
+frameWidget(hc)
+
+```
+</p></center>
