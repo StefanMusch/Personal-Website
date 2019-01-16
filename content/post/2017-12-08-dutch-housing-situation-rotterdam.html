@@ -5,7 +5,6 @@ date: '2017-11-01'
 output:
   blogdown::html_page:
     toc: true
-    highlight: "tango"
 slug: dutch-housing-situation-rotterdam
 categories:
   - Professional Projects
@@ -28,70 +27,6 @@ description: "As a Data Science Trainee for the municipality of Rotterdam, I was
 <script src="/rmarkdown-libs/htmlwidgets/htmlwidgets.js"></script>
 <script src="/rmarkdown-libs/pymjs/pym.v1.js"></script>
 <script src="/rmarkdown-libs/widgetframe-binding/widgetframe.js"></script>
-<style type="text/css">
-a.sourceLine { display: inline-block; line-height: 1.25; }
-a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
-a.sourceLine:empty { height: 1.2em; position: absolute; }
-.sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; position: relative; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-code.sourceCode { white-space: pre-wrap; }
-a.sourceLine { text-indent: -1em; padding-left: 1em; }
-}
-pre.numberSource a.sourceLine
-  { position: relative; }
-pre.numberSource a.sourceLine:empty
-  { position: absolute; }
-pre.numberSource a.sourceLine::before
-  { content: attr(data-line-number);
-    position: absolute; left: -5em; text-align: right; vertical-align: baseline;
-    border: none; pointer-events: all;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-    color: #aaaaaa;
-  }
-pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
-div.sourceCode
-  { background-color: #f8f8f8; }
-@media screen {
-a.sourceLine::before { text-decoration: underline; }
-}
-code span.al { color: #ef2929; } /* Alert */
-code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
-code span.at { color: #c4a000; } /* Attribute */
-code span.bn { color: #0000cf; } /* BaseN */
-code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
-code span.ch { color: #4e9a06; } /* Char */
-code span.cn { color: #000000; } /* Constant */
-code span.co { color: #8f5902; font-style: italic; } /* Comment */
-code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
-code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
-code span.dt { color: #204a87; } /* DataType */
-code span.dv { color: #0000cf; } /* DecVal */
-code span.er { color: #a40000; font-weight: bold; } /* Error */
-code span.ex { } /* Extension */
-code span.fl { color: #0000cf; } /* Float */
-code span.fu { color: #000000; } /* Function */
-code span.im { } /* Import */
-code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
-code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
-code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
-code span.ot { color: #8f5902; } /* Other */
-code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
-code span.sc { color: #000000; } /* SpecialChar */
-code span.ss { color: #4e9a06; } /* SpecialString */
-code span.st { color: #4e9a06; } /* String */
-code span.va { color: #000000; } /* Variable */
-code span.vs { color: #4e9a06; } /* VerbatimString */
-code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
-</style>
 
 <div id="TOC">
 <ul>
@@ -108,93 +43,93 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <p>As a Data Science Trainee for the municipality of Rotterdam, I was tasked to find out-of-the-box data sources to measure economic growth within the city. Naturally, I turned towards online estate agents. Funda and Jaap.nl are the biggest players in the Netherlands. Fortunately for me, Jaap.nl makes aggregated data for each municipality publicly available. This document is an analysis of this datasource.</p>
 <div id="loading-libraries" class="section level1">
 <h1>Loading Libraries</h1>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1">##Loading Libraries</a>
-<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="kw">library</span>(data.table)</a>
-<a class="sourceLine" id="cb1-3" data-line-number="3"><span class="kw">library</span>(readxl)</a>
-<a class="sourceLine" id="cb1-4" data-line-number="4"><span class="kw">library</span>(dplyr)</a>
-<a class="sourceLine" id="cb1-5" data-line-number="5"><span class="kw">library</span>(tidyr)</a>
-<a class="sourceLine" id="cb1-6" data-line-number="6"><span class="kw">library</span>(reshape2)</a>
-<a class="sourceLine" id="cb1-7" data-line-number="7"><span class="kw">library</span>(sp)</a>
-<a class="sourceLine" id="cb1-8" data-line-number="8"><span class="kw">library</span>(rgdal)</a>
-<a class="sourceLine" id="cb1-9" data-line-number="9"><span class="kw">library</span>(ggplot2)</a>
-<a class="sourceLine" id="cb1-10" data-line-number="10"><span class="kw">library</span>(leaflet)</a>
-<a class="sourceLine" id="cb1-11" data-line-number="11"><span class="kw">library</span>(scales)</a>
-<a class="sourceLine" id="cb1-12" data-line-number="12"><span class="kw">library</span>(ggthemes)</a>
-<a class="sourceLine" id="cb1-13" data-line-number="13"><span class="kw">library</span>(viridis)</a>
-<a class="sourceLine" id="cb1-14" data-line-number="14"><span class="kw">library</span>(highcharter)</a>
-<a class="sourceLine" id="cb1-15" data-line-number="15"><span class="kw">library</span>(widgetframe)</a>
-<a class="sourceLine" id="cb1-16" data-line-number="16"><span class="kw">library</span>(here)</a></code></pre></div>
+<pre class="r"><code>##Loading Libraries
+library(data.table)
+library(readxl)
+library(dplyr)
+library(tidyr)
+library(reshape2)
+library(sp)
+library(rgdal)
+library(ggplot2)
+library(leaflet)
+library(scales)
+library(ggthemes)
+library(viridis)
+library(highcharter)
+library(widgetframe)
+library(here)</code></pre>
 </div>
 <div id="data-wrangling" class="section level1">
 <h1>Data Wrangling</h1>
 <p>In order to get the data in the right format I used a combination of the base R function <code>Melt()</code> and <code>dplyr</code> syntax and piping.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1">Gem &lt;-<span class="st"> </span><span class="kw">read_xls</span>(<span class="kw">here</span>(<span class="st">&quot;static&quot;</span>, <span class="st">&quot;data&quot;</span>, <span class="st">&quot;Woningmarkt/Gemeenten.xls&quot;</span>), <span class="dt">sheet =</span> <span class="dv">1</span>)</a>
-<a class="sourceLine" id="cb2-2" data-line-number="2">Med &lt;-<span class="st"> </span><span class="kw">read_xls</span>(<span class="kw">here</span>(<span class="st">&quot;static&quot;</span>, <span class="st">&quot;data&quot;</span>, <span class="st">&quot;Woningmarkt/Gemeenten.xls&quot;</span>), <span class="dt">sheet =</span><span class="dv">2</span>)</a>
-<a class="sourceLine" id="cb2-3" data-line-number="3">Gem_m2 &lt;-<span class="st"> </span><span class="kw">read_xls</span>(<span class="kw">here</span>(<span class="st">&quot;static&quot;</span>, <span class="st">&quot;data&quot;</span>, <span class="st">&quot;Woningmarkt/Gemeenten.xls&quot;</span>), <span class="dt">sheet =</span><span class="dv">3</span>)</a>
-<a class="sourceLine" id="cb2-4" data-line-number="4">Aanbod &lt;-<span class="st"> </span><span class="kw">read_xls</span>(<span class="kw">here</span>(<span class="st">&quot;static&quot;</span>, <span class="st">&quot;data&quot;</span>,<span class="st">&quot;Woningmarkt/Gemeenten.xls&quot;</span>), <span class="dt">sheet =</span><span class="dv">4</span>)</a>
-<a class="sourceLine" id="cb2-5" data-line-number="5"></a>
-<a class="sourceLine" id="cb2-6" data-line-number="6">melt_Gem &lt;-<span class="st"> </span>Gem <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">melt</span>() <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">rename</span>(<span class="dt">Gemiddeld =</span> value)</a>
-<a class="sourceLine" id="cb2-7" data-line-number="7">melt_Gem_m2 &lt;-<span class="st"> </span>Gem_m2 <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">melt</span>() <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">rename</span>(<span class="dt">Gemiddeld_m2 =</span> value)</a>
-<a class="sourceLine" id="cb2-8" data-line-number="8">melt_Med &lt;-<span class="st"> </span>Med <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">melt</span>() <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">rename</span>(<span class="dt">Mediaan =</span> value)</a>
-<a class="sourceLine" id="cb2-9" data-line-number="9">melt_Aanbod &lt;-<span class="st"> </span>Aanbod <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">melt</span>() <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">rename</span>(<span class="dt">Aanbod =</span> value)</a>
-<a class="sourceLine" id="cb2-10" data-line-number="10"></a>
-<a class="sourceLine" id="cb2-11" data-line-number="11">df &lt;-<span class="st"> </span>melt_Gem <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">left_join</span>(melt_Gem_m2, <span class="dt">by =</span> <span class="kw">c</span>(<span class="st">&quot;Gemeente&quot;</span>, <span class="st">&quot;variable&quot;</span>)) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb2-12" data-line-number="12"><span class="st">  </span><span class="kw">left_join</span>(melt_Med, <span class="dt">by =</span><span class="kw">c</span>(<span class="st">&quot;Gemeente&quot;</span>, <span class="st">&quot;variable&quot;</span>)) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb2-13" data-line-number="13"><span class="st">  </span><span class="kw">left_join</span>(melt_Aanbod, <span class="dt">by =</span><span class="kw">c</span>(<span class="st">&quot;Gemeente&quot;</span>, <span class="st">&quot;variable&quot;</span>)) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb2-14" data-line-number="14"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">Datum =</span> variable) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb2-15" data-line-number="15"><span class="st">  </span><span class="kw">filter</span>(Gemiddeld <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span> <span class="op">&amp;</span><span class="st"> </span>Gemiddeld <span class="op">&lt;</span><span class="dv">1000000</span>) <span class="co">#Remove outliers</span></a></code></pre></div>
+<pre class="r"><code>Gem &lt;- read_xls(here(&quot;static&quot;, &quot;data&quot;, &quot;Woningmarkt/Gemeenten.xls&quot;), sheet = 1)
+Med &lt;- read_xls(here(&quot;static&quot;, &quot;data&quot;, &quot;Woningmarkt/Gemeenten.xls&quot;), sheet =2)
+Gem_m2 &lt;- read_xls(here(&quot;static&quot;, &quot;data&quot;, &quot;Woningmarkt/Gemeenten.xls&quot;), sheet =3)
+Aanbod &lt;- read_xls(here(&quot;static&quot;, &quot;data&quot;,&quot;Woningmarkt/Gemeenten.xls&quot;), sheet =4)
+
+melt_Gem &lt;- Gem %&gt;% melt() %&gt;% rename(Gemiddeld = value)
+melt_Gem_m2 &lt;- Gem_m2 %&gt;% melt() %&gt;% rename(Gemiddeld_m2 = value)
+melt_Med &lt;- Med %&gt;% melt() %&gt;% rename(Mediaan = value)
+melt_Aanbod &lt;- Aanbod %&gt;% melt() %&gt;% rename(Aanbod = value)
+
+df &lt;- melt_Gem %&gt;% left_join(melt_Gem_m2, by = c(&quot;Gemeente&quot;, &quot;variable&quot;)) %&gt;%
+  left_join(melt_Med, by =c(&quot;Gemeente&quot;, &quot;variable&quot;)) %&gt;%
+  left_join(melt_Aanbod, by =c(&quot;Gemeente&quot;, &quot;variable&quot;)) %&gt;%
+  mutate(Datum = variable) %&gt;%
+  filter(Gemiddeld &gt; 0 &amp; Gemiddeld &lt;1000000) #Remove outliers</code></pre>
 </div>
 <div id="house-prices-over-time---netherlands" class="section level1">
 <h1>House Prices over time - Netherlands</h1>
 <p>The code below generates a color coded map of average house prices in the Netherlands for each municipality, plotted on top of a map of the Netherlands.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">###MAP Section###</a>
-<a class="sourceLine" id="cb3-2" data-line-number="2">NLD &lt;-<span class="st"> </span><span class="kw">readRDS</span>(<span class="st">&quot;/Gemeente Rotterdam/Datasets/Woningmarkt/NLD_adm2.rds&quot;</span>)</a>
-<a class="sourceLine" id="cb3-3" data-line-number="3">NLD_fixed &lt;-<span class="st"> </span><span class="kw">subset</span>(NLD, <span class="op">!</span>NLD<span class="op">$</span>NAME_<span class="dv">1</span>  <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Zeeuwse meren&quot;</span>, <span class="st">&quot;IJsselmeer&quot;</span>))</a>
-<a class="sourceLine" id="cb3-4" data-line-number="4">NLD_fixed &lt;-<span class="st"> </span><span class="kw">fortify</span>(NLD_fixed)</a>
-<a class="sourceLine" id="cb3-5" data-line-number="5"></a>
-<a class="sourceLine" id="cb3-6" data-line-number="6">Gem &lt;-<span class="st"> </span>Gem <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">rename</span>(<span class="dt">gemeente =</span> Gemeente)</a>
-<a class="sourceLine" id="cb3-7" data-line-number="7">Gem_m2 &lt;-<span class="st"> </span>Gem_m2 <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">rename</span>(<span class="dt">gemeente =</span> Gemeente)</a>
-<a class="sourceLine" id="cb3-8" data-line-number="8"></a>
-<a class="sourceLine" id="cb3-9" data-line-number="9">names_and_numbers &lt;-<span class="st"> </span><span class="kw">data_frame</span>(<span class="dt">id=</span><span class="kw">rownames</span>(NLD<span class="op">@</span>data),</a>
-<a class="sourceLine" id="cb3-10" data-line-number="10">                                <span class="dt">gemeente=</span>NLD<span class="op">@</span>data<span class="op">$</span>NAME_<span class="dv">2</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb3-11" data-line-number="11"><span class="st">  </span><span class="kw">left_join</span>(Gem_m2, <span class="dt">by =</span> <span class="st">&quot;gemeente&quot;</span>)</a>
-<a class="sourceLine" id="cb3-12" data-line-number="12"></a>
-<a class="sourceLine" id="cb3-13" data-line-number="13">final_map &lt;-<span class="st"> </span><span class="kw">left_join</span>(NLD_fixed, names_and_numbers, <span class="dt">by =</span> <span class="st">&quot;id&quot;</span>)</a>
-<a class="sourceLine" id="cb3-14" data-line-number="14"></a>
-<a class="sourceLine" id="cb3-15" data-line-number="15"></a>
-<a class="sourceLine" id="cb3-16" data-line-number="16">maanden &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(<span class="kw">c</span>(<span class="kw">colnames</span>(final_map)), <span class="dt">stringsAsFactors =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb3-17" data-line-number="17">maanden2 &lt;-<span class="st"> </span>maanden <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb3-18" data-line-number="18"><span class="st">  </span><span class="kw">tail</span>(<span class="op">-</span><span class="dv">8</span>)</a>
-<a class="sourceLine" id="cb3-19" data-line-number="19"></a>
-<a class="sourceLine" id="cb3-20" data-line-number="20"></a>
-<a class="sourceLine" id="cb3-21" data-line-number="21">## Create function to plot one map</a>
-<a class="sourceLine" id="cb3-22" data-line-number="22">plots &lt;-<span class="st"> </span><span class="cf">function</span> (j){</a>
-<a class="sourceLine" id="cb3-23" data-line-number="23">  final_map <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb3-24" data-line-number="24"><span class="st">    </span><span class="kw">ggplot</span>(<span class="kw">aes_string</span>(<span class="dt">x =</span> <span class="st">&quot;long&quot;</span>, <span class="dt">y =</span> <span class="st">&quot;lat&quot;</span>, <span class="dt">group =</span> <span class="st">&quot;group&quot;</span>, <span class="dt">fill =</span> j)) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb3-25" data-line-number="25"><span class="st">    </span><span class="kw">geom_polygon</span>() <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb3-26" data-line-number="26"><span class="st">    </span><span class="kw">geom_path</span>(<span class="dt">color =</span> <span class="st">&#39;black&#39;</span>) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb3-27" data-line-number="27"><span class="st">    </span><span class="kw">scale_fill_viridis</span>(<span class="dt">option=</span><span class="st">&quot;plasma&quot;</span>,</a>
-<a class="sourceLine" id="cb3-28" data-line-number="28">                       <span class="dt">name =</span> <span class="st">&quot;Gemiddelde woningsprijs per m2(in €)&quot;</span>,</a>
-<a class="sourceLine" id="cb3-29" data-line-number="29">                       <span class="dt">labels =</span> comma,</a>
-<a class="sourceLine" id="cb3-30" data-line-number="30">                       <span class="dt">limits =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">6000</span>),</a>
-<a class="sourceLine" id="cb3-31" data-line-number="31">                       <span class="dt">direction =</span> <span class="dv">-1</span>)<span class="op">+</span></a>
-<a class="sourceLine" id="cb3-32" data-line-number="32"><span class="st">    </span><span class="kw">coord_map</span>(<span class="st">&#39;albers&#39;</span>, <span class="dt">lat0=</span><span class="dv">30</span>, <span class="dt">lat1=</span><span class="dv">40</span>) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb3-33" data-line-number="33"><span class="st">    </span><span class="kw">theme_map</span>()<span class="op">+</span></a>
-<a class="sourceLine" id="cb3-34" data-line-number="34"><span class="st">    </span><span class="kw">ggtitle</span>(<span class="kw">paste0</span>(<span class="st">&quot;Huizen Markt in Netherlands(o.b.v. JAAP.nl)  - &quot;</span>, j)) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb3-35" data-line-number="35"><span class="st">    </span><span class="kw">theme</span>(<span class="dt">plot.title =</span> <span class="kw">element_text</span>(<span class="dt">hjust =</span> <span class="fl">0.5</span>),</a>
-<a class="sourceLine" id="cb3-36" data-line-number="36">          <span class="dt">legend.position =</span> <span class="st">&quot;right&quot;</span>)</a>
-<a class="sourceLine" id="cb3-37" data-line-number="37">}</a></code></pre></div>
+<pre class="r"><code>###MAP Section###
+NLD &lt;- readRDS(&quot;/Gemeente Rotterdam/Datasets/Woningmarkt/NLD_adm2.rds&quot;)
+NLD_fixed &lt;- subset(NLD, !NLD$NAME_1  %in% c(&quot;Zeeuwse meren&quot;, &quot;IJsselmeer&quot;))
+NLD_fixed &lt;- fortify(NLD_fixed)
+
+Gem &lt;- Gem %&gt;% rename(gemeente = Gemeente)
+Gem_m2 &lt;- Gem_m2 %&gt;% rename(gemeente = Gemeente)
+
+names_and_numbers &lt;- data_frame(id=rownames(NLD@data),
+                                gemeente=NLD@data$NAME_2) %&gt;% 
+  left_join(Gem_m2, by = &quot;gemeente&quot;)
+
+final_map &lt;- left_join(NLD_fixed, names_and_numbers, by = &quot;id&quot;)
+
+
+maanden &lt;- as.data.frame(c(colnames(final_map)), stringsAsFactors = FALSE)
+maanden2 &lt;- maanden %&gt;%
+  tail(-8)
+
+
+## Create function to plot one map
+plots &lt;- function (j){
+  final_map %&gt;%
+    ggplot(aes_string(x = &quot;long&quot;, y = &quot;lat&quot;, group = &quot;group&quot;, fill = j)) + 
+    geom_polygon() + 
+    geom_path(color = &#39;black&#39;) + 
+    scale_fill_viridis(option=&quot;plasma&quot;,
+                       name = &quot;Gemiddelde woningsprijs per m2(in €)&quot;,
+                       labels = comma,
+                       limits = c(0, 6000),
+                       direction = -1)+
+    coord_map(&#39;albers&#39;, lat0=30, lat1=40) + 
+    theme_map()+
+    ggtitle(paste0(&quot;Huizen Markt in Netherlands(o.b.v. JAAP.nl)  - &quot;, j)) + 
+    theme(plot.title = element_text(hjust = 0.5),
+          legend.position = &quot;right&quot;)
+}</code></pre>
 <p>I called the function above for each different month of the data to create an image for each month. After I created all of the seperate images, I turned towards the image manipulation tool <a href="https://www.imagemagick.org/script/index.php">ImageMagick</a> in order to create the .gif as seen below</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">## Plot a map for each month value to create a gif.</a>
-<a class="sourceLine" id="cb4-2" data-line-number="2"><span class="kw">setwd</span>(<span class="st">&quot;Gemeente Rotterdam/Datasets/Woningmarkt/images/Gem_M2&quot;</span>)</a>
-<a class="sourceLine" id="cb4-3" data-line-number="3"><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(maanden2)) {</a>
-<a class="sourceLine" id="cb4-4" data-line-number="4">  j &lt;-<span class="st"> </span>maanden2[i,]</a>
-<a class="sourceLine" id="cb4-5" data-line-number="5">  plotmap &lt;-<span class="st"> </span><span class="kw">plots</span>(j)</a>
-<a class="sourceLine" id="cb4-6" data-line-number="6">  name &lt;-<span class="st"> </span><span class="kw">paste</span>(<span class="st">&quot;Gem_M2&quot;</span>,<span class="kw">sprintf</span>(<span class="st">&quot;%03.f&quot;</span>, i),<span class="st">&quot;_&quot;</span>, j,<span class="st">&quot;.png&quot;</span>, <span class="dt">sep=</span><span class="st">&quot;&quot;</span>)</a>
-<a class="sourceLine" id="cb4-7" data-line-number="7">  <span class="kw">png</span>(name, <span class="dt">width=</span><span class="dv">800</span>, <span class="dt">height=</span><span class="dv">600</span>)</a>
-<a class="sourceLine" id="cb4-8" data-line-number="8">  <span class="kw">print</span>(plotmap)</a>
-<a class="sourceLine" id="cb4-9" data-line-number="9">  <span class="kw">dev.off</span>()</a>
-<a class="sourceLine" id="cb4-10" data-line-number="10">}</a></code></pre></div>
+<pre class="r"><code>## Plot a map for each month value to create a gif.
+setwd(&quot;Gemeente Rotterdam/Datasets/Woningmarkt/images/Gem_M2&quot;)
+for (i in 1:nrow(maanden2)) {
+  j &lt;- maanden2[i,]
+  plotmap &lt;- plots(j)
+  name &lt;- paste(&quot;Gem_M2&quot;,sprintf(&quot;%03.f&quot;, i),&quot;_&quot;, j,&quot;.png&quot;, sep=&quot;&quot;)
+  png(name, width=800, height=600)
+  print(plotmap)
+  dev.off()
+}</code></pre>
 </center>
 <center>
 <div class="figure">
@@ -205,64 +140,64 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <div id="netherlands" class="section level2">
 <h2>Netherlands</h2>
 <p>Since I’m in love with the Highcharts JavaScript Library I visualised the time series. The housing market in the Netherlands saw a huge decline house prices and a huge growth in the number of available houses from 2012 to 2016. At the start of 2016, banks started to offer extremely low mortgage rates, which caused the population to collectively invest in properties all around the countries. House prices roared upwards while the offer of available houses declined again. This is causing massive uproar, especially in larger municipalities - where house prices are through the roof. Rotterdam in specific benefited greatly and finally caught up to the national average of house prices.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">TS_gem &lt;-<span class="st"> </span>df <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb5-2" data-line-number="2"><span class="st">  </span><span class="kw">group_by</span>(Datum) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb5-3" data-line-number="3"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">Gemiddelde =</span> <span class="kw">round</span>(<span class="kw">mean</span>(Gemiddeld), <span class="dv">0</span>))<span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb5-4" data-line-number="4"><span class="st">  </span><span class="kw">select</span>(<span class="op">-</span>Datum) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb5-5" data-line-number="5"><span class="st">  </span><span class="kw">ts</span>(<span class="dt">start =</span> <span class="kw">c</span>(<span class="dv">2008</span>, <span class="dv">9</span>), <span class="dt">frequency =</span> <span class="dv">12</span>) </a>
-<a class="sourceLine" id="cb5-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb5-7" data-line-number="7">TS_med &lt;-<span class="st"> </span>df <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb5-8" data-line-number="8"><span class="st">  </span><span class="kw">group_by</span>(Datum) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb5-9" data-line-number="9"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">Mediaan =</span> <span class="kw">round</span>(<span class="kw">mean</span>(Mediaan), <span class="dv">0</span>))<span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb5-10" data-line-number="10"><span class="st">  </span><span class="kw">select</span>(<span class="op">-</span>Datum) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb5-11" data-line-number="11"><span class="st">  </span><span class="kw">ts</span>(<span class="dt">start =</span> <span class="kw">c</span>(<span class="dv">2008</span>, <span class="dv">9</span>), <span class="dt">frequency =</span> <span class="dv">12</span>) </a>
-<a class="sourceLine" id="cb5-12" data-line-number="12"></a>
-<a class="sourceLine" id="cb5-13" data-line-number="13">TS_gemm2 &lt;-<span class="st"> </span>df <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb5-14" data-line-number="14"><span class="st">  </span><span class="kw">filter</span>(Gemiddeld_m2 <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span> <span class="op">&amp;</span><span class="st"> </span>Gemiddeld_m2 <span class="op">&lt;</span><span class="st"> </span><span class="dv">5000</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb5-15" data-line-number="15"><span class="st">  </span><span class="kw">group_by</span>(Datum) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb5-16" data-line-number="16"><span class="st">  </span><span class="kw">summarise</span>(<span class="st">`</span><span class="dt">Gemiddelde per m2</span><span class="st">`</span> =<span class="st"> </span><span class="kw">round</span>(<span class="kw">mean</span>(Gemiddeld_m2), <span class="dv">0</span>))<span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb5-17" data-line-number="17"><span class="st">  </span><span class="kw">select</span>(<span class="op">-</span>Datum) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb5-18" data-line-number="18"><span class="st">  </span><span class="kw">ts</span>(<span class="dt">start =</span> <span class="kw">c</span>(<span class="dv">2008</span>, <span class="dv">9</span>), <span class="dt">frequency =</span> <span class="dv">12</span>) </a>
-<a class="sourceLine" id="cb5-19" data-line-number="19"></a>
-<a class="sourceLine" id="cb5-20" data-line-number="20">TS_Aanbod &lt;-<span class="st"> </span>df <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb5-21" data-line-number="21"><span class="st">  </span><span class="kw">filter</span>(Aanbod <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb5-22" data-line-number="22"><span class="st">  </span><span class="kw">group_by</span>(Datum) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb5-23" data-line-number="23"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">Aanbod =</span> <span class="kw">round</span>(<span class="kw">mean</span>(Aanbod), <span class="dv">0</span>))<span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb5-24" data-line-number="24"><span class="st">  </span><span class="kw">select</span>(<span class="op">-</span>Datum) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb5-25" data-line-number="25"><span class="st">  </span><span class="kw">ts</span>(<span class="dt">start =</span> <span class="kw">c</span>(<span class="dv">2008</span>, <span class="dv">9</span>), <span class="dt">frequency =</span> <span class="dv">12</span>) </a>
-<a class="sourceLine" id="cb5-26" data-line-number="26"></a>
-<a class="sourceLine" id="cb5-27" data-line-number="27">p1 &lt;-<span class="st"> </span><span class="kw">highchart</span>() <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb5-28" data-line-number="28"><span class="st">  </span><span class="kw">hc_add_series_ts</span>(TS_gem, </a>
-<a class="sourceLine" id="cb5-29" data-line-number="29">                <span class="dt">name =</span> <span class="st">&quot;Average House Price&quot;</span>, <span class="dt">color =</span> <span class="st">&quot;orangered&quot;</span>)<span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb5-30" data-line-number="30"><span class="st">  </span><span class="kw">hc_add_series_ts</span>(TS_med,</a>
-<a class="sourceLine" id="cb5-31" data-line-number="31">                   <span class="dt">name =</span> <span class="st">&quot;Median House Price&quot;</span>, <span class="dt">color =</span> <span class="st">&quot;orange&quot;</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb5-32" data-line-number="32"><span class="st">  </span><span class="kw">hc_title</span>(<span class="dt">text=</span><span class="st">&quot;Evaluation Housing Situation in the Netherlands&quot;</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb5-33" data-line-number="33"><span class="st">  </span><span class="kw">hc_yAxis</span>(<span class="dt">title =</span> <span class="kw">list</span>(<span class="dt">text =</span> <span class="st">&quot;Amount in Euro&#39;s&quot;</span>))<span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb5-34" data-line-number="34"><span class="st">  </span><span class="kw">hc_subtitle</span>(<span class="dt">text =</span> <span class="st">&quot;Based on JAAP.nl data&quot;</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb5-35" data-line-number="35"><span class="st">    </span><span class="kw">hc_legend</span>(<span class="dt">align =</span> <span class="st">&quot;right&quot;</span>,</a>
-<a class="sourceLine" id="cb5-36" data-line-number="36">            <span class="dt">verticalAlign =</span> <span class="st">&quot;middle&quot;</span>,</a>
-<a class="sourceLine" id="cb5-37" data-line-number="37">                 <span class="dt">layout =</span> <span class="st">&quot;vertical&quot;</span>)</a>
-<a class="sourceLine" id="cb5-38" data-line-number="38"></a>
-<a class="sourceLine" id="cb5-39" data-line-number="39"></a>
-<a class="sourceLine" id="cb5-40" data-line-number="40">p2 &lt;-<span class="st"> </span><span class="kw">highchart</span>() <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb5-41" data-line-number="41"><span class="st">  </span><span class="kw">hc_add_series_ts</span>(TS_gemm2,</a>
-<a class="sourceLine" id="cb5-42" data-line-number="42">                   <span class="dt">name =</span> <span class="st">&quot;Aver Price m2&quot;</span>, <span class="dt">color =</span> <span class="st">&quot;orange&quot;</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb5-43" data-line-number="43"><span class="st">  </span><span class="kw">hc_title</span>(<span class="dt">text=</span><span class="st">&quot;Evaluation Housing Situation in the Netherlands&quot;</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb5-44" data-line-number="44"><span class="st">  </span><span class="kw">hc_subtitle</span>(<span class="dt">text =</span> <span class="st">&quot;Based on JAAP.nl data&quot;</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb5-45" data-line-number="45"><span class="st">  </span><span class="kw">hc_yAxis</span>(<span class="dt">title =</span> <span class="kw">list</span>(<span class="dt">text =</span> <span class="st">&quot;Amount in Euro&#39;s&quot;</span>))<span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb5-46" data-line-number="46"><span class="st">    </span><span class="kw">hc_legend</span>(<span class="dt">align =</span> <span class="st">&quot;right&quot;</span>,</a>
-<a class="sourceLine" id="cb5-47" data-line-number="47">            <span class="dt">verticalAlign =</span> <span class="st">&quot;middle&quot;</span>,</a>
-<a class="sourceLine" id="cb5-48" data-line-number="48">                 <span class="dt">layout =</span> <span class="st">&quot;vertical&quot;</span>)</a>
-<a class="sourceLine" id="cb5-49" data-line-number="49"></a>
-<a class="sourceLine" id="cb5-50" data-line-number="50">p3 &lt;-<span class="st"> </span><span class="kw">highchart</span>() <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb5-51" data-line-number="51"><span class="st">  </span><span class="kw">hc_add_series_ts</span>(TS_Aanbod,</a>
-<a class="sourceLine" id="cb5-52" data-line-number="52">                   <span class="dt">name =</span> <span class="st">&quot;# For Sale&quot;</span>, <span class="dt">color =</span> <span class="st">&quot;orange&quot;</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb5-53" data-line-number="53"><span class="st">  </span><span class="kw">hc_title</span>(<span class="dt">text=</span><span class="st">&quot;Evaluation Housing Situation in the Netherlands&quot;</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb5-54" data-line-number="54"><span class="st">  </span><span class="kw">hc_subtitle</span>(<span class="dt">text =</span> <span class="st">&quot;Based on JAAP.nl Data&quot;</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb5-55" data-line-number="55"><span class="st">  </span><span class="kw">hc_yAxis</span>(<span class="dt">title =</span> <span class="kw">list</span>(<span class="dt">text =</span> <span class="st">&quot;Amount&quot;</span>))<span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb5-56" data-line-number="56"><span class="st">    </span><span class="kw">hc_legend</span>(<span class="dt">align =</span> <span class="st">&quot;right&quot;</span>,</a>
-<a class="sourceLine" id="cb5-57" data-line-number="57">            <span class="dt">verticalAlign =</span> <span class="st">&quot;middle&quot;</span>,</a>
-<a class="sourceLine" id="cb5-58" data-line-number="58">                 <span class="dt">layout =</span> <span class="st">&quot;vertical&quot;</span>)</a></code></pre></div>
+<pre class="r"><code>TS_gem &lt;- df %&gt;%
+  group_by(Datum) %&gt;%
+  summarise(Gemiddelde = round(mean(Gemiddeld), 0))%&gt;%
+  select(-Datum) %&gt;%
+  ts(start = c(2008, 9), frequency = 12) 
+
+TS_med &lt;- df %&gt;%
+  group_by(Datum) %&gt;%
+  summarise(Mediaan = round(mean(Mediaan), 0))%&gt;%
+  select(-Datum) %&gt;%
+  ts(start = c(2008, 9), frequency = 12) 
+
+TS_gemm2 &lt;- df %&gt;%
+  filter(Gemiddeld_m2 &gt; 0 &amp; Gemiddeld_m2 &lt; 5000) %&gt;%
+  group_by(Datum) %&gt;%
+  summarise(`Gemiddelde per m2` = round(mean(Gemiddeld_m2), 0))%&gt;%
+  select(-Datum) %&gt;%
+  ts(start = c(2008, 9), frequency = 12) 
+
+TS_Aanbod &lt;- df %&gt;%
+  filter(Aanbod &gt; 0) %&gt;%
+  group_by(Datum) %&gt;%
+  summarise(Aanbod = round(mean(Aanbod), 0))%&gt;%
+  select(-Datum) %&gt;%
+  ts(start = c(2008, 9), frequency = 12) 
+
+p1 &lt;- highchart() %&gt;%
+  hc_add_series_ts(TS_gem, 
+                name = &quot;Average House Price&quot;, color = &quot;orangered&quot;)%&gt;%
+  hc_add_series_ts(TS_med,
+                   name = &quot;Median House Price&quot;, color = &quot;orange&quot;) %&gt;%
+  hc_title(text=&quot;Evaluation Housing Situation in the Netherlands&quot;) %&gt;%
+  hc_yAxis(title = list(text = &quot;Amount in Euro&#39;s&quot;))%&gt;%
+  hc_subtitle(text = &quot;Based on JAAP.nl data&quot;) %&gt;%
+    hc_legend(align = &quot;right&quot;,
+            verticalAlign = &quot;middle&quot;,
+                 layout = &quot;vertical&quot;)
+
+
+p2 &lt;- highchart() %&gt;%
+  hc_add_series_ts(TS_gemm2,
+                   name = &quot;Aver Price m2&quot;, color = &quot;orange&quot;) %&gt;%
+  hc_title(text=&quot;Evaluation Housing Situation in the Netherlands&quot;) %&gt;%
+  hc_subtitle(text = &quot;Based on JAAP.nl data&quot;) %&gt;%
+  hc_yAxis(title = list(text = &quot;Amount in Euro&#39;s&quot;))%&gt;%
+    hc_legend(align = &quot;right&quot;,
+            verticalAlign = &quot;middle&quot;,
+                 layout = &quot;vertical&quot;)
+
+p3 &lt;- highchart() %&gt;%
+  hc_add_series_ts(TS_Aanbod,
+                   name = &quot;# For Sale&quot;, color = &quot;orange&quot;) %&gt;%
+  hc_title(text=&quot;Evaluation Housing Situation in the Netherlands&quot;) %&gt;%
+  hc_subtitle(text = &quot;Based on JAAP.nl Data&quot;) %&gt;%
+  hc_yAxis(title = list(text = &quot;Amount&quot;))%&gt;%
+    hc_legend(align = &quot;right&quot;,
+            verticalAlign = &quot;middle&quot;,
+                 layout = &quot;vertical&quot;)</code></pre>
 <p><div id="htmlwidget-1" style="width:100%;height:480px;" class="widgetframe html-widget"></div>
 <script type="application/json" data-for="htmlwidget-1">{"x":{"url":"/post/2017-12-08-dutch-housing-situation-rotterdam_files/figure-html//widgets/widget_unnamed-chunk-3.html","options":{"xdomain":"*","allowfullscreen":false,"lazyload":false}},"evals":[],"jsHooks":[]}</script>
 <br></p>
@@ -274,65 +209,65 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="rotterdam" class="section level2">
 <h2>Rotterdam</h2>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">TS_gem_Rot &lt;-<span class="st"> </span>df <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb6-2" data-line-number="2"><span class="st">  </span><span class="kw">filter</span>(Gemeente <span class="op">==</span><span class="st"> &quot;Rotterdam&quot;</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb6-3" data-line-number="3"><span class="st">  </span><span class="kw">group_by</span>(Datum) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb6-4" data-line-number="4"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">Gemiddelde =</span> <span class="kw">round</span>(<span class="kw">mean</span>(Gemiddeld), <span class="dv">0</span>))<span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb6-5" data-line-number="5"><span class="st">  </span><span class="kw">select</span>(<span class="op">-</span>Datum) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb6-6" data-line-number="6"><span class="st">  </span><span class="kw">ts</span>(<span class="dt">start =</span> <span class="kw">c</span>(<span class="dv">2008</span>, <span class="dv">9</span>), <span class="dt">frequency =</span> <span class="dv">12</span>) </a>
-<a class="sourceLine" id="cb6-7" data-line-number="7"></a>
-<a class="sourceLine" id="cb6-8" data-line-number="8">TS_med_Rot &lt;-<span class="st"> </span>df <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb6-9" data-line-number="9"><span class="st">  </span><span class="kw">filter</span>(Gemeente <span class="op">==</span><span class="st"> &quot;Rotterdam&quot;</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb6-10" data-line-number="10"><span class="st">  </span><span class="kw">group_by</span>(Datum) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb6-11" data-line-number="11"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">Mediaan =</span> <span class="kw">round</span>(<span class="kw">mean</span>(Mediaan), <span class="dv">0</span>))<span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb6-12" data-line-number="12"><span class="st">  </span><span class="kw">select</span>(<span class="op">-</span>Datum) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb6-13" data-line-number="13"><span class="st">  </span><span class="kw">ts</span>(<span class="dt">start =</span> <span class="kw">c</span>(<span class="dv">2008</span>, <span class="dv">9</span>), <span class="dt">frequency =</span> <span class="dv">12</span>) </a>
-<a class="sourceLine" id="cb6-14" data-line-number="14"></a>
-<a class="sourceLine" id="cb6-15" data-line-number="15">TS_gemm2_Rot &lt;-<span class="st"> </span>df <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb6-16" data-line-number="16"><span class="st">  </span><span class="kw">filter</span>(Gemeente <span class="op">==</span><span class="st"> &quot;Rotterdam&quot;</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb6-17" data-line-number="17"><span class="st">  </span><span class="kw">group_by</span>(Datum) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb6-18" data-line-number="18"><span class="st">  </span><span class="kw">summarise</span>(<span class="st">`</span><span class="dt">Gemiddelde per m2</span><span class="st">`</span> =<span class="st"> </span><span class="kw">round</span>(<span class="kw">mean</span>(Gemiddeld_m2), <span class="dv">0</span>))<span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb6-19" data-line-number="19"><span class="st">  </span><span class="kw">select</span>(<span class="op">-</span>Datum) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb6-20" data-line-number="20"><span class="st">  </span><span class="kw">ts</span>(<span class="dt">start =</span> <span class="kw">c</span>(<span class="dv">2008</span>, <span class="dv">9</span>), <span class="dt">frequency =</span> <span class="dv">12</span>) </a>
-<a class="sourceLine" id="cb6-21" data-line-number="21"></a>
-<a class="sourceLine" id="cb6-22" data-line-number="22">TS_Aanbod_Rot &lt;-<span class="st"> </span>df <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb6-23" data-line-number="23"><span class="st">  </span><span class="kw">filter</span>(Gemeente <span class="op">==</span><span class="st"> &quot;Rotterdam&quot;</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb6-24" data-line-number="24"><span class="st">  </span><span class="kw">group_by</span>(Datum) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb6-25" data-line-number="25"><span class="st">  </span><span class="kw">summarise</span>(<span class="st">`</span><span class="dt">Aanbod</span><span class="st">`</span> =<span class="st"> </span><span class="kw">round</span>(<span class="kw">mean</span>(Aanbod), <span class="dv">0</span>))<span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb6-26" data-line-number="26"><span class="st">  </span><span class="kw">select</span>(<span class="op">-</span>Datum) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb6-27" data-line-number="27"><span class="st">  </span><span class="kw">ts</span>(<span class="dt">start =</span> <span class="kw">c</span>(<span class="dv">2008</span>, <span class="dv">9</span>), <span class="dt">frequency =</span> <span class="dv">12</span>) </a>
-<a class="sourceLine" id="cb6-28" data-line-number="28"></a>
-<a class="sourceLine" id="cb6-29" data-line-number="29">p4 &lt;-<span class="st"> </span><span class="kw">highchart</span>() <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb6-30" data-line-number="30"><span class="st">  </span><span class="kw">hc_add_series_ts</span>(TS_gem_Rot, </a>
-<a class="sourceLine" id="cb6-31" data-line-number="31">                <span class="dt">name =</span> <span class="st">&quot;Average House Price&quot;</span>, <span class="dt">color =</span> <span class="st">&quot;lightgreen&quot;</span>)<span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb6-32" data-line-number="32"><span class="st">  </span><span class="kw">hc_add_series_ts</span>(TS_med_Rot,</a>
-<a class="sourceLine" id="cb6-33" data-line-number="33">                   <span class="dt">name =</span> <span class="st">&quot;Median House Price&quot;</span>, <span class="dt">color =</span> <span class="st">&quot;darkgreen&quot;</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb6-34" data-line-number="34"><span class="st">  </span><span class="kw">hc_title</span>(<span class="dt">text=</span><span class="st">&quot;Evaluation Housing Situation in Rotterdam&quot;</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb6-35" data-line-number="35"><span class="st">  </span><span class="kw">hc_yAxis</span>(<span class="dt">title =</span> <span class="kw">list</span>(<span class="dt">text =</span> <span class="st">&quot;Amount in Euro&#39;s&quot;</span>))<span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb6-36" data-line-number="36"><span class="st">  </span><span class="kw">hc_subtitle</span>(<span class="dt">text =</span> <span class="st">&quot;Based on Jaap.nl data&quot;</span>)<span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb6-37" data-line-number="37"><span class="st">    </span><span class="kw">hc_legend</span>(<span class="dt">align =</span> <span class="st">&quot;right&quot;</span>,</a>
-<a class="sourceLine" id="cb6-38" data-line-number="38">            <span class="dt">verticalAlign =</span> <span class="st">&quot;middle&quot;</span>,</a>
-<a class="sourceLine" id="cb6-39" data-line-number="39">                 <span class="dt">layout =</span> <span class="st">&quot;vertical&quot;</span>)</a>
-<a class="sourceLine" id="cb6-40" data-line-number="40"></a>
-<a class="sourceLine" id="cb6-41" data-line-number="41">p5 &lt;-<span class="st"> </span><span class="kw">highchart</span>() <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb6-42" data-line-number="42"><span class="st">  </span><span class="kw">hc_add_series_ts</span>(TS_gemm2_Rot,</a>
-<a class="sourceLine" id="cb6-43" data-line-number="43">                   <span class="dt">name =</span> <span class="st">&quot;Average price m2&quot;</span>, <span class="dt">color =</span> <span class="st">&quot;green&quot;</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb6-44" data-line-number="44"><span class="st">  </span><span class="kw">hc_title</span>(<span class="dt">text=</span><span class="st">&quot;Evaluation Housing Situation in Rotterdam&quot;</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb6-45" data-line-number="45"><span class="st">  </span><span class="kw">hc_subtitle</span>(<span class="dt">text =</span> <span class="st">&quot;Based on Jaap.nl data&quot;</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb6-46" data-line-number="46"><span class="st">  </span><span class="kw">hc_yAxis</span>(<span class="dt">title =</span> <span class="kw">list</span>(<span class="dt">text =</span> <span class="st">&quot;Amount in Euro&#39;s&quot;</span>))<span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb6-47" data-line-number="47"><span class="st">    </span><span class="kw">hc_legend</span>(<span class="dt">align =</span> <span class="st">&quot;right&quot;</span>,</a>
-<a class="sourceLine" id="cb6-48" data-line-number="48">            <span class="dt">verticalAlign =</span> <span class="st">&quot;middle&quot;</span>,</a>
-<a class="sourceLine" id="cb6-49" data-line-number="49">                 <span class="dt">layout =</span> <span class="st">&quot;vertical&quot;</span>)</a>
-<a class="sourceLine" id="cb6-50" data-line-number="50"></a>
-<a class="sourceLine" id="cb6-51" data-line-number="51">p6 &lt;-<span class="st"> </span><span class="kw">highchart</span>() <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb6-52" data-line-number="52"><span class="st">  </span><span class="kw">hc_add_series_ts</span>(TS_Aanbod_Rot,</a>
-<a class="sourceLine" id="cb6-53" data-line-number="53">                   <span class="dt">name =</span> <span class="st">&quot;# of Houses for Sale&quot;</span>, <span class="dt">color =</span> <span class="st">&quot;green&quot;</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb6-54" data-line-number="54"><span class="st">  </span><span class="kw">hc_title</span>(<span class="dt">text=</span><span class="st">&quot;Evaluation Housing Situation in Rotterdam&quot;</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb6-55" data-line-number="55"><span class="st">  </span><span class="kw">hc_subtitle</span>(<span class="dt">text =</span> <span class="st">&quot;Based on Jaap.nl data&quot;</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb6-56" data-line-number="56"><span class="st">  </span><span class="kw">hc_yAxis</span>(<span class="dt">title =</span> <span class="kw">list</span>(<span class="dt">text =</span> <span class="st">&quot;Amount&quot;</span>))<span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb6-57" data-line-number="57"><span class="st">    </span><span class="kw">hc_legend</span>(<span class="dt">align =</span> <span class="st">&quot;right&quot;</span>,</a>
-<a class="sourceLine" id="cb6-58" data-line-number="58">            <span class="dt">verticalAlign =</span> <span class="st">&quot;middle&quot;</span>,</a>
-<a class="sourceLine" id="cb6-59" data-line-number="59">                 <span class="dt">layout =</span> <span class="st">&quot;vertical&quot;</span>)</a></code></pre></div>
+<pre class="r"><code>TS_gem_Rot &lt;- df %&gt;%
+  filter(Gemeente == &quot;Rotterdam&quot;) %&gt;%
+  group_by(Datum) %&gt;%
+  summarise(Gemiddelde = round(mean(Gemiddeld), 0))%&gt;%
+  select(-Datum) %&gt;%
+  ts(start = c(2008, 9), frequency = 12) 
+
+TS_med_Rot &lt;- df %&gt;%
+  filter(Gemeente == &quot;Rotterdam&quot;) %&gt;%
+  group_by(Datum) %&gt;%
+  summarise(Mediaan = round(mean(Mediaan), 0))%&gt;%
+  select(-Datum) %&gt;%
+  ts(start = c(2008, 9), frequency = 12) 
+
+TS_gemm2_Rot &lt;- df %&gt;%
+  filter(Gemeente == &quot;Rotterdam&quot;) %&gt;%
+  group_by(Datum) %&gt;%
+  summarise(`Gemiddelde per m2` = round(mean(Gemiddeld_m2), 0))%&gt;%
+  select(-Datum) %&gt;%
+  ts(start = c(2008, 9), frequency = 12) 
+
+TS_Aanbod_Rot &lt;- df %&gt;%
+  filter(Gemeente == &quot;Rotterdam&quot;) %&gt;%
+  group_by(Datum) %&gt;%
+  summarise(`Aanbod` = round(mean(Aanbod), 0))%&gt;%
+  select(-Datum) %&gt;%
+  ts(start = c(2008, 9), frequency = 12) 
+
+p4 &lt;- highchart() %&gt;%
+  hc_add_series_ts(TS_gem_Rot, 
+                name = &quot;Average House Price&quot;, color = &quot;lightgreen&quot;)%&gt;%
+  hc_add_series_ts(TS_med_Rot,
+                   name = &quot;Median House Price&quot;, color = &quot;darkgreen&quot;) %&gt;%
+  hc_title(text=&quot;Evaluation Housing Situation in Rotterdam&quot;) %&gt;%
+  hc_yAxis(title = list(text = &quot;Amount in Euro&#39;s&quot;))%&gt;%
+  hc_subtitle(text = &quot;Based on Jaap.nl data&quot;)%&gt;%
+    hc_legend(align = &quot;right&quot;,
+            verticalAlign = &quot;middle&quot;,
+                 layout = &quot;vertical&quot;)
+
+p5 &lt;- highchart() %&gt;%
+  hc_add_series_ts(TS_gemm2_Rot,
+                   name = &quot;Average price m2&quot;, color = &quot;green&quot;) %&gt;%
+  hc_title(text=&quot;Evaluation Housing Situation in Rotterdam&quot;) %&gt;%
+  hc_subtitle(text = &quot;Based on Jaap.nl data&quot;) %&gt;%
+  hc_yAxis(title = list(text = &quot;Amount in Euro&#39;s&quot;))%&gt;%
+    hc_legend(align = &quot;right&quot;,
+            verticalAlign = &quot;middle&quot;,
+                 layout = &quot;vertical&quot;)
+
+p6 &lt;- highchart() %&gt;%
+  hc_add_series_ts(TS_Aanbod_Rot,
+                   name = &quot;# of Houses for Sale&quot;, color = &quot;green&quot;) %&gt;%
+  hc_title(text=&quot;Evaluation Housing Situation in Rotterdam&quot;) %&gt;%
+  hc_subtitle(text = &quot;Based on Jaap.nl data&quot;) %&gt;%
+  hc_yAxis(title = list(text = &quot;Amount&quot;))%&gt;%
+    hc_legend(align = &quot;right&quot;,
+            verticalAlign = &quot;middle&quot;,
+                 layout = &quot;vertical&quot;)</code></pre>
 <p><div id="htmlwidget-4" style="width:100%;height:480px;" class="widgetframe html-widget"></div>
 <script type="application/json" data-for="htmlwidget-4">{"x":{"url":"/post/2017-12-08-dutch-housing-situation-rotterdam_files/figure-html//widgets/widget_unnamed-chunk-6.html","options":{"xdomain":"*","allowfullscreen":false,"lazyload":false}},"evals":[],"jsHooks":[]}</script>
 <br></p>
@@ -344,45 +279,45 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="rotterdam-vs.-netherlands" class="section level2">
 <h2>Rotterdam Vs. Netherlands</h2>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1">p7 &lt;-<span class="st"> </span><span class="kw">highchart</span>() <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb7-2" data-line-number="2"><span class="st">  </span><span class="kw">hc_add_series_ts</span>(TS_gem_Rot, </a>
-<a class="sourceLine" id="cb7-3" data-line-number="3">                <span class="dt">name =</span> <span class="st">&quot;Average House Price | Rotterdam&quot;</span>, <span class="dt">color =</span> <span class="st">&quot;darkgreen&quot;</span>)<span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb7-4" data-line-number="4"><span class="st">  </span><span class="kw">hc_add_series_ts</span>(TS_med_Rot,</a>
-<a class="sourceLine" id="cb7-5" data-line-number="5">                   <span class="dt">name =</span> <span class="st">&quot;Median House Price | Rotterdam&quot;</span>, <span class="dt">color =</span> <span class="st">&quot;lightgreen&quot;</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb7-6" data-line-number="6"><span class="st">  </span><span class="kw">hc_add_series_ts</span>(TS_gem,</a>
-<a class="sourceLine" id="cb7-7" data-line-number="7">                   <span class="dt">name =</span> <span class="st">&quot;Average House Price | Netherlands&quot;</span>, <span class="dt">color =</span> <span class="st">&quot;orangered&quot;</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb7-8" data-line-number="8"><span class="st">    </span><span class="kw">hc_add_series_ts</span>(TS_med, </a>
-<a class="sourceLine" id="cb7-9" data-line-number="9">                <span class="dt">name =</span> <span class="st">&quot;Median House Price | Netherlands&quot;</span>, <span class="dt">color =</span> <span class="st">&quot;orange&quot;</span>)<span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb7-10" data-line-number="10"><span class="st">  </span><span class="kw">hc_title</span>(<span class="dt">text=</span><span class="st">&quot;Evaluation Housing Situation | Netherlands vs. Rotterdam&quot;</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb7-11" data-line-number="11"><span class="st">  </span><span class="kw">hc_yAxis</span>(<span class="dt">title =</span> <span class="kw">list</span>(<span class="dt">text =</span> <span class="st">&quot;Amount in Euro&#39;s&quot;</span>))<span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb7-12" data-line-number="12"><span class="st">  </span><span class="kw">hc_subtitle</span>(<span class="dt">text =</span> <span class="st">&quot;Based on Jaap.nl data&quot;</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb7-13" data-line-number="13"><span class="st">    </span><span class="kw">hc_legend</span>(<span class="dt">align =</span> <span class="st">&quot;right&quot;</span>,</a>
-<a class="sourceLine" id="cb7-14" data-line-number="14">            <span class="dt">verticalAlign =</span> <span class="st">&quot;middle&quot;</span>,</a>
-<a class="sourceLine" id="cb7-15" data-line-number="15">                 <span class="dt">layout =</span> <span class="st">&quot;vertical&quot;</span>)</a>
-<a class="sourceLine" id="cb7-16" data-line-number="16"></a>
-<a class="sourceLine" id="cb7-17" data-line-number="17">p8 &lt;-<span class="st"> </span><span class="kw">highchart</span>() <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb7-18" data-line-number="18"><span class="st">  </span><span class="kw">hc_add_series_ts</span>(TS_gemm2_Rot,</a>
-<a class="sourceLine" id="cb7-19" data-line-number="19">                   <span class="dt">name =</span> <span class="st">&quot;Average Price m2 | Rotterdam&quot;</span>, <span class="dt">color =</span> <span class="st">&quot;green&quot;</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb7-20" data-line-number="20"><span class="st">    </span><span class="kw">hc_add_series_ts</span>(TS_gemm2,</a>
-<a class="sourceLine" id="cb7-21" data-line-number="21">                   <span class="dt">name =</span> <span class="st">&quot;Average Price  m2 | Netherlands&quot;</span>, <span class="dt">color =</span> <span class="st">&quot;orange&quot;</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb7-22" data-line-number="22"><span class="st">  </span><span class="kw">hc_title</span>(<span class="dt">text=</span><span class="st">&quot;Evaluation Housing Situation | Netherlands vs. Rotterdam&quot;</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb7-23" data-line-number="23"><span class="st">  </span><span class="kw">hc_subtitle</span>(<span class="dt">text =</span> <span class="st">&quot;Based on Jaap.nl data&quot;</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb7-24" data-line-number="24"><span class="st">  </span><span class="kw">hc_yAxis</span>(<span class="dt">title =</span> <span class="kw">list</span>(<span class="dt">text =</span> <span class="st">&quot;Amount in Euro&#39;s&quot;</span>))<span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb7-25" data-line-number="25"><span class="st">    </span><span class="kw">hc_legend</span>(<span class="dt">align =</span> <span class="st">&quot;right&quot;</span>,</a>
-<a class="sourceLine" id="cb7-26" data-line-number="26">            <span class="dt">verticalAlign =</span> <span class="st">&quot;middle&quot;</span>,</a>
-<a class="sourceLine" id="cb7-27" data-line-number="27">                 <span class="dt">layout =</span> <span class="st">&quot;vertical&quot;</span>)</a>
-<a class="sourceLine" id="cb7-28" data-line-number="28"></a>
-<a class="sourceLine" id="cb7-29" data-line-number="29">p9 &lt;-<span class="st"> </span><span class="kw">highchart</span>() <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb7-30" data-line-number="30"><span class="st">  </span><span class="kw">hc_add_series_ts</span>(TS_Aanbod_Rot,</a>
-<a class="sourceLine" id="cb7-31" data-line-number="31">                   <span class="dt">name =</span> <span class="st">&quot;# Of Houses for Sale | Rotterdam&quot;</span>, <span class="dt">color =</span> <span class="st">&quot;green&quot;</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb7-32" data-line-number="32"><span class="st">    </span><span class="kw">hc_add_series_ts</span>(TS_Aanbod,</a>
-<a class="sourceLine" id="cb7-33" data-line-number="33">                   <span class="dt">name =</span> <span class="st">&quot;# Of Houses for Sale | Netherlands&quot;</span>, <span class="dt">color =</span> <span class="st">&quot;orange&quot;</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb7-34" data-line-number="34"><span class="st">  </span><span class="kw">hc_title</span>(<span class="dt">text=</span><span class="st">&quot;Evaluation Housig Situation | Netherlands vs. Rotterdam&quot;</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb7-35" data-line-number="35"><span class="st">  </span><span class="kw">hc_subtitle</span>(<span class="dt">text =</span> <span class="st">&quot;Based on Jaap.nl data&quot;</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb7-36" data-line-number="36"><span class="st">  </span><span class="kw">hc_yAxis</span>(<span class="dt">title =</span> <span class="kw">list</span>(<span class="dt">text =</span> <span class="st">&quot;Amount&quot;</span>))<span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb7-37" data-line-number="37"><span class="st">  </span><span class="kw">hc_legend</span>(<span class="dt">align =</span> <span class="st">&quot;right&quot;</span>,</a>
-<a class="sourceLine" id="cb7-38" data-line-number="38">            <span class="dt">verticalAlign =</span> <span class="st">&quot;middle&quot;</span>,</a>
-<a class="sourceLine" id="cb7-39" data-line-number="39">            <span class="dt">layout =</span> <span class="st">&quot;vertical&quot;</span>)</a></code></pre></div>
+<pre class="r"><code>p7 &lt;- highchart() %&gt;%
+  hc_add_series_ts(TS_gem_Rot, 
+                name = &quot;Average House Price | Rotterdam&quot;, color = &quot;darkgreen&quot;)%&gt;%
+  hc_add_series_ts(TS_med_Rot,
+                   name = &quot;Median House Price | Rotterdam&quot;, color = &quot;lightgreen&quot;) %&gt;%
+  hc_add_series_ts(TS_gem,
+                   name = &quot;Average House Price | Netherlands&quot;, color = &quot;orangered&quot;) %&gt;%
+    hc_add_series_ts(TS_med, 
+                name = &quot;Median House Price | Netherlands&quot;, color = &quot;orange&quot;)%&gt;%
+  hc_title(text=&quot;Evaluation Housing Situation | Netherlands vs. Rotterdam&quot;) %&gt;%
+  hc_yAxis(title = list(text = &quot;Amount in Euro&#39;s&quot;))%&gt;%
+  hc_subtitle(text = &quot;Based on Jaap.nl data&quot;) %&gt;%
+    hc_legend(align = &quot;right&quot;,
+            verticalAlign = &quot;middle&quot;,
+                 layout = &quot;vertical&quot;)
+
+p8 &lt;- highchart() %&gt;%
+  hc_add_series_ts(TS_gemm2_Rot,
+                   name = &quot;Average Price m2 | Rotterdam&quot;, color = &quot;green&quot;) %&gt;%
+    hc_add_series_ts(TS_gemm2,
+                   name = &quot;Average Price  m2 | Netherlands&quot;, color = &quot;orange&quot;) %&gt;%
+  hc_title(text=&quot;Evaluation Housing Situation | Netherlands vs. Rotterdam&quot;) %&gt;%
+  hc_subtitle(text = &quot;Based on Jaap.nl data&quot;) %&gt;%
+  hc_yAxis(title = list(text = &quot;Amount in Euro&#39;s&quot;))%&gt;%
+    hc_legend(align = &quot;right&quot;,
+            verticalAlign = &quot;middle&quot;,
+                 layout = &quot;vertical&quot;)
+
+p9 &lt;- highchart() %&gt;%
+  hc_add_series_ts(TS_Aanbod_Rot,
+                   name = &quot;# Of Houses for Sale | Rotterdam&quot;, color = &quot;green&quot;) %&gt;%
+    hc_add_series_ts(TS_Aanbod,
+                   name = &quot;# Of Houses for Sale | Netherlands&quot;, color = &quot;orange&quot;) %&gt;%
+  hc_title(text=&quot;Evaluation Housig Situation | Netherlands vs. Rotterdam&quot;) %&gt;%
+  hc_subtitle(text = &quot;Based on Jaap.nl data&quot;) %&gt;%
+  hc_yAxis(title = list(text = &quot;Amount&quot;))%&gt;%
+  hc_legend(align = &quot;right&quot;,
+            verticalAlign = &quot;middle&quot;,
+            layout = &quot;vertical&quot;)</code></pre>
 <p><div id="htmlwidget-7" style="width:100%;height:480px;" class="widgetframe html-widget"></div>
 <script type="application/json" data-for="htmlwidget-7">{"x":{"url":"/post/2017-12-08-dutch-housing-situation-rotterdam_files/figure-html//widgets/widget_unnamed-chunk-9.html","options":{"xdomain":"*","allowfullscreen":false,"lazyload":false}},"evals":[],"jsHooks":[]}</script>
 <br>

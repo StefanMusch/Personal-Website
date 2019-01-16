@@ -17,7 +17,8 @@
       <pubDate>Tue, 20 Feb 2018 00:00:00 +0000</pubDate>
       
       <guid>/2018/02/creating-your-own-beautiful-holiday-poster/</guid>
-      <description>a.sourceLine { display: inline-block; line-height: 1.25; }a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }a.sourceLine:empty { height: 1.2em; position: absolute; }.sourceCode { overflow: visible; }code.sourceCode { white-space: pre; position: relative; }div.sourceCode { margin: 1em 0; }pre.sourceCode { margin: 0; }@media screen {div.sourceCode { overflow: auto; }}@media print {code.sourceCode { white-space: pre-wrap; }a.sourceLine { text-indent: -1em; padding-left: 1em; }}pre.</description>
+      <description>IntroductionI love traveling, and I love world maps, even more so when I can hang them on my walls. Now that got me thinking. What if I could create maps, with a similar look and feel, of all my holiday destinations? And what if I plot my location progression on top of the destination? That would be absolutely awesome!
+In a recent post, I described how Google often tracks your location (if you agreed to it), and plotted each of my tracked location on a map.</description>
     </item>
     
   </channel>

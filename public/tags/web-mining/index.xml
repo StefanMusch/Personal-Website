@@ -27,7 +27,7 @@ Let’s get started.## Rspotify spotifyr tidyverse knitr kableExtra ggthemes ##
       <pubDate>Fri, 22 Dec 2017 00:00:00 +0000</pubDate>
       
       <guid>/2017/12/how-jolly-are-christmas-songs-actually/</guid>
-      <description>a.sourceLine { display: inline-block; line-height: 1.25; }a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }a.sourceLine:empty { height: 1.2em; position: absolute; }.sourceCode { overflow: visible; }code.sourceCode { white-space: pre; position: relative; }div.sourceCode { margin: 1em 0; }pre.sourceCode { margin: 0; }@media screen {div.sourceCode { overflow: auto; }}@media print {code.sourceCode { white-space: pre-wrap; }a.sourceLine { text-indent: -1em; padding-left: 1em; }}pre.</description>
+      <description>Web ScrapingRequired librariesList of SongsLyrics of the SongsText AnalysisTop 15 wordsChristmas Carol SentimentsPositive vs NegativeMost Positive &amp;amp; Most Negative Christmas CarolChristmas is almost here, and we’ve been hearing a ton of christmas carols and chrismas songs. Now my question is, how jolly are these songs actually? This is a nice opportunity to train my Web Scraping &amp;amp; Text Mining skills.</description>
     </item>
     
   </channel>
