@@ -1,0 +1,26 @@
+---
+title: Advanced Marketing Analytics
+author: Stefan Musch
+date: '2019-02-11'
+slug: advanced-marketing-analytics
+output:
+  blogdown::html_page:
+    toc: false
+    number_sections: false
+categories:
+  - Professional Projects
+  - R
+tags:
+  - Data Analysis
+  - Marketing Analytics
+  
+thumbnailImage: "https://res.cloudinary.com/stefanmusch/image/upload/c_lpad,h_342,w_322/v1549877864/thumbnail/MktResearch_2.png"
+description: "This blog has been quiet for almost a year now. Mostly because I joined a Marketing Analytics company called Gradient Metrics as an all-round quantitative analyst. Gradient gave me the opportunity to combine my previous marketing experience with my newfound love for data science, and I never looked back."
+---
+
+# What I've been up to
+
+This blog has been quiet for almost a year now. Mostly because I joined a Marketing Analytics company called Gradient Metrics as an all-round quantitative analyst. Gradient gave me the opportunity to combine my previous marketing experience with my newfound love for data science, and I never looked back.
+
+# Combining Marketing & Data Science
+

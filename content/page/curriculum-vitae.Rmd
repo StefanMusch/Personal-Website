@@ -11,7 +11,7 @@ clearReading: false
 
 ## <i class="fa fa-compass fa-lg"></i>  Personal Story
 
-For me, the greatest thing about data is it's universal language. Rows upon rows, columns besides columns. Meaningless on it's own. Yet an absolute goldmine when combined with context and proper exploration. Where many people prefer being an expert in one field of work, I absolutely love the fact that data analysis is a thing in any field or sector. Getting to know one's business in order to extract the true value of the data analysis is in my opinion the most exciting part about data analysis. 
+For me, the greatest thing about data is it's universal language. Rows upon rows, columns besides columns. Meaningless on it's own. Yet an absolute goldmine when combined with context and proper exploration. Where many people prefer being an expert in one field of work, I absolutely love the fact that data analysis is a thing in any field or sector. Getting to know one's business in order to extract the true value of the data analysis is the most exciting part for me.
 
 Besides my passion for data, I might even be more passionate about the outdoors. Climbing in the Scottish Highlands, hiking through the Belgium Ardennes, surfing on the Australian coastline or just sitting out on my balcony, moments to cherish and times to feel free. 
   

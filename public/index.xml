@@ -6,10 +6,20 @@
     <description>Recent content on S. Musch</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 28 Mar 2018 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 11 Feb 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Advanced Marketing Analytics</title>
+      <link>/2019/02/advanced-marketing-analytics/</link>
+      <pubDate>Mon, 11 Feb 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/2019/02/advanced-marketing-analytics/</guid>
+      <description>What I’ve been up toThis blog has been quiet for almost a year now. Mostly because I joined a Marketing Analytics company called Gradient Metrics as an all-round quantitative analyst. Gradient gave me the opportunity to combine my previous marketing experience with my newfound love for data science, and I never looked back.
+Combining Marketing &amp;amp; Data Science</description>
+    </item>
     
     <item>
       <title>An Awesome Spotify Playlist Analysis</title>
@@ -105,7 +115,7 @@ For any enquiries, requests or collaboration proposals, please send me an E-Mail
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>/page/curriculum-vitae/</guid>
-      <description>Personal StoryFor me, the greatest thing about data is it’s universal language. Rows upon rows, columns besides columns. Meaningless on it’s own. Yet an absolute goldmine when combined with context and proper exploration. Where many people prefer being an expert in one field of work, I absolutely love the fact that data analysis is a thing in any field or sector. Getting to know one’s business in order to extract the true value of the data analysis is in my opinion the most exciting part about data analysis.</description>
+      <description>Personal StoryFor me, the greatest thing about data is it’s universal language. Rows upon rows, columns besides columns. Meaningless on it’s own. Yet an absolute goldmine when combined with context and proper exploration. Where many people prefer being an expert in one field of work, I absolutely love the fact that data analysis is a thing in any field or sector. Getting to know one’s business in order to extract the true value of the data analysis is the most exciting part for me.</description>
     </item>
     
   </channel>
