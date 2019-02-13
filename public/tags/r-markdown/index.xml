@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>R Markdown on S. Musch</title>
+    <link>/tags/r-markdown/</link>
+    <description>Recent content in R Markdown on S. Musch</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 01 Nov 2017 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/r-markdown/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Dutch Housing Situation - Rotterdam</title>
+      <link>/2017/11/dutch-housing-situation-rotterdam/</link>
+      <pubDate>Wed, 01 Nov 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/2017/11/dutch-housing-situation-rotterdam/</guid>
+      <description>Loading LibrariesData WranglingHouse Prices over time - NetherlandsNetherlandsRotterdamRotterdam Vs. NetherlandsAs a Data Science Trainee for the municipality of Rotterdam, I was tasked to find out-of-the-box data sources to measure economic growth within the city. Naturally, I turned towards online estate agents. Funda and Jaap.nl are the biggest players in the Netherlands. Fortunately for me, Jaap.nl makes aggregated data for each municipality publicly available.</description>
+    </item>
+    
+    <item>
+      <title>My R Blog Introduction!</title>
+      <link>/2017/06/an-r-blog-introduction/</link>
+      <pubDate>Thu, 01 Jun 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/2017/06/an-r-blog-introduction/</guid>
+      <description>When you’ve written the same code 3 times, write a function
+When you’ve given the same in-person advice 3 times, write a blog post
+&amp;mdash; David Robinson (@drob) November 9, 2017  My StoryI started learning R for real in the summer of 2017, after graduation for my MSc in Marketing Management. My graduation thesis was all about Recommendation Systems and their impact. I wrote my thesis for a festival application called Appic.</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Ggmap on S. Musch</title>
+    <link>/tags/ggmap/</link>
+    <description>Recent content in Ggmap on S. Musch</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 20 Feb 2018 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/ggmap/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Creating your own beautiful holiday poster!</title>
+      <link>/2018/02/creating-your-own-beautiful-holiday-poster/</link>
+      <pubDate>Tue, 20 Feb 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/2018/02/creating-your-own-beautiful-holiday-poster/</guid>
+      <description>IntroductionI love traveling, and I love world maps, even more so when I can hang them on my walls. Now that got me thinking. What if I could create maps, with a similar look and feel, of all my holiday destinations? And what if I plot my location progression on top of the destination? That would be absolutely awesome!
+In a recent post, I described how Google often tracks your location (if you agreed to it), and plotted each of my tracked location on a map.</description>
+    </item>
+    
+  </channel>
+</rss>

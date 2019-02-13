@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Google on S. Musch</title>
+    <link>/tags/google/</link>
+    <description>Recent content in Google on S. Musch</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 20 Feb 2018 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/google/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Creating your own beautiful holiday poster!</title>
+      <link>/2018/02/creating-your-own-beautiful-holiday-poster/</link>
+      <pubDate>Tue, 20 Feb 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/2018/02/creating-your-own-beautiful-holiday-poster/</guid>
+      <description>IntroductionI love traveling, and I love world maps, even more so when I can hang them on my walls. Now that got me thinking. What if I could create maps, with a similar look and feel, of all my holiday destinations? And what if I plot my location progression on top of the destination? That would be absolutely awesome!
+In a recent post, I described how Google often tracks your location (if you agreed to it), and plotted each of my tracked location on a map.</description>
+    </item>
+    
+    <item>
+      <title>My Tracked Locations</title>
+      <link>/2017/06/my-tracked-locations/</link>
+      <pubDate>Wed, 07 Jun 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/2017/06/my-tracked-locations/</guid>
+      <description>Visualising Google Tracking DataLoading &amp;amp; Cleaning dataStatic VisualisationInteractive VisualisationVisualising Google Tracking DataIn 2016 I let google track my location. Everytime my phone sent an update to google, a new record was created. By adding up records for each longitude and latitude coordinates combination, I was able to recreate the spots where I spent most of my time.
+Loading &amp;amp; Cleaning data## Load packages &amp;amp; Install if necessaryipak &amp;lt;- function(pkg) {new.</description>
+    </item>
+    
+  </channel>
+</rss>

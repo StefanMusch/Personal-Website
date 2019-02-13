@@ -1,0 +1,1043 @@
+
+
+  
+    
+  
+
+
+  
+
+
+
+
+
+  
+
+<!DOCTYPE html>
+<link rel="stylesheet" href="/css/hybrid.css" rel="stylesheet" id="theme-stylesheet">
+<script src="/js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+<html lang="en-us">
+  <head>
+  
+    
+	
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Hugo 0.46 with theme Tranquilpeak 0.4.3-BETA">
+    <title>Creating your own beautiful holiday poster!</title>
+    <meta name="author" content="Stefan Musch">
+    <meta name="keywords" content=", Data Science, Data Blog, R Markdown, R Visualisation">
+
+    <link rel="icon" href="/favicon.png">
+    
+
+    
+    <meta name="description" content="A tutorial on creating a beautiful map of your own holiday destinations! Created with R, ggmaps and google&#39;s location API">
+    <meta property="og:description" content="A tutorial on creating a beautiful map of your own holiday destinations! Created with R, ggmaps and google&#39;s location API">
+    <meta property="og:type" content="blog">
+    <meta property="og:title" content="Creating your own beautiful holiday poster!">
+    <meta property="og:url" content="/2018/02/creating-your-own-beautiful-holiday-poster/">
+    <meta property="og:site_name" content="S. Musch">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="S. Musch">
+    <meta name="twitter:description" content="A tutorial on creating a beautiful map of your own holiday destinations! Created with R, ggmaps and google&#39;s location API">
+    
+      <meta name="twitter:creator" content="@Stefan_Musch">
+    
+    
+
+    
+    
+
+    
+      <meta property="og:image" content="http://res.cloudinary.com/stefanmusch/image/upload/c_scale,w_725/v1534148918/thumbnail/headshot2.jpg">
+    
+
+    
+      <meta property="og:image" content="http://res.cloudinary.com/stefanmusch/image/upload/c_scale,h_400,w_400/v1519127144/thumbnail/toner_inv_map.png">
+    
+    
+      <meta property="og:image" content="http://res.cloudinary.com/stefanmusch/image/upload/v1519128352/thumbnail/SKY_MOUNTAINS.jpg">
+    
+    
+
+    
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/jquery.fancybox.min.css" integrity="sha256-vuXZ9LGmmwtjqFX1F+EKin1ThZMub58gKULUyf0qECk=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/helpers/jquery.fancybox-thumbs.min.css" integrity="sha256-SEa4XYAHihTcEP1f5gARTB2K26Uk8PsndQYHQC1f4jU=" crossorigin="anonymous" />
+    
+    
+    <link rel="stylesheet" href="/css/style-jsjn0006wyhpyzivf6yceb31gvpjatbcs3qzjvlumobfnugccvobqwxnnaj8.min.css" />
+    
+    
+
+    
+      
+<script>
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-111116966-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+
+    
+    
+  </head>
+
+  <body>
+    <div id="blog">
+      <header id="header" data-behavior="4">
+  <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+  <div class="header-title">
+    <a class="header-title-link" href="/">S. Musch</a>
+  </div>
+  
+    
+      <a class="header-right-picture "
+         href="/#about">
+    
+    
+    
+      
+        <img class="header-picture" src="http://res.cloudinary.com/stefanmusch/image/upload/c_scale,w_725/v1534148918/thumbnail/headshot2.jpg" alt="Author&#39;s picture" />
+      
+    
+    </a>
+  
+</header>
+
+      <nav id="sidebar" data-behavior="4">
+  <div class="sidebar-container">
+    
+      <div class="sidebar-profile">
+        <a href="/#about">
+          <img class="sidebar-profile-picture" src="http://res.cloudinary.com/stefanmusch/image/upload/c_scale,w_725/v1534148918/thumbnail/headshot2.jpg" alt="Author&#39;s picture" />
+        </a>
+        <h4 class="sidebar-profile-name">Stefan Musch</h4>
+        
+          <h5 class="sidebar-profile-bio">Data Scientist | Marketing Analyst |<br> Music, Sports &amp; Adventure Enthousiast <br> <br> This blog is the place where I share my work, projects, frustrations and discoveries. I designed it to be entertaining to some, and educative to others. Sometimes hopefully both. <br><br>Enjoy reading, and feel free to leave a comment!</h5>
+        
+      </div>
+    
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="/">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+      
+      <span class="sidebar-button-desc">Home</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="/#about">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+      
+      <span class="sidebar-button-desc">About</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="/page/curriculum-vitae">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-graduation-cap"></i>
+      
+      <span class="sidebar-button-desc">CV</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="/page/contact">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-envelope"></i>
+      
+      <span class="sidebar-button-desc">Contact</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="/archives">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+      
+      <span class="sidebar-button-desc">Archives</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="/categories">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+      
+      <span class="sidebar-button-desc">Categories</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="/tags">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+      
+      <span class="sidebar-button-desc">Tags</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://github.com/StefanMusch">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+      
+      <span class="sidebar-button-desc">GitHub</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://www.linkedin.com/in/stefanmusch/">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-linkedin-square"></i>
+      
+      <span class="sidebar-button-desc">LinkedIn</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://www.r-bloggers.com">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+      
+      <span class="sidebar-button-desc">R-Bloggers</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+
+    </ul>
+  </div>
+</nav>
+
+      
+  <div class="post-header-cover
+              text-left
+              post-header-cover--partial"
+       style="background-image:url('http://res.cloudinary.com/stefanmusch/image/upload/v1519128352/thumbnail/SKY_MOUNTAINS.jpg')"
+       data-behavior="4">
+    
+      <div class="post-header main-content-wrap text-left">
+  
+    <h1 class="post-title" itemprop="headline">
+      Creating your own beautiful holiday poster!
+    </h1>
+  
+  
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2018-02-20T00:00:00Z">
+        
+  
+  
+  
+  
+    20 February 2018
+  
+
+      </time>
+    
+    
+  
+  
+    <span>in</span>
+    
+      <a class="category-link" href="/categories/hobby-projects">Hobby Projects</a>
+    
+  
+
+  </div>
+
+</div>
+    
+  </div>
+
+
+      <div id="main" data-behavior="4"
+        class="hasCover
+               hasCoverMetaIn
+               ">
+        <article class="post" itemscope itemType="http://schema.org/BlogPosting">
+          
+          
+          <div class="post-content markdown" itemprop="articleBody">
+            <div class="main-content-wrap">
+              <div id="introduction" class="section level1">
+<h1>Introduction</h1>
+<p>I love traveling, and I love world maps, even more so when I can hang them on my walls. Now that got me thinking. What if I could create maps, with a similar look and feel, of all my holiday destinations? And what if I plot my location progression on top of the destination? That would be absolutely awesome!</p>
+<p>In a <a href="https://stefanmusch.netlify.com/2017/06/my-tracked-locations/">recent post</a>, I described how Google often tracks your location (if you agreed to it), and plotted each of my tracked location on a map. Now, I could easily subset that data on the time that I went on holiday, and plot that data on a map.</p>
+<p>However, I noticed that after 2016, when I changed phones, I was no longer tracking my own GPS data.. <strong>(never thought I would be sad about a company not having tracked my complete whereabouts for over a year.)</strong> Anyway, I had to get creative and find a workaround. Now I knew that Google has a fantastic API, which solves all my problems!</p>
+<p>Let’s get started with my most recent holiday - Scotland - which is an absolutely stunning holiday destination. Especially around the <a href="https://www.google.nl/search?q=isle+of+skye&amp;rlz=1C1GCEA_enNL771NL771&amp;source=lnms&amp;tbm=isch&amp;sa=X&amp;ved=0ahUKEwiM_rDnubTZAhXDyKQKHfT-DWIQ_AUICygC&amp;biw=1920&amp;bih=987">Isle of Skye</a>. The end product will look like this:</p>
+<center>
+<img src="http://res.cloudinary.com/stefanmusch/image/upload/v1519127144/thumbnail/toner_inv_map.png" alt="Map of Scotland - Traveled Locations" />
+</center>
+</div>
+<div id="background-map" class="section level1">
+<h1>Background Map</h1>
+<pre class="r"><code>## Load packages &amp; Install if necessary
+ipak &lt;- function(pkg) {
+  new.pkg &lt;- pkg[!(pkg %in% installed.packages()[, &quot;Package&quot;])]
+  if (length(new.pkg))
+  install.packages(new.pkg, dependencies = TRUE)
+  sapply(pkg, require, character.only = TRUE)
+}
+
+
+packages &lt;- c(&quot;ggplot2&quot;, &quot;ggmap&quot;, &quot;ggthemes&quot;, &quot;tidyverse&quot;)
+ipak(packages)</code></pre>
+<pre><code>##   ggplot2     ggmap  ggthemes tidyverse 
+##      TRUE      TRUE      TRUE      TRUE</code></pre>
+<p>Firstly I had to find a background map which suited my style. In my opinion <a href="http://maps.stamen.com/#watercolor/12/37.7706/-122.3782">Stamen</a> has the most beautiful maps with the <code>Toner</code> and <code>Watercolor</code> versions. Play around with the <code>get_map</code> options to find the right zoom level, maptype and color that you wish your background map to have. My setup gave me the following output:</p>
+<pre class="r"><code>toner_map &lt;- get_map(c(-4.18265, 56.816922), #Insert the desired centre coordinates of your map
+                     zoom = 7,
+                     source=&#39;stamen&#39;,
+                     maptype=&quot;toner-background&quot;, 
+                     color = &quot;bw&quot;, 
+                     crop = TRUE)
+
+ggmap(toner_map) +
+  theme_map()</code></pre>
+<p><img src="/post/2018-02-20-creating-your-own-beautiful-holiday-poster_files/figure-html/unnamed-chunk-2-1.png" width="576" style="display: block; margin: auto;" /></p>
+<p>Now, I thought this background was a little too black, so I decided to create the inverse of the map.</p>
+<pre class="r"><code>## Inverted toner map
+# invert colors in raster
+invert &lt;- function(x) rgb(t(255-col2rgb(x))/255)    
+toner_map_inv &lt;- as.raster(apply(toner_map, 2, invert))
+
+# copy attributes from original object
+class(toner_map_inv) &lt;- class(toner_map)
+attr(toner_map_inv, &quot;bb&quot;) &lt;- attr(toner_map, &quot;bb&quot;)
+
+ggmap(toner_map_inv)+
+  theme_map()</code></pre>
+<p><img src="/post/2018-02-20-creating-your-own-beautiful-holiday-poster_files/figure-html/unnamed-chunk-3-1.png" width="576" style="display: block; margin: auto;" /></p>
+<p>Looking sharp already! Now the next step is to plot my visited locations and trace my whereabouts step-wise.</p>
+</div>
+<div id="location-coordinates" class="section level1">
+<h1>Location Coordinates</h1>
+<ul>
+<li>Step 1. Create a vector of the exact route with the full names, and often, the country.
+<ul>
+<li>Google’s API sometimes gets confused when there are multiple cities with the same name. The API is not limited to cities. As you can see, I included **Old Man of Storr UK, which is a Point of Interest, and not a city, which also works!</li>
+</ul></li>
+</ul>
+<pre class="r"><code># cities to geolocate
+city_name &lt;- c(&quot;Newcastle UK&quot;, &quot;St. Abbs UK&quot;, &quot;Edinburgh&quot;, &quot;Ballachulish UK&quot;, &quot;Glencoe UK&quot;, &quot;Fort William UK&quot;,&quot;Ben Nevis UK&quot;, &quot;Kyle of Lochalsh UK&quot;, &quot;Broadford UK&quot;, &quot;Portree UK&quot; , &quot;Old Man of Storr UK&quot;, &quot;Portree UK&quot;, &quot;Fort Augustus UK&quot;, &quot;Dalwhinnie UK&quot;, &quot;Perth UK&quot;, &quot;Edinburgh&quot;, &quot;Melrose UK&quot;, &quot;Newcastle UK&quot;) 
+
+# initialize dataframe  
+ cities &lt;- tibble(    
+  city = city_name,    
+  lon = rep(NA, length(city_name)),    
+  lat = rep(NA, length(city_name))  
+)</code></pre>
+<ul>
+<li>Step 2. Use the function <code>geocode</code> to loop over the vector, and find the coordinates for each location
+<ul>
+<li>I used a nested <strong>while</strong> loop because of the rate limit on Google’s API, ensuring that all locations were geolocated.</li>
+</ul></li>
+</ul>
+<pre class="r"><code># loop cities through API to overcome API request limit
+for(c in city_name){
+  temp &lt;- tibble(lon = NA)
+  # geolocate until found
+  while(is.na(temp$lon)) {
+    temp &lt;- geocode(c)
+  } 
+  # write to dataframe
+  cities[cities$city == c, -1] &lt;- temp
+}
+
+head(cities, n = 3)</code></pre>
+<pre><code>## # A tibble: 3 x 3
+##   city           lon   lat
+##   &lt;chr&gt;        &lt;dbl&gt; &lt;dbl&gt;
+## 1 Newcastle UK -1.62  55.0
+## 2 St. Abbs UK  -2.14  55.9
+## 3 Edinburgh    -3.19  56.0</code></pre>
+<ul>
+<li>Step 3. We need a data frame where each route is tracked from the initial point to the next. i.e. from Newcastle to St. Abbs, from St. Abbs to Edinburgh and so on. First</li>
+</ul>
+<pre class="r"><code># 
+cities_trek &lt;- cities %&gt;%
+  mutate(from = lag(city),
+         to = city ) %&gt;%
+  select(from, to) %&gt;%
+  filter(from != &quot;NA&quot;)
+
+head(cities_trek, n = 3)</code></pre>
+<pre><code>## # A tibble: 3 x 2
+##   from         to             
+##   &lt;chr&gt;        &lt;chr&gt;          
+## 1 Newcastle UK St. Abbs UK    
+## 2 St. Abbs UK  Edinburgh      
+## 3 Edinburgh    Ballachulish UK</code></pre>
+<ul>
+<li>Step 4. For each <code>from</code> and <code>to</code> combination, the <code>trek()</code> function returns a bunch of coordinates based on the parameters <strong>mode</strong>, <strong>structure</strong> and <strong>output</strong>. If for example, you want to visualize a walking route, you can change the <strong>mode</strong>.</li>
+</ul>
+<pre class="r"><code># create a dataframe of each route, store in a list
+treklist &lt;- list()
+for (i in 1:nrow(cities_trek)){
+  trek_df &lt;- trek(from = cities_trek$from[i], to = cities_trek$to[i], structure = &quot;route&quot;, mode = &quot;driving&quot;, output = &quot;simple&quot;)
+  treklist[[i]] &lt;- trek_df
+}
+
+# bind all rows of each dataframe in the list to a new dataframe. 
+tracks &lt;- do.call(rbind, treklist)
+
+head(tracks, n = 10)</code></pre>
+<pre><code>##         lat      lon route
+## 1  54.97831 -1.61804     A
+## 2  54.97970 -1.61712     A
+## 3  54.98077 -1.61681     A
+## 4  54.98159 -1.61663     A
+## 5  54.98166 -1.61665     A
+## 6  54.98271 -1.62026     A
+## 7  54.98283 -1.62019     A
+## 8  54.98383 -1.62286     A
+## 9  54.98615 -1.63059     A
+## 10 54.98890 -1.63958     A</code></pre>
+<ul>
+<li>Step 5. Plotting time!</li>
+</ul>
+</div>
+<div id="creating-your-own-beautiful-poster" class="section level1">
+<h1>Creating your own beautiful poster!</h1>
+<ul>
+<li>Use <code>geom_points()</code> to add markers for your cities dataframe. Add <strong>colors</strong>, <strong>alpha values</strong> and <strong>size</strong> to your own style. I liked the red contrast. I added multiple to create some sort of signal.</li>
+<li>Use <code>geom_path()</code> for your tracks dataframe, again, give it your own spin!</li>
+</ul>
+<pre class="r"><code>scot_map &lt;- ggmap(toner_map_inv) +
+  geom_point(data=cities, aes(lon, lat),
+             alpha = 1, color = &quot;DarkRed&quot;, size = 2)+
+  geom_point(data=cities, aes(lon, lat), 
+             alpha = 0.7, color = &quot;DarkRed&quot;, size = 2.5)+
+  geom_point(data=cities, aes(lon, lat), 
+             alpha = 0.4, color = &quot;DarkRed&quot;, size = 4.5)+
+  geom_path(data=tracks, aes(lon,lat), color=&quot;red&quot;, 
+            size=0.6, alpha = 0.5, linetype = &quot;dotted&quot; )+
+  labs(caption = &quot;Scotland &#39;17&quot;)+
+  guides(alpha = FALSE, 
+         size = FALSE)+
+  scale_size_continuous(range = c(1,3))+
+  theme_map()+
+  theme(plot.caption = element_text(hjust=0.5, size=rel(1.5), vjust = -0.5),
+        panel.border = element_rect(colour = &quot;black&quot;, fill=NA, size=2))
+
+scot_map</code></pre>
+<p><img src="/post/2018-02-20-creating-your-own-beautiful-holiday-poster_files/figure-html/unnamed-chunk-8-1.png" width="576" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>#Use the function below if you want to save the image.
+#  ggsave(filename = &quot;Images/scotland_map.png&quot;, plot = scot_map,
+#         width = 6.7, height = 7, units = &#39;cm&#39;,
+#         scale = 2, dpi = 600)</code></pre>
+<p>Now all that is left to do is, find a frame, print the image and put it on your wall!</p>
+</div>
+<div id="bonus-cant-choose-the-background-map-neither-could-i." class="section level1">
+<h1>Bonus! Can’t choose the background map? Neither could I.</h1>
+<p>Which is why I created the script below, where you can specify your map choices in a list, and see them all together! Or save them all together.</p>
+<pre class="r"><code># Regular Toner
+toner_map &lt;- get_map(c(-4.18265, 56.816922), 
+                     zoom = 7,
+                     source=&#39;stamen&#39;,
+                     maptype=&quot;toner-background&quot;, 
+                     color = &quot;bw&quot;, crop = TRUE)
+
+## Inverted toner map
+
+invert &lt;- function(x) rgb(t(255-col2rgb(x))/255)    
+toner_map_inv &lt;- as.raster(apply(toner_map, 2, invert))
+
+# copy attributes from original object
+class(toner_map_inv) &lt;- class(toner_map)
+attr(toner_map_inv, &quot;bb&quot;) &lt;- attr(toner_map, &quot;bb&quot;)
+
+#Terrain map
+terrain_map &lt;- get_map(c(-4.18265, 56.816922), zoom = 7,
+                       source=&#39;stamen&#39;,
+                       maptype=&quot;terrain&quot;, 
+                       color = &quot;color&quot;, 
+                       crop = TRUE)
+
+#Terrain map BG
+terrain_map_bg &lt;- get_map(c(-4.18265, 56.816922), 
+                        zoom = 7,
+                       source=&#39;stamen&#39;,
+                       maptype=&quot;terrain-background&quot;, 
+                       color = &quot;color&quot;, crop = TRUE)
+
+#watercolor
+watercolor &lt;- get_map(c(-4.18265, 56.816922), 
+                        zoom = 7,
+                       source=&#39;stamen&#39;,
+                       maptype=&quot;watercolor&quot;, 
+                       color = &quot;color&quot;, crop = TRUE)
+
+#inverted watercolor
+invert &lt;- function(x) rgb(t(255-col2rgb(x))/255)    
+watercolor_inverted &lt;- as.raster(apply(watercolor, 2, invert))
+
+# copy attributes from original object
+class(watercolor_inverted) &lt;- class(watercolor)
+attr(watercolor_inverted, &quot;bb&quot;) &lt;- attr(watercolor, &quot;bb&quot;)
+
+#List of all the maps
+maplist &lt;- list(terrain_map, terrain_map_bg, toner_map, toner_map_inv, watercolor, watercolor_inverted)
+names(maplist)  &lt;- c(&quot;terrain_map&quot;, &quot;terrain_bg&quot;, &quot;toner&quot;, &quot;toner_inv&quot;, &quot;watercolor&quot;, &quot;watercolor_inverted&quot;)
+
+
+
+#For loop
+p &lt;- list()
+for (i in 1: length(maplist)){
+ p[[i]] &lt;-  ggmap(maplist[[i]]) + 
+  geom_point(data=cities, aes(lon, lat), alpha = 1, color = &quot;DarkRed&quot;, size = 2)+
+  geom_point(data=cities, aes(lon, lat), alpha = 0.7, color = &quot;DarkRed&quot;, size = 2.5)+
+  geom_point(data=cities, aes(lon, lat), alpha = 0.4, color = &quot;DarkRed&quot;, size = 4.5)+
+  geom_path(data=tracks, aes(lon,lat), color=&quot;red&quot;, size=0.6, alpha = 0.5, linetype = &quot;dotted&quot; )+
+  labs(caption = &quot;Scotland &#39;17&quot;)+
+  guides(alpha = FALSE, 
+         size = FALSE)+
+  scale_size_continuous(range = c(1,3))+
+  ggtitle(paste(names(maplist)[i]))+
+  theme_map()+
+  theme(plot.caption = element_text(hjust=0.5, size=rel(1.5), vjust = -0.5),
+        plot.title = element_text(hjust = 0.5),
+        panel.border = element_rect(colour = &quot;black&quot;, fill=NA, size=2))
+  }
+
+gridExtra::grid.arrange(
+  p[[1]], p[[2]], p[[3]], p[[4]], p[[5]], p[[6]], ncol = 2
+)</code></pre>
+<p><img src="/post/2018-02-20-creating-your-own-beautiful-holiday-poster_files/figure-html/unnamed-chunk-9-1.png" width="960" style="display: block; margin: auto;" /></p>
+</div>
+<div id="final-thoughts" class="section level1">
+<h1>Final thoughts</h1>
+<p>Hot damn that inverted Watercolor is actually really cool! Perhaps I’ll use that on my wall.
+I would love to see your renditions, so feel free to leave a comment here or send me an e-mail with your own creations!</p>
+</div>
+
+              
+            </div>
+          </div>
+          <div id="post-footer" class="post-footer main-content-wrap">
+            
+              
+                
+                
+                  <div class="post-footer-tags">
+                    <span class="text-color-light text-small">TAGGED IN</span><br/>
+                    
+  <a class="tag tag--primary tag--small" href="/tags/data-analysis/">Data Analysis</a>
+
+  <a class="tag tag--primary tag--small" href="/tags/data-visualisation/">Data Visualisation</a>
+
+  <a class="tag tag--primary tag--small" href="/tags/google/">Google</a>
+
+  <a class="tag tag--primary tag--small" href="/tags/ggmap/">ggmap</a>
+
+                  </div>
+                
+              
+            
+            
+  <div class="post-actions-wrap">
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="/2018/03/an-awesome-spotify-playlist-analysis/" data-tooltip="An Awesome Spotify Playlist Analysis">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">NEXT</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="/2018/02/predictive-modeling-regression-summary/" data-tooltip="Predictive Modeling - Regression Summary">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">PREVIOUS</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=/2018/02/creating-your-own-beautiful-holiday-poster/">
+              <i class="fa fa-facebook-official"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=/2018/02/creating-your-own-beautiful-holiday-poster/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=/2018/02/creating-your-own-beautiful-holiday-poster/">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        
+      
+      
+        <li class="post-action">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+            <i class="fa fa-comment-o"></i>
+          </a>
+        </li>
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+
+            
+              
+                <div id="disqus_thread">
+  <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+              
+            
+          </div>
+        </article>
+        <footer id="footer" class="main-content-wrap">
+  <span class="copyrights">
+    &copy; 2019 Stefan Musch. All Rights Reserved
+  </span>
+</footer>
+
+      </div>
+      <div id="bottom-bar" class="post-bottom-bar" data-behavior="4">
+        
+  <div class="post-actions-wrap">
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="/2018/03/an-awesome-spotify-playlist-analysis/" data-tooltip="An Awesome Spotify Playlist Analysis">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">NEXT</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="/2018/02/predictive-modeling-regression-summary/" data-tooltip="Predictive Modeling - Regression Summary">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">PREVIOUS</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=/2018/02/creating-your-own-beautiful-holiday-poster/">
+              <i class="fa fa-facebook-official"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=/2018/02/creating-your-own-beautiful-holiday-poster/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=/2018/02/creating-your-own-beautiful-holiday-poster/">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        
+      
+      
+        <li class="post-action">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+            <i class="fa fa-comment-o"></i>
+          </a>
+        </li>
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+
+      </div>
+      <div id="share-options-bar" class="share-options-bar" data-behavior="4">
+  <i id="btn-close-shareoptions" class="fa fa-close"></i>
+  <ul class="share-options">
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=%2F2018%2F02%2Fcreating-your-own-beautiful-holiday-poster%2F">
+          <i class="fa fa-facebook-official"></i><span>Share on Facebook</span>
+        </a>
+      </li>
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=%2F2018%2F02%2Fcreating-your-own-beautiful-holiday-poster%2F">
+          <i class="fa fa-twitter"></i><span>Share on Twitter</span>
+        </a>
+      </li>
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=%2F2018%2F02%2Fcreating-your-own-beautiful-holiday-poster%2F">
+          <i class="fa fa-google-plus"></i><span>Share on Google&#43;</span>
+        </a>
+      </li>
+    
+  </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+    </div>
+    
+    <div id="about">
+  <div id="about-card">
+    <div id="about-btn-close">
+      <i class="fa fa-remove"></i>
+    </div>
+    
+      <img id="about-card-picture" src="http://res.cloudinary.com/stefanmusch/image/upload/c_scale,w_725/v1534148918/thumbnail/headshot2.jpg" alt="Author&#39;s picture" />
+    
+    <h4 id="about-card-name">Stefan Musch</h4>
+    
+      <div id="about-card-bio">Data Scientist | Marketing Analyst |<br> Music, Sports &amp; Adventure Enthousiast <br> <br> This blog is the place where I share my work, projects, frustrations and discoveries. I designed it to be entertaining to some, and educative to others. Sometimes hopefully both. <br><br>Enjoy reading, and feel free to leave a comment!</div>
+    
+    
+      <div id="about-card-job">
+        <i class="fa fa-briefcase"></i>
+        <br/>
+        Data Scientist
+      </div>
+    
+    
+      <div id="about-card-location">
+        <i class="fa fa-map-marker"></i>
+        <br/>
+        &#39;s-Hertogenbosch, NL
+      </div>
+    
+  </div>
+</div>
+
+    <div id="algolia-search-modal" class="modal-container">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="close-button"><i class="fa fa-close"></i></span>
+      <a href="https://algolia.com" target="_blank" rel="noopener" class="searchby-algolia text-color-light link-unstyled">
+        <span class="searchby-algolia-text text-color-light text-small">by</span>
+        <img class="searchby-algolia-logo" src="https://www.algolia.com/static_assets/images/press/downloads/algolia-light.svg">
+      </a>
+      <i class="search-icon fa fa-search"></i>
+      <form id="algolia-search-form">
+        <input type="text" id="algolia-search-input" name="search"
+          class="form-control input--large search-input" placeholder="Search" />
+      </form>
+    </div>
+    <div class="modal-body">
+      <div class="no-result text-color-light text-center">no post found</div>
+      <div class="results">
+        
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="/2019/02/customer-analytics/">
+                <h3 class="media-heading">Customer Analytics with R</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Feb 2, 2019
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">Customer Lifetime ValueCustomer SegmentationCustomer Lifetime ValueCustomer Segmentation</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="/2019/02/advanced-marketing-analytics/">
+                <h3 class="media-heading">Advanced Marketing Analytics</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Feb 2, 2019
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">What I’ve been up toThis blog has been quiet for almost a year now. Mostly because I joined a Marketing Analytics company called Gradient Metrics as an all-round quantitative analyst. Gradient gave me the opportunity to combine my previous marketing experience with my newfound love for data science, and I never looked back.
+Combining Marketing &amp; Data ScienceA successful marketing strategy will always require two dimensions. On one end, you’ll find creativity.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="/2018/03/an-awesome-spotify-playlist-analysis/">
+                <h3 class="media-heading">An Awesome Spotify Playlist Analysis</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Mar 3, 2018
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">Together with a couple of friends, we’ve created our own personal Awesome Mix Vol.1Instead of being a tape with 13 songs however, we’ve added roughly 1.500 songs. Now I’m curious as to how our musical taste differs from one another, but also what kind of musical clusters we have created in our playlist.
+Let’s get started.## Rspotify spotifyr tidyverse knitr kableExtra ggthemes ## TRUE TRUE TRUE TRUE TRUE TRUE ## highcharter htmltools widgetframe cluster factoextra here ## TRUE TRUE TRUE TRUE TRUE TRUEFirst, I’ll have to extract the audio features of each song in the playlist.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="/2018/02/creating-your-own-beautiful-holiday-poster/">
+                <h3 class="media-heading">Creating your own beautiful holiday poster!</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Feb 2, 2018
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">IntroductionI love traveling, and I love world maps, even more so when I can hang them on my walls. Now that got me thinking. What if I could create maps, with a similar look and feel, of all my holiday destinations? And what if I plot my location progression on top of the destination? That would be absolutely awesome!
+In a recent post, I described how Google often tracks your location (if you agreed to it), and plotted each of my tracked location on a map.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="/2018/02/predictive-modeling-regression-summary/">
+                <h3 class="media-heading">Predictive Modeling - Regression Summary</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Feb 2, 2018
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">1 Introduction2 Packages and initialisations3 Exploratory Data Analysis (EDA)3.1 Missing Values3.2 Discrete Variables3.3 Continuous Variables3.4 Correlations3.5 Boxplots4 Data Description5 Data Preparation6 Model Choices7 Model Preparations8 Applying the Models8.1 Linear Regression8.2 Partial Least Squares8.3 Principal Component Regression8.4 Ridge Regression8.5 Lasso Regression8.6 Elestic Net8.7 Neural Networks8.8 MARS8.9 SVM8.10 KNN9 Model Performances10 Model Comparison11 Final Notes1 IntroductionThis blog post is a comprehensive summary of predictive modeling with regression techniques.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="/2017/12/how-jolly-are-christmas-songs-actually/">
+                <h3 class="media-heading">How Jolly are Christmas Songs Actually?</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Dec 12, 2017
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">Web ScrapingRequired librariesList of SongsLyrics of the SongsText AnalysisTop 15 wordsChristmas Carol SentimentsPositive vs NegativeMost Positive &amp; Most Negative Christmas CarolChristmas is almost here, and we’ve been hearing a ton of christmas carols and chrismas songs. Now my question is, how jolly are these songs actually? This is a nice opportunity to train my Web Scraping &amp; Text Mining skills.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="/2017/12/reading-excel-files-tips-tricks/">
+                <h3 class="media-heading">Reading Excel &amp; SPSS Files in R |  Tips &amp; Tricks</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Dec 12, 2017
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">A Researcher’s Love for Excel and SPSSWorking for the research department at the municipality of Rotterdam (OBI), I discovered their love for excel spread sheets and SPSS documents. Hundreds, no, thousands of them. Each file additionally has another 100 sheets. Sometimes, I needed to join sheets, or bind columns and rows, which is tedious in excel itself. I started scouring packages and functions to find what I needed. In this post, you’ll find some tips and tricks that helped me speed things up.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="/2017/11/dutch-housing-situation-rotterdam/">
+                <h3 class="media-heading">Dutch Housing Situation - Rotterdam</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Nov 11, 2017
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">Loading LibrariesData WranglingHouse Prices over time - NetherlandsNetherlandsRotterdamRotterdam Vs. NetherlandsAs a Data Science Trainee for the municipality of Rotterdam, I was tasked to find out-of-the-box data sources to measure economic growth within the city. Naturally, I turned towards online estate agents. Funda and Jaap.nl are the biggest players in the Netherlands. Fortunately for me, Jaap.nl makes aggregated data for each municipality publicly available.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="/2017/06/my-tracked-locations/">
+                <h3 class="media-heading">My Tracked Locations</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jun 6, 2017
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">Visualising Google Tracking DataLoading &amp; Cleaning dataStatic VisualisationInteractive VisualisationVisualising Google Tracking DataIn 2016 I let google track my location. Everytime my phone sent an update to google, a new record was created. By adding up records for each longitude and latitude coordinates combination, I was able to recreate the spots where I spent most of my time.
+Loading &amp; Cleaning data## Load packages &amp; Install if necessaryipak &lt;- function(pkg) {new.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="/2017/06/an-r-blog-introduction/">
+                <h3 class="media-heading">My R Blog Introduction!</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jun 6, 2017
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">When you’ve written the same code 3 times, write a function
+When you’ve given the same in-person advice 3 times, write a blog post
+&mdash; David Robinson (@drob) November 9, 2017  My StoryI started learning R for real in the summer of 2017, after graduation for my MSc in Marketing Management. My graduation thesis was all about Recommendation Systems and their impact. I wrote my thesis for a festival application called Appic.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+      </div>
+    </div>
+    <div class="modal-footer">
+      <p class="results-count text-medium"
+         data-message-zero="no post found"
+         data-message-one="1 post found"
+         data-message-other="{n} posts found">
+         10 posts found
+      </p>
+    </div>
+  </div>
+</div>
+    
+  
+    
+    <div id="cover" style="background-image:url('http://res.cloudinary.com/stefanmusch/image/upload/v1513248424/cover/Cover3.jpg');"></div>
+  
+
+
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.7/js/jquery.fancybox.min.js" integrity="sha256-GEAnjcTqVP+vBp3SSc8bEDQqvWAZMiHyUSIorrWwH50=" crossorigin="anonymous"></script>
+
+
+<script src="/js/script-qi9wbxp2ya2j6p7wx1i6tgavftewndznf4v0hy2gvivk1rxgc3lm7njqb6bz.min.js"></script>
+
+
+
+
+  
+    
+      <script>
+        var disqus_config = function () {
+          this.page.url = '\/2018\/02\/creating-your-own-beautiful-holiday-poster\/';
+          
+            this.page.identifier = '\/2018\/02\/creating-your-own-beautiful-holiday-poster\/'
+          
+        };
+        (function() {
+          
+          
+          if (window.location.hostname == "localhost") {
+            return;
+          }
+          var d = document, s = d.createElement('script');
+          var disqus_shortname = 'https-stefanmusch-netlify-com';
+          s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+          s.setAttribute('data-timestamp', +new Date());
+          (d.head || d.body).appendChild(s);
+        })();
+      </script>
+    
+  
+
+
+
+    
+  </body>
+</html>
+
