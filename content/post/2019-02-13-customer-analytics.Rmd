@@ -1,0 +1,26 @@
+---
+title: Customer Analytics with R
+author: 'Stefan Musch'
+date: '2019-02-13'
+slug: customer-analytics
+output:
+  blogdown::html_page:
+    toc: true
+    draft: true
+    number_sections: false
+categories:
+  - Professional Projects
+  - R
+tags:
+  - Data Analysis
+  - Marketing Analytics
+  
+thumbnailImage: ""
+description: ""
+---
+
+# Customer Lifetime Value
+
+# Customer Segmentation
+
+# 
