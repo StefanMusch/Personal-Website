@@ -1,34 +1,0 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-  <channel>
-    <title>Highcharter on S. Musch</title>
-    <link>/tags/highcharter/</link>
-    <description>Recent content in Highcharter on S. Musch</description>
-    <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language>
-    <lastBuildDate>Wed, 28 Mar 2018 00:00:00 +0000</lastBuildDate>
-    
-	<atom:link href="/tags/highcharter/index.xml" rel="self" type="application/rss+xml" />
-    
-    
-    <item>
-      <title>An Awesome Spotify Playlist Analysis</title>
-      <link>/2018/03/an-awesome-spotify-playlist-analysis/</link>
-      <pubDate>Wed, 28 Mar 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/2018/03/an-awesome-spotify-playlist-analysis/</guid>
-      <description>Together with a couple of friends, we’ve created our own personal Awesome Mix Vol.1Instead of being a tape with 13 songs however, we’ve added roughly 1.500 songs. Now I’m curious as to how our musical taste differs from one another, but also what kind of musical clusters we have created in our playlist.
-Let’s get started.## Rspotify spotifyr tidyverse knitr kableExtra ggthemes ## TRUE TRUE TRUE TRUE TRUE TRUE ## highcharter htmltools widgetframe cluster factoextra here ## TRUE TRUE TRUE TRUE TRUE TRUEFirst, I’ll have to extract the audio features of each song in the playlist.</description>
-    </item>
-    
-    <item>
-      <title>Dutch Housing Situation - Rotterdam</title>
-      <link>/2017/11/dutch-housing-situation-rotterdam/</link>
-      <pubDate>Wed, 01 Nov 2017 00:00:00 +0000</pubDate>
-      
-      <guid>/2017/11/dutch-housing-situation-rotterdam/</guid>
-      <description>Loading LibrariesData WranglingHouse Prices over time - NetherlandsNetherlandsRotterdamRotterdam Vs. NetherlandsAs a Data Science Trainee for the municipality of Rotterdam, I was tasked to find out-of-the-box data sources to measure economic growth within the city. Naturally, I turned towards online estate agents. Funda and Jaap.nl are the biggest players in the Netherlands. Fortunately for me, Jaap.nl makes aggregated data for each municipality publicly available.</description>
-    </item>
-    
-  </channel>
-</rss>

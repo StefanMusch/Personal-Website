@@ -1,24 +1,0 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-  <channel>
-    <title>Svm on S. Musch</title>
-    <link>/tags/svm/</link>
-    <description>Recent content in Svm on S. Musch</description>
-    <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language>
-    <lastBuildDate>Wed, 14 Feb 2018 00:00:00 +0000</lastBuildDate>
-    
-	<atom:link href="/tags/svm/index.xml" rel="self" type="application/rss+xml" />
-    
-    
-    <item>
-      <title>Predictive Modeling - Regression Summary</title>
-      <link>/2018/02/predictive-modeling-regression-summary/</link>
-      <pubDate>Wed, 14 Feb 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/2018/02/predictive-modeling-regression-summary/</guid>
-      <description>1 Introduction2 Packages and initialisations3 Exploratory Data Analysis (EDA)3.1 Missing Values3.2 Discrete Variables3.3 Continuous Variables3.4 Correlations3.5 Boxplots4 Data Description5 Data Preparation6 Model Choices7 Model Preparations8 Applying the Models8.1 Linear Regression8.2 Partial Least Squares8.3 Principal Component Regression8.4 Ridge Regression8.5 Lasso Regression8.6 Elestic Net8.7 Neural Networks8.8 MARS8.9 SVM8.10 KNN9 Model Performances10 Model Comparison11 Final Notes1 IntroductionThis blog post is a comprehensive summary of predictive modeling with regression techniques.</description>
-    </item>
-    
-  </channel>
-</rss>

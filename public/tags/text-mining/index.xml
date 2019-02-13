@@ -1,24 +1,0 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-  <channel>
-    <title>Text Mining on S. Musch</title>
-    <link>/tags/text-mining/</link>
-    <description>Recent content in Text Mining on S. Musch</description>
-    <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language>
-    <lastBuildDate>Fri, 22 Dec 2017 00:00:00 +0000</lastBuildDate>
-    
-	<atom:link href="/tags/text-mining/index.xml" rel="self" type="application/rss+xml" />
-    
-    
-    <item>
-      <title>How Jolly are Christmas Songs Actually?</title>
-      <link>/2017/12/how-jolly-are-christmas-songs-actually/</link>
-      <pubDate>Fri, 22 Dec 2017 00:00:00 +0000</pubDate>
-      
-      <guid>/2017/12/how-jolly-are-christmas-songs-actually/</guid>
-      <description>Web ScrapingRequired librariesList of SongsLyrics of the SongsText AnalysisTop 15 wordsChristmas Carol SentimentsPositive vs NegativeMost Positive &amp;amp; Most Negative Christmas CarolChristmas is almost here, and we’ve been hearing a ton of christmas carols and chrismas songs. Now my question is, how jolly are these songs actually? This is a nice opportunity to train my Web Scraping &amp;amp; Text Mining skills.</description>
-    </item>
-    
-  </channel>
-</rss>

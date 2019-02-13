@@ -1,111 +1,0 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-  <channel>
-    <title>Posts on S. Musch</title>
-    <link>/post/</link>
-    <description>Recent content in Posts on S. Musch</description>
-    <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language>
-    <lastBuildDate>Wed, 13 Feb 2019 00:00:00 +0000</lastBuildDate>
-    
-	<atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
-    
-    
-    <item>
-      <title>Customer Analytics with R</title>
-      <link>/2019/02/customer-analytics/</link>
-      <pubDate>Wed, 13 Feb 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/2019/02/customer-analytics/</guid>
-      <description>Customer Lifetime ValueCustomer SegmentationCustomer Lifetime ValueCustomer Segmentation</description>
-    </item>
-    
-    <item>
-      <title>Advanced Marketing Analytics</title>
-      <link>/2019/02/advanced-marketing-analytics/</link>
-      <pubDate>Mon, 11 Feb 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/2019/02/advanced-marketing-analytics/</guid>
-      <description>What I’ve been up toThis blog has been quiet for almost a year now. Mostly because I joined a Marketing Analytics company called Gradient Metrics as an all-round quantitative analyst. Gradient gave me the opportunity to combine my previous marketing experience with my newfound love for data science, and I never looked back.
-Combining Marketing &amp;amp; Data ScienceA successful marketing strategy will always require two dimensions. On one end, you’ll find creativity.</description>
-    </item>
-    
-    <item>
-      <title>An Awesome Spotify Playlist Analysis</title>
-      <link>/2018/03/an-awesome-spotify-playlist-analysis/</link>
-      <pubDate>Wed, 28 Mar 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/2018/03/an-awesome-spotify-playlist-analysis/</guid>
-      <description>Together with a couple of friends, we’ve created our own personal Awesome Mix Vol.1Instead of being a tape with 13 songs however, we’ve added roughly 1.500 songs. Now I’m curious as to how our musical taste differs from one another, but also what kind of musical clusters we have created in our playlist.
-Let’s get started.## Rspotify spotifyr tidyverse knitr kableExtra ggthemes ## TRUE TRUE TRUE TRUE TRUE TRUE ## highcharter htmltools widgetframe cluster factoextra here ## TRUE TRUE TRUE TRUE TRUE TRUEFirst, I’ll have to extract the audio features of each song in the playlist.</description>
-    </item>
-    
-    <item>
-      <title>Creating your own beautiful holiday poster!</title>
-      <link>/2018/02/creating-your-own-beautiful-holiday-poster/</link>
-      <pubDate>Tue, 20 Feb 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/2018/02/creating-your-own-beautiful-holiday-poster/</guid>
-      <description>IntroductionI love traveling, and I love world maps, even more so when I can hang them on my walls. Now that got me thinking. What if I could create maps, with a similar look and feel, of all my holiday destinations? And what if I plot my location progression on top of the destination? That would be absolutely awesome!
-In a recent post, I described how Google often tracks your location (if you agreed to it), and plotted each of my tracked location on a map.</description>
-    </item>
-    
-    <item>
-      <title>Predictive Modeling - Regression Summary</title>
-      <link>/2018/02/predictive-modeling-regression-summary/</link>
-      <pubDate>Wed, 14 Feb 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/2018/02/predictive-modeling-regression-summary/</guid>
-      <description>1 Introduction2 Packages and initialisations3 Exploratory Data Analysis (EDA)3.1 Missing Values3.2 Discrete Variables3.3 Continuous Variables3.4 Correlations3.5 Boxplots4 Data Description5 Data Preparation6 Model Choices7 Model Preparations8 Applying the Models8.1 Linear Regression8.2 Partial Least Squares8.3 Principal Component Regression8.4 Ridge Regression8.5 Lasso Regression8.6 Elestic Net8.7 Neural Networks8.8 MARS8.9 SVM8.10 KNN9 Model Performances10 Model Comparison11 Final Notes1 IntroductionThis blog post is a comprehensive summary of predictive modeling with regression techniques.</description>
-    </item>
-    
-    <item>
-      <title>How Jolly are Christmas Songs Actually?</title>
-      <link>/2017/12/how-jolly-are-christmas-songs-actually/</link>
-      <pubDate>Fri, 22 Dec 2017 00:00:00 +0000</pubDate>
-      
-      <guid>/2017/12/how-jolly-are-christmas-songs-actually/</guid>
-      <description>Web ScrapingRequired librariesList of SongsLyrics of the SongsText AnalysisTop 15 wordsChristmas Carol SentimentsPositive vs NegativeMost Positive &amp;amp; Most Negative Christmas CarolChristmas is almost here, and we’ve been hearing a ton of christmas carols and chrismas songs. Now my question is, how jolly are these songs actually? This is a nice opportunity to train my Web Scraping &amp;amp; Text Mining skills.</description>
-    </item>
-    
-    <item>
-      <title>Reading Excel &amp; SPSS Files in R |  Tips &amp; Tricks</title>
-      <link>/2017/12/reading-excel-files-tips-tricks/</link>
-      <pubDate>Thu, 14 Dec 2017 00:00:00 +0000</pubDate>
-      
-      <guid>/2017/12/reading-excel-files-tips-tricks/</guid>
-      <description>A Researcher’s Love for Excel and SPSSWorking for the research department at the municipality of Rotterdam (OBI), I discovered their love for excel spread sheets and SPSS documents. Hundreds, no, thousands of them. Each file additionally has another 100 sheets. Sometimes, I needed to join sheets, or bind columns and rows, which is tedious in excel itself. I started scouring packages and functions to find what I needed. In this post, you’ll find some tips and tricks that helped me speed things up.</description>
-    </item>
-    
-    <item>
-      <title>Dutch Housing Situation - Rotterdam</title>
-      <link>/2017/11/dutch-housing-situation-rotterdam/</link>
-      <pubDate>Wed, 01 Nov 2017 00:00:00 +0000</pubDate>
-      
-      <guid>/2017/11/dutch-housing-situation-rotterdam/</guid>
-      <description>Loading LibrariesData WranglingHouse Prices over time - NetherlandsNetherlandsRotterdamRotterdam Vs. NetherlandsAs a Data Science Trainee for the municipality of Rotterdam, I was tasked to find out-of-the-box data sources to measure economic growth within the city. Naturally, I turned towards online estate agents. Funda and Jaap.nl are the biggest players in the Netherlands. Fortunately for me, Jaap.nl makes aggregated data for each municipality publicly available.</description>
-    </item>
-    
-    <item>
-      <title>My Tracked Locations</title>
-      <link>/2017/06/my-tracked-locations/</link>
-      <pubDate>Wed, 07 Jun 2017 00:00:00 +0000</pubDate>
-      
-      <guid>/2017/06/my-tracked-locations/</guid>
-      <description>Visualising Google Tracking DataLoading &amp;amp; Cleaning dataStatic VisualisationInteractive VisualisationVisualising Google Tracking DataIn 2016 I let google track my location. Everytime my phone sent an update to google, a new record was created. By adding up records for each longitude and latitude coordinates combination, I was able to recreate the spots where I spent most of my time.
-Loading &amp;amp; Cleaning data## Load packages &amp;amp; Install if necessaryipak &amp;lt;- function(pkg) {new.</description>
-    </item>
-    
-    <item>
-      <title>My R Blog Introduction!</title>
-      <link>/2017/06/an-r-blog-introduction/</link>
-      <pubDate>Thu, 01 Jun 2017 00:00:00 +0000</pubDate>
-      
-      <guid>/2017/06/an-r-blog-introduction/</guid>
-      <description>When you’ve written the same code 3 times, write a function
-When you’ve given the same in-person advice 3 times, write a blog post
-&amp;mdash; David Robinson (@drob) November 9, 2017  My StoryI started learning R for real in the summer of 2017, after graduation for my MSc in Marketing Management. My graduation thesis was all about Recommendation Systems and their impact. I wrote my thesis for a festival application called Appic.</description>
-    </item>
-    
-  </channel>
-</rss>
